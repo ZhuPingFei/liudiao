@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="#f0f0f0"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true"
+        android:id="@+id/My_collection_buju1"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#10BD10">
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/r_back"
+            android:id="@+id/back"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/My_collection"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="病例信息"
+            android:textColor="#ffffff"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/okay"
+            android:layout_marginRight="10dp"
+            android:textSize="20sp"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/white"
+            android:layout_centerVertical="true"
+            android:text="完成"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/biaoti"
+        android:text="请填写病例发现与就诊信息"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp"
+        android:textColor="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/bingli_text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1.病例发现途径"
+                    android:textSize="17sp" />
+
+                <LinearLayout
+                    android:id="@+id/bingli_line1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/bingli_text1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/checkbox11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="主动就诊" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="密接管理发现" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="入境筛查" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="人群主动筛查" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="不明原因肺炎、SARI等检测发现" />
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_below="@+id/bingli_line1"
+                    android:background="@android:color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/bingli_other_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="其他途径"
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:id="@+id/bingli_other_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/bingli_other_text"
+                        android:gravity="right|center_horizontal" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/bushizhengzhuang_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2.入院时症状和体征"
+                    android:textSize="17sp" />
+
+                <LinearLayout
+                    android:id="@+id/bushizhengzhuang_line1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/bushizhengzhuang_text"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/checkbox21"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="发热" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox22"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="寒战" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox23"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="干咳" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox24"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="咳痰" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox25"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="鼻塞" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox26"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="流涕" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox27"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="咽痛" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox28"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="头痛" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox29"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="乏力" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox210"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="嗅觉减退" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox211"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="味觉减退" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox212"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="头晕" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/bushizhengzhuang_line2"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/bushizhengzhuang_text"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/bushizhengzhuang_line1"
+                    android:orientation="vertical"
+                    android:paddingLeft="50dp">
+
+                    <CheckBox
+                        android:id="@+id/checkbox213"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="肌肉酸痛" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox214"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="关节酸痛" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox215"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="气促" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox216"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="呼吸困难" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox217"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="胸闷" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox218"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="胸痛" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox219"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="结膜充血" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox220"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="恶心" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox221"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="呕吐" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox222"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="腹泻" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox223"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="腹痛" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_below="@+id/bushizhengzhuang_line1"
+                    android:background="@android:color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/qitabushi_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="其他症状"
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:id="@+id/qitabushi_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/qitabushi_text"
+                        android:gravity="right|center_horizontal" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/jiankang_text2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="3.有无并发症？"
+                    android:textSize="17sp" />
+
+                <RadioGroup
+                    android:id="@+id/bingli_radiogroup1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="30dp"
+                    android:gravity="center_vertical|right"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/bingli_radioButton11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="有"
+                        android:textColor="#3D3D3D"
+                        android:textSize="17sp" />
+
+
+                    <RadioButton
+                        android:id="@+id/bingli_radioButton12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="无"
+                        android:textColor="#3D3D3D"
+                        android:textSize="17sp" />
+
+                </RadioGroup>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+
+                android:id="@+id/bingli_bingfazheng"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/bingli_bingfazheng_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="并发症？"
+                    android:textSize="17sp" />
+
+                <LinearLayout
+                    android:id="@+id/bingli_bingfazheng_line1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/bingli_bingfazheng_text"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/checkbox31"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="脑膜炎" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox32"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="脑炎" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox33"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="菌血症" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox34"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="心肌炎" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox35"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="急性肺损伤/ARDS" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/bingli_bingfazheng_line2"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/bingli_bingfazheng_text"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/bingli_bingfazheng_line1"
+                    android:orientation="vertical"
+                    android:paddingLeft="30dp">
+
+                    <CheckBox
+                        android:id="@+id/checkbox36"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="癫痫" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox37"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="急性肾损伤" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox38"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="急性肺损伤/ARDS" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox39"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="继发细菌性肺炎" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_below="@+id/bingli_bingfazheng_line1"
+                    android:background="@android:color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/bingli_bingfazheng_other_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="其他并发症"
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:id="@+id/bingli_bingfazheng_other_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/bingli_bingfazheng_other_text"
+                        android:gravity="right|center_horizontal" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/bingli_ct_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4.胸部Ｘ线或CT检查是否有新冠肺炎影像学特征？"
+                    android:textSize="17sp" />
+
+                <RadioGroup
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/bingli_ct_radiogroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/bingli_ct_text"
+                    android:layout_marginLeft="30dp"
+                    android:gravity="center_vertical|right"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:layout_gravity="left"
+                        android:id="@+id/bingli_ct_radioButton1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="有"
+                        android:textColor="#3D3D3D"
+                        android:textSize="17sp" />
+
+
+                    <RadioButton
+                        android:layout_gravity="left"
+                        android:id="@+id/bingli_ct_radioButton2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="无"
+                        android:textColor="#3D3D3D"
+                        android:textSize="17sp" />
+
+                    <RadioButton
+                        android:layout_gravity="left"
+                        android:id="@+id/bingli_ct_radioButton3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="未检查"
+                        android:textColor="#3D3D3D"
+                        android:textSize="17sp" />
+
+                </RadioGroup>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/ct_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/bingli_ct_text2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="检查时间"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/select_ct_date"
+                    android:gravity="right"
+                    android:text="选择日期"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/bingli_chuyuandate_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+                <TextView
+                    android:id="@+id/text_born"
+                    android:text="5.出院日期"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/select_chuyuandate"
+                    android:gravity="right"
+                    android:text="选择日期"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/white" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

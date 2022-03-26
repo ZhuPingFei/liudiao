@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.Liudiao">
+
+    <uses-permission android:name="Manifest.permission.CAMERA"/>
+    <uses-permission android:name="Manifest.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.BROADCAST_SMS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+        android:name=".LiudiaoApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- 通过AndroidManifest配置AppKey和AppSecret，如果你选择通过代码配置，则不需要配置以下meta-data -->
+        <meta-data android:name="Mob-AppKey" android:value="3592cec9d4378"/>
+        <meta-data android:name="Mob-AppSecret" android:value="3fbeea03daf56cfaa5f3137ef20803b3"/>
+
+        <activity
+            android:theme="@style/BaseThemes"
+            android:name="com.example.Liudiao.MainActivity"
+            android:label="@string/app_name">
+
+        </activity>
+        <activity android:name="com.example.Liudiao.Main"
+            />
+        <activity android:name="com.example.Liudiao.ui.home.Family"
+            android:theme="@style/BaseThemes" />
+        <activity android:name="com.example.Liudiao.ui.notifications.Erweima"
+            android:theme="@style/BaseThemes"/>
+        <activity android:name="com.example.Liudiao.ui.notifications.Daiban"/>
+        <activity android:name="com.example.Liudiao.ui.home.Jibenzhuangkuang"
+            android:theme="@style/BaseThemes" />
+        <activity android:name="com.example.Liudiao.ui.home.Jezhong"
+            android:theme="@style/BaseThemes" />
+        <activity android:name="com.example.Liudiao.ui.home.Jingwai"
+            android:theme="@style/BaseThemes" />
+        <activity android:name="com.example.Liudiao.ui.home.Jiankang"
+            android:theme="@style/BaseThemes" />
+        <activity android:name="com.example.Liudiao.ui.home.Bingli"
+            android:theme="@style/BaseThemes" />
+        <activity android:name="com.example.Liudiao.ui.home.Weixian"
+            android:theme="@style/BaseThemes" />
+        <activity android:name="com.example.Liudiao.ui.xingcheng.Xingcheng"
+            android:theme="@style/BaseThemes" />
+        <activity android:name="com.example.Liudiao.ui.huodong.Huodong"
+            android:theme="@style/BaseThemes" />
+        <activity android:name=".ui.xingcheng.XingchengHistory"
+            android:theme="@style/BaseThemes" />
+        <activity android:name=".ZhanghaoLogin"
+            android:theme="@style/BaseThemes" />
+
+        <activity android:name="com.example.Liudiao.Welcome">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".login.QRLogin"
+            android:theme="@style/BaseThemes"/>
+
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+        </activity>
+        <activity android:name=".login.Capture"
+            android:theme="@style/BaseThemes"/>
+
+
+    </application>
+
+
+</manifest>

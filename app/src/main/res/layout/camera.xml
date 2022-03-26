@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <FrameLayout
+        android:id="@+id/fl_zxing_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <SurfaceView
+
+            android:id="@+id/preview_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"/>
+
+        <com.example.Liudiao.login.MyViewfinderView
+            android:id="@+id/viewfinder_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </FrameLayout>
+    <RelativeLayout
+        android:background="#11000000"
+        android:id="@+id/xiangce"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+    <ImageView
+        android:layout_centerHorizontal="true"
+        android:id="@+id/xiangce_ima"
+        android:src="@drawable/xiangce"
+        android:layout_width="45dp"
+        android:layout_height="45dp"/>
+    <Button
+        android:layout_centerHorizontal="true"
+        android:id="@+id/xiangce_btn"
+        android:layout_below="@+id/xiangce_ima"
+        android:textColor="@android:color/white"
+        android:background="#00000000"
+        android:text="相册"
+        android:textSize="17sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>
+
+
+</RelativeLayout>

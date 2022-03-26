@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="#f0f0f0"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true"
+        android:id="@+id/My_collection_buju1"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#10BD10">
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/r_back"
+            android:id="@+id/back"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/My_collection"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="健康状况"
+            android:textColor="#ffffff"
+
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/okey"
+            android:layout_marginRight="10dp"
+            android:textSize="20sp"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/white"
+            android:layout_centerVertical="true"
+            android:text="完成"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/biaoti"
+        android:text="请填写个人健康状况信息"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp"
+        android:textColor="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:background="@android:color/white"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/jiankang_text1"
+                    android:textSize="17sp"
+                    android:text="1.近期是否出现不适症状？"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioGroup
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/jiankang_radiogroup1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="30dp"
+                    android:gravity="center_vertical|right"
+                    android:orientation="horizontal"
+                    >
+
+                    <RadioButton
+                        android:textColor="#3D3D3D"
+                        android:id="@+id/jiankang_radioButton11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:text="是" />
+
+
+                    <RadioButton
+                        android:textColor="#3D3D3D"
+                        android:id="@+id/jiankang_radioButton12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:text="否" />
+
+                </RadioGroup>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+
+                android:id="@+id/visible1"
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/bushizhengzhuang_text"
+                    android:textSize="17sp"
+                    android:text="不适症状有哪些？"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/bushizhengzhuang_line1"
+                    android:layout_below="@+id/bushizhengzhuang_text"
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <CheckBox
+                        android:id="@+id/checkbox1"
+                        android:text="发热"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:id="@+id/checkbox2"
+                        android:text="干咳"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:text="流涕"
+                        android:id="@+id/checkbox3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:text="头痛"
+                        android:id="@+id/checkbox4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:text="嗅觉减退"
+                        android:id="@+id/checkbox5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+
+                    android:paddingLeft="50dp"
+                    android:id="@+id/bushizhengzhuang_line2"
+                    android:layout_toRightOf="@+id/bushizhengzhuang_line1"
+                    android:layout_below="@+id/bushizhengzhuang_text"
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <CheckBox
+                        android:text="乏力"
+                        android:id="@+id/checkbox6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:text="头晕"
+                        android:id="@+id/checkbox7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:text="腹痛"
+                        android:id="@+id/checkbox8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:text="呕吐"
+                        android:id="@+id/checkbox9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:text="呼吸困难"
+                        android:id="@+id/checkbox10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_below="@+id/bushizhengzhuang_line1"
+                    android:background="@android:color/white"
+
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:id="@+id/qitabushi_text"
+                        android:textSize="17sp"
+                        android:text="其他症状"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <EditText
+                        android:gravity="right|center_horizontal"
+                        android:id="@+id/qitabushi_edit"
+                        android:layout_toRightOf="@+id/qitabushi_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/jiankang_text2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2.近期是否就医？"
+                    android:textSize="17sp" />
+
+                <RadioGroup
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/jiankang_radiogroup2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="30dp"
+                    android:gravity="center_vertical|right"
+                    android:orientation="horizontal"
+                    >
+
+                    <RadioButton
+                        android:textColor="#3D3D3D"
+                        android:id="@+id/jiankang_radioButton21"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:text="是" />
+
+
+                    <RadioButton
+                        android:textColor="#3D3D3D"
+                        android:id="@+id/jiankang_radioButton22"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:text="否" />
+
+                </RadioGroup>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/visible2"
+                android:layout_below="@+id/jiankang_text2"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/jiuyi_text1"
+                    android:textSize="17sp"
+                    android:text="何处就医"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:gravity="right|center_horizontal"
+                    android:id="@+id/jiuyi_edit1"
+                    android:layout_toRightOf="@+id/jiuyi_text1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/visible5"
+                android:layout_below="@+id/jiankang_text2"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/jiuyi_text2"
+                    android:textSize="17sp"
+                    android:text="医生意见"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:gravity="right|center_horizontal"
+                    android:id="@+id/jiuyi_edit2"
+                    android:layout_toRightOf="@+id/jiuyi_text2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/jiankang_text3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3.是否未孕妇？"
+                    android:textSize="17sp" />
+
+                <RadioGroup
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/jiankang_radiogroup3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="30dp"
+                    android:gravity="center_vertical|right"
+                    android:orientation="horizontal"
+                    >
+
+                    <RadioButton
+                        android:textColor="#3D3D3D"
+                        android:id="@+id/jiankang_radioButton31"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:text="是" />
+
+
+                    <RadioButton
+                        android:textColor="#3D3D3D"
+                        android:id="@+id/jiankang_radioButton32"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:text="否" />
+
+                </RadioGroup>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/visible3"
+                android:layout_below="@+id/jiankang_text2"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/yunzhou"
+                    android:textSize="17sp"
+                    android:text="孕周"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:gravity="right|center_horizontal"
+                    android:id="@+id/yunzhou_edit"
+                    android:layout_toRightOf="@+id/yunzhou"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/chouyan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:id="@+id/jiankang_text4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4.是否抽烟？"
+                        android:textSize="17sp" />
+
+                    <RadioGroup
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/jiankang_radiogroup4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="30dp"
+                        android:gravity="center_vertical|right"
+                        android:orientation="horizontal"
+                        >
+
+                        <RadioButton
+                            android:textColor="#3D3D3D"
+                            android:id="@+id/jiankang_radioButton41"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="17sp"
+                            android:text="是" />
+
+
+                        <RadioButton
+                            android:textColor="#3D3D3D"
+                            android:id="@+id/jiankang_radioButton42"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="17sp"
+                            android:text="否" />
+                    </RadioGroup>
+                </RelativeLayout>
+                <RadioGroup
+                    android:id="@+id/visible4"
+                    android:layout_below="@+id/chouyan"
+                    android:background="@android:color/white"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:text="经常抽"
+                        android:id="@+id/jingchangchou"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/ouerchou"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="偶尔抽" />
+                </RadioGroup>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/jiankang_text5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5.既往疾病史"
+                    android:textSize="17sp" />
+
+            </RelativeLayout>
+
+            <EditText
+                android:background="@android:color/white"
+                android:id="@+id/jibingshi_edit"
+                android:paddingTop="10dp"
+                android:gravity="right"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:background="@android:color/white"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+</LinearLayout>

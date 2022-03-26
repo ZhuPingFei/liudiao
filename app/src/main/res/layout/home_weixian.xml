@@ -1,0 +1,867 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="#f0f0f0"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true"
+        android:id="@+id/My_collection_buju1"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#10BD10">
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/r_back"
+            android:id="@+id/back"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/My_collection"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="危险因素"
+            android:textColor="#ffffff"
+
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/okay"
+            android:layout_marginRight="10dp"
+            android:textSize="20sp"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/white"
+            android:layout_centerVertical="true"
+            android:text="完成"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/biaoti"
+        android:text="请填写危险因素与暴露史信息"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp"
+        android:textColor="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:background="@android:color/white"
+
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/weixian_text1"
+                    android:textSize="17sp"
+                    android:text="1.是否为以下特定职业人群"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioGroup
+                    android:layout_below="@+id/weixian_text1"
+                    android:background="@android:color/white"
+                    android:id="@+id/weixian_radiogroup1"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:text="否"
+                        android:id="@+id/weixian_rediobutton1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="医务人员" />
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="病原微生物检测人员" />
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="野生动物接触相关人员" />
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="家禽、家畜养殖人员" />
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="农贸（集贸）市场从业人员" />
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="口岸检疫和边防检查人员" />
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="从事冷链食品监管和从业人员" />
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="隔离场所管理和服务人员" />
+                </RadioGroup>
+
+                <TextView
+
+                    android:layout_below="@+id/weixian_radiogroup1"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/weixian_text2"
+                    android:textSize="17sp"
+                    android:text="具体工作性质"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioGroup
+
+                    android:layout_below="@+id/weixian_text2"
+                    android:background="@android:color/white"
+                    android:id="@+id/weixian_radiogroup2"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:text="医生"
+                        android:id="@+id/weixian_rediobutton10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="护士" />
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="疾控现场工作人员" />
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="实验室检测人员" />
+
+                </RadioGroup>
+
+
+                <RelativeLayout
+                    android:layout_below="@+id/weixian_radiogroup2"
+                    android:background="@android:color/white"
+
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:id="@+id/weixian_text3"
+                        android:textSize="17sp"
+                        android:text="其他"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <EditText
+                        android:gravity="right|center_horizontal"
+                        android:id="@+id/weixian_edit1"
+                        android:layout_toRightOf="@+id/weixian_text3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/jiankang_text3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2.是否为孕妇？"
+                    android:textSize="17sp" />
+
+                <RadioGroup
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/weixian_radiogroup3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="30dp"
+                    android:gravity="center_vertical|right"
+                    android:orientation="horizontal"
+                    >
+
+                    <RadioButton
+                        android:textColor="#3D3D3D"
+                        android:id="@+id/weixian_radioButton21"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:text="是" />
+
+
+                    <RadioButton
+                        android:textColor="#3D3D3D"
+                        android:id="@+id/weixian_radioButton22"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:text="否" />
+
+                </RadioGroup>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/yunzhou"
+                android:layout_below="@+id/weixian_text2"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/yunzhou_text"
+                    android:textSize="17sp"
+                    android:text="孕周"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:gravity="right|center_horizontal"
+                    android:id="@+id/weixian_edit2"
+                    android:layout_toRightOf="@+id/yunzhou_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/chouyan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:id="@+id/jiankang_text4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3.是否抽烟？"
+                        android:textSize="17sp" />
+
+                </RelativeLayout>
+                <RadioGroup
+                    android:layout_below="@+id/chouyan"
+                    android:background="@android:color/white"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:text="经常抽"
+                        android:id="@+id/jingchangchou"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/ouerchou"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="偶尔抽" />
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/never"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="从不抽烟" />
+                </RadioGroup>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/weixian_text7"
+                    android:textSize="17sp"
+                    android:text="4.既往疾病史"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/weixian_line1"
+                    android:layout_below="@+id/weixian_text7"
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <CheckBox
+                        android:id="@+id/checkbox1"
+                        android:textSize="17sp"
+                        android:text="无"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:id="@+id/checkbox2"
+                        android:text="高血压"
+                        android:textSize="17sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:id="@+id/checkbox3"
+                        android:text="糖尿病"
+                        android:textSize="17sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:id="@+id/checkbox4"
+                        android:text="心脑血管疾病"
+                        android:textSize="17sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:id="@+id/checkbox5"
+                        android:text="哮喘"
+                        android:textSize="17sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:id="@+id/checkbox6"
+                        android:text="慢性肺部疾病"
+                        android:textSize="17sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:id="@+id/checkbox7"
+                        android:text="肿瘤"
+                        android:textSize="17sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:id="@+id/checkbox8"
+                        android:text="慢性肾病"
+                        android:textSize="17sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:id="@+id/checkbox9"
+                        android:text="慢性肝病"
+                        android:textSize="17sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:id="@+id/checkbox10"
+                        android:text="免疫缺陷类疾病"
+                        android:textSize="17sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <CheckBox
+                        android:id="@+id/checkbox11"
+                        android:text="产后（6 周以内）"
+                        android:textSize="17sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_below="@+id/weixian_line1"
+                    android:background="@android:color/white"
+
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:id="@+id/weixian_text9"
+                        android:textSize="17sp"
+                        android:text="其他"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <EditText
+                        android:gravity="right|center_horizontal"
+                        android:id="@+id/weixian_edit3"
+                        android:layout_toRightOf="@+id/weixian_text9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_margin="10dp"
+                android:textColor="@android:color/black"
+                android:text="        请检测阳性患者填写14天内统计信息。"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                />
+
+            <RelativeLayout
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/weixian_text10"
+                    android:textSize="17sp"
+                    android:text="1.是否曾到过境内有确诊病例或无症状感染者报告的社区"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioGroup
+                    android:layout_below="@+id/weixian_text10"
+                    android:background="@android:color/white"
+                    android:id="@+id/weixian_radiogroup4"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:text="否"
+                        android:id="@+id/weixian_rediobutton41"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton42"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="旅行史" />
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton43"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="居住史" />
+
+                </RadioGroup>
+
+                <RelativeLayout
+                    android:id="@+id/weixian_selectPlace"
+                    android:layout_below="@+id/weixian_radiogroup4"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="选择地址"
+                        android:textSize="17sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:textSize="17sp"
+                        android:gravity="right"
+                        android:id="@+id/weixian_selectPlace1"
+                        android:layout_alignParentRight="true"
+                        android:drawableRight="@drawable/ic_navigate_next_black_24dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/weixian_text11"
+                    android:textSize="17sp"
+                    android:text="2.是否有境外疫情国家或地区的旅行史或居住史"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioGroup
+                    android:layout_below="@+id/weixian_text11"
+                    android:background="@android:color/white"
+                    android:id="@+id/weixian_radiogroup5"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:text="否"
+                        android:id="@+id/weixian_rediobutton51"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton52"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="旅行史" />
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton53"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="居住史" />
+
+                </RadioGroup>
+
+                <RelativeLayout
+                    android:id="@+id/weixian_selectPlace2"
+                    android:layout_below="@+id/weixian_radiogroup5"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/weixian_selectPlace2_text"
+                        android:text="选择国家"
+                        android:textSize="17sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <Spinner
+                        android:id="@+id/weixian_selectNation"
+                        android:layout_toRightOf="@+id/weixian_selectPlace2_text"
+                        android:layout_centerVertical="true"
+                        android:entries="@array/country_code_list_zh"
+                        android:textAlignment="center"
+                        android:spinnerMode="dropdown"
+                        android:padding="0dp"
+                        android:layout_alignParentRight="true"
+                        android:drawableRight="@drawable/ic_navigate_next_black_24dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/weixian_text12"
+                    android:textSize="17sp"
+                    android:text="3.是否接触过来自境内有确诊病例或无症状感染者报告社区的发热和/或呼吸道症状的患者"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioGroup
+                    android:layout_below="@+id/weixian_text12"
+                    android:background="@android:color/white"
+                    android:id="@+id/weixian_radiogroup6"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:text="是"
+                        android:id="@+id/weixian_rediobutton61"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton62"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="否" />
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton63"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="不清楚" />
+
+                </RadioGroup>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/weixian_text13"
+                    android:textSize="17sp"
+                    android:text="4.是否接触过来自境外有疫情国家或地区的发热和/或呼吸道症状的患者"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioGroup
+                    android:layout_below="@+id/weixian_text13"
+                    android:background="@android:color/white"
+                    android:id="@+id/weixian_radiogroup7"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:text="是"
+                        android:id="@+id/weixian_rediobutton71"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton72"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="否" />
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton73"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="不清楚" />
+
+                </RadioGroup>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/weixian_text14"
+                    android:textSize="17sp"
+                    android:text="5.是否曾有确诊病例或无症状感染者的接触史"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioGroup
+                    android:layout_below="@+id/weixian_text14"
+                    android:background="@android:color/white"
+                    android:id="@+id/weixian_radiogroup8"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:text="是"
+                        android:id="@+id/weixian_rediobutton81"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton82"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="否" />
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton83"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="不清楚" />
+
+                </RadioGroup>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/weixian_text15"
+                    android:textSize="17sp"
+                    android:text="6.患者同一家庭、办公室、学校或托幼机构班级、车间等集体单位是否有聚集性发病"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioGroup
+                    android:layout_below="@+id/weixian_text15"
+                    android:background="@android:color/white"
+                    android:id="@+id/weixian_radiogroup9"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:text="是"
+                        android:id="@+id/weixian_rediobutton91"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton92"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="否" />
+
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton93"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="不清楚" />
+
+                </RadioGroup>
+
+            </RelativeLayout>
+
+
+
+
+
+
+            <ImageView
+                android:background="@android:color/white"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+</LinearLayout>

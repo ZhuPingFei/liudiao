@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="yimiaoArray">
+        <item>北京生物 BeiJing Institute of Biological Products Co.,Ltd.</item>
+        <item>武汉生物 WuHan Institute of Biological Product Co.,Ltd.</item>
+        <item>北京科兴中维 SINOVAC</item>
+        <item>康希诺 CanSinoBIO</item>
+        <item>安徽智飞龙科马 Anhui Zhifei Longcom Biopharmaceutical Co.,Ltd.</item>
+        <item>美国辉瑞 Pfizer</item>
+        <item>美国莫德纳 Modern</item>
+        <item>美国强生 Johnson</item>
+        <item>英国牛津/阿斯利康 Oxford University and AstraZeneca</item>
+        <item>俄罗斯 Gamaleya</item>
+        <item>其他</item>
+        <item>不详</item>
+    </string-array>
+</resources>

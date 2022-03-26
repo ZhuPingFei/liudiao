@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">流调</string>
+    <string name="title_home">基本信息</string>
+    <string name="title_xingcheng">行程采集</string>
+    <string name="title_dashboard">政策公告</string>
+    <string name="title_notifications">个人主页</string>
+
+</resources>

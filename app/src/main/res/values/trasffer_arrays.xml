@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="trasfferArray">
+        <item>飞机</item>
+        <item>火车</item>
+        <item>客车</item>
+        <item>轮船</item>
+    </string-array>
+</resources>
