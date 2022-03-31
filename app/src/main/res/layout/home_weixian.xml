@@ -298,6 +298,8 @@
                     android:layout_height="wrap_content"/>
 
                 <EditText
+                    android:digits="0123456789"
+                    android:inputType="number"
                     android:gravity="right|center_horizontal"
                     android:id="@+id/weixian_edit2"
                     android:layout_toRightOf="@+id/yunzhou_text"
@@ -329,6 +331,7 @@
 
                 </RelativeLayout>
                 <RadioGroup
+                    android:id="@+id/smoke_group"
                     android:layout_below="@+id/chouyan"
                     android:background="@android:color/white"
                     android:layout_marginTop="10dp"

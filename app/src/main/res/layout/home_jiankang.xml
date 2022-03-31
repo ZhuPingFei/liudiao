@@ -408,6 +408,7 @@
                     android:layout_height="wrap_content"/>
 
                 <EditText
+                    android:inputType="number"
                     android:gravity="right|center_horizontal"
                     android:id="@+id/yunzhou_edit"
                     android:layout_toRightOf="@+id/yunzhou"

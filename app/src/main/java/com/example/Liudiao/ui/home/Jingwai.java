@@ -2,23 +2,46 @@ package com.example.Liudiao.ui.home;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.icu.util.Calendar;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.Liudiao.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class Jingwai extends AppCompatActivity {
@@ -238,24 +261,77 @@ public class Jingwai extends AppCompatActivity {
     private int hour;
     private int min;
 
+    private SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+    private int current_transId;
+    private boolean isMe;
+    private AlertDialog.Builder builder;
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Bundle bd = msg.getData();
+
+            int code = bd.getInt("code");
+
+            if (code == 0){
+                int nation1 = bd.getInt("nation");
+                String port = bd.getString("port");
+                String date = bd.getString("date");
+
+                int traffic = bd.getInt("traffic");
+                String pass_id = bd.getString("pass_id");
+                String tra_detai = bd.getString("tra_detai");
+
+                nation = (Spinner) findViewById(R.id.jingwai_nation_spinner);
+                trasffer = (Spinner) findViewById(R.id.jingwai_trasffer_spinner);
+
+                huzhao = (EditText) findViewById(R.id.jingwai_huzhao_edit);
+                kouan = (EditText) findViewById(R.id.jingwai_kouan_edit);
+                trasfferDetail = (EditText) findViewById(R.id.jingwai_trasffer_edit);
+                rujingDate = (TextView) findViewById(R.id.select_rujingDate);
+
+                nation.setSelection(nation1);
+                huzhao.setText(pass_id);
+                String s = date.substring(0,10);
+                rujingDate.setText(s);
+                kouan.setText(port);
+                trasffer.setSelection(traffic);
+                trasfferDetail.setText(tra_detai);
+
+            }
+        }
+    };
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_jingwai);
 
-        SharedPreferences preferences = getSharedPreferences("user_jingwai", Activity.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = preferences.edit();//获取编辑器
-        int getNation = preferences.getInt("jingwai_nation",0);
-        int getTrasffer = preferences.getInt("jingwai_trasffer",0);
-        String getHuzhao  = preferences.getString("jingwai_huzhao","");
-        String getKouan = preferences.getString("jingwai_kouan","");
-        String getTrasfferdetail = preferences.getString("jingwai_trasfferDetail","");
-        String getRujingdate = preferences.getString("jingwai_rujingDate","");
+        preferences = getSharedPreferences("daiban",Activity.MODE_PRIVATE);
+        editor = preferences.edit();
+        current_transId = preferences.getInt("current_banliId",0);
+        isMe = preferences.getBoolean("isMe",false);
+
+
+//        preferences = getSharedPreferences("user_jingwai", Activity.MODE_PRIVATE);
+//        editor = preferences.edit();//获取编辑器
+//        int getNation = preferences.getInt("jingwai_nation",0);
+//        int getTrasffer = preferences.getInt("jingwai_trasffer",0);
+//        String getHuzhao  = preferences.getString("jingwai_huzhao","");
+//        String getKouan = preferences.getString("jingwai_kouan","");
+//        String getTrasfferdetail = preferences.getString("jingwai_trasfferDetail","");
+//        String getRujingdate = preferences.getString("jingwai_rujingDate","");
 
         trasfferLeixing.add("飞机");
         trasfferLeixing.add("轮船");
         trasfferLeixing.add("火车");
         trasfferLeixing.add("客车");
+
+        String url = "http://175.23.169.100:9000/case-overseas-input/get";
+        RequestJingwaiThread rdt = new RequestJingwaiThread(url,current_transId,handler);
+        rdt.start();
 
         nation = (Spinner) findViewById(R.id.jingwai_nation_spinner);
         trasffer = (Spinner) findViewById(R.id.jingwai_trasffer_spinner);
@@ -285,13 +361,13 @@ public class Jingwai extends AppCompatActivity {
         nation.setAdapter(arr_adapter_nation);
         trasffer.setAdapter(arr_adapter_trasffer);
 
-        nation.setSelection(getNation);
-        trasffer.setSelection(getTrasffer);
-
-        huzhao.setText(getHuzhao);
-        kouan.setText(getKouan);
-        trasfferDetail.setText(getTrasfferdetail);
-        rujingDate.setText(getRujingdate);
+//        nation.setSelection(getNation);
+//        trasffer.setSelection(getTrasffer);
+//
+//        huzhao.setText(getHuzhao);
+//        kouan.setText(getKouan);
+//        trasfferDetail.setText(getTrasfferdetail);
+//        rujingDate.setText(getRujingdate);
 
         nation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -321,13 +397,15 @@ public class Jingwai extends AppCompatActivity {
         selectRujingdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //showDateDialog();
-                new DatePickerDialog(Jingwai.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(Jingwai.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         selectRujingdate.setText(year + "-" + (month+1) + "-" + dayOfMonth);
                     }
-                },year, calendar.get(Calendar.MONTH), day).show();
+                },year, calendar.get(Calendar.MONTH), day);
+                datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+                datePickerDialog.show();
+                //showDateDialog();
             }
         });
 
@@ -342,8 +420,139 @@ public class Jingwai extends AppCompatActivity {
         okey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dataCommit();
-                onBackPressed();
+                final StringBuffer stringBuffer = new StringBuffer(rujingDate.getText().toString());
+                if (rujingDate.getText().toString().length()==8){
+                    stringBuffer.insert(5,"0");
+                    stringBuffer.insert(8,"0");
+                }else if (rujingDate.getText().toString().length()==9){
+                    String[] split = rujingDate.getText().toString().split("-");
+                    if (split[1].length() == 2){
+                        stringBuffer.insert(8,"0");
+                    }else {
+                        stringBuffer.insert(5,"0");
+                    }
+                }
+                //dataCommit();
+                //onBackPressed();
+                if (!isMe) {
+                    builder = new AlertDialog.Builder(Jingwai.this).setTitle("重要提醒")
+                            .setMessage("当前为代办模式，是否确认提交？")
+                            .setPositiveButton("提交", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //ToDo: 你想做的事情
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                String postUrl = "http://175.23.169.100:9000/case-overseas-input/set";
+                                                JSONObject jsonObject = new JSONObject();
+                                                jsonObject.put("transactor_id",current_transId);
+                                                jsonObject.put("nation",nationPosition);
+                                                jsonObject.put("pass_id",huzhao.getText().toString());
+                                                jsonObject.put("date",rujingDate.getText().toString());
+                                                jsonObject.put("port",kouan.getText().toString());
+                                                jsonObject.put("traffic",trasfferPosition);
+                                                jsonObject.put("tra_detail",trasfferDetail.getText().toString());
+
+                                                URL httpUrl = new URL(postUrl);
+                                                HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
+                                                PrintWriter out = null;
+                                                conn.setRequestMethod("POST");
+                                                conn.setReadTimeout(5000);
+                                                conn.setRequestProperty("Content-type", "application/json");
+                                                conn.setDoInput(true);
+                                                conn.setDoOutput(true);
+                                                out = new PrintWriter(conn.getOutputStream());
+                                                out.print(jsonObject);
+                                                out.flush();
+                                                InputStream is = conn.getInputStream();
+                                                BufferedReader reader = new BufferedReader(new InputStreamReader(is,"utf-8"));
+                                                StringBuffer sb = new StringBuffer();
+                                                String str;
+                                                while ((str = reader.readLine()) != null) {
+                                                    sb.append(str);
+                                                }
+                                                JSONObject jsonObj1 = new JSONObject(sb.toString());
+                                                int isUpadteSeccess = jsonObj1.getInt("code");
+                                                if (isUpadteSeccess == 0){
+                                                    editor.putBoolean(current_transId+"hasJingwai",true);
+                                                    editor.commit();
+                                                    Looper.prepare();
+                                                    Toast.makeText(Jingwai.this,"提交成功",Toast.LENGTH_SHORT).show();
+                                                    Looper.loop();
+                                                }
+                                            } catch (MalformedURLException e) {
+                                                e.printStackTrace();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }).start();
+                                    dialogInterface.dismiss();
+                                    onBackPressed();
+                                }
+                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    builder.create().show();
+                }else {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                String postUrl = "http://175.23.169.100:9000/case-overseas-input/set";
+                                JSONObject jsonObject = new JSONObject();
+                                jsonObject.put("transactor_id",current_transId);
+                                jsonObject.put("nation",nationPosition);
+                                jsonObject.put("pass_id",huzhao.getText().toString());
+                                jsonObject.put("date",rujingDate.getText().toString());
+                                jsonObject.put("port",kouan.getText().toString());
+                                jsonObject.put("traffic",trasfferPosition);
+                                jsonObject.put("tra_detail",trasfferDetail.getText().toString());
+
+                                URL httpUrl = new URL(postUrl);
+                                HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
+                                PrintWriter out = null;
+                                conn.setRequestMethod("POST");
+                                conn.setReadTimeout(5000);
+                                conn.setRequestProperty("Content-type", "application/json");
+                                conn.setDoInput(true);
+                                conn.setDoOutput(true);
+                                out = new PrintWriter(conn.getOutputStream());
+                                out.print(jsonObject);
+                                out.flush();
+                                InputStream is = conn.getInputStream();
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(is,"utf-8"));
+                                StringBuffer sb = new StringBuffer();
+                                String str;
+                                while ((str = reader.readLine()) != null) {
+                                    sb.append(str);
+                                }
+                                JSONObject jsonObj1 = new JSONObject(sb.toString());
+                                int isUpadteSeccess = jsonObj1.getInt("code");
+                                if (isUpadteSeccess == 0){
+                                    Looper.prepare();
+                                    Toast.makeText(Jingwai.this,"提交成功",Toast.LENGTH_SHORT).show();
+                                    Looper.loop();
+                                }
+                            }catch (MalformedURLException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                    //onBackPressed();
+                }
+
             }
         });
 

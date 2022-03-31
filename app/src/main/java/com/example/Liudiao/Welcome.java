@@ -27,15 +27,17 @@ public class Welcome extends Activity {
             @Override
             public void run() {
 
-                SharedPreferences preferences = getSharedPreferences("user", Activity.MODE_PRIVATE);
-                boolean isLogin = preferences.getBoolean("is_login", Boolean.parseBoolean(""));
-                if (isLogin == false){
-                    Intent mainIntent = new Intent(Welcome.this,MainActivity.class);
+//                SharedPreferences preferences = getSharedPreferences("user", Activity.MODE_PRIVATE);
+//                boolean isLogin = preferences.getBoolean("is_login", Boolean.parseBoolean(""));
+//                if (isLogin == false){
+//                    Intent mainIntent = new Intent(Welcome.this,MainActivity.class);
+//                    startActivity(mainIntent);
+//                }else {
+//                    Intent mainIntent = new Intent(Welcome.this,Main.class);
+//                    startActivity(mainIntent);
+//                }
+                Intent mainIntent = new Intent(Welcome.this,MainActivity.class);
                     startActivity(mainIntent);
-                }else {
-                    Intent mainIntent = new Intent(Welcome.this,Main.class);
-                    startActivity(mainIntent);
-                }
 
                 Welcome.this.finish();
             }

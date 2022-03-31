@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f0"
+    android:layout_marginBottom="?attr/actionBarSize">
+
+    <RelativeLayout
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true"
+        android:id="@+id/My_collection_buju1"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#10BD10">
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/r_back"
+            android:id="@+id/back"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/My_collection"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="家庭成员"
+            android:textColor="#ffffff"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/okey"
+            android:layout_marginRight="10dp"
+            android:textSize="20sp"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/white"
+            android:layout_centerVertical="true"
+            android:text="完成"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:gravity="center"
+        android:text="请填写主要家庭成员信息"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/add_member"
+        android:text="添加成员"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:descendantFocusability="blocksDescendants">
+        <ListView
+            android:id="@+id/member_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ListView>
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.Liudiao">
 
-    <uses-permission android:name="Manifest.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="Manifest.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.FLASHLIGHT" />
@@ -27,6 +27,7 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -46,7 +47,8 @@
             android:theme="@style/BaseThemes" />
         <activity android:name="com.example.Liudiao.ui.notifications.Erweima"
             android:theme="@style/BaseThemes"/>
-        <activity android:name="com.example.Liudiao.ui.notifications.Daiban"/>
+        <activity android:name="com.example.Liudiao.ui.notifications.Daiban"
+            android:theme="@style/BaseThemes"/>
         <activity android:name="com.example.Liudiao.ui.home.Jibenzhuangkuang"
             android:theme="@style/BaseThemes" />
         <activity android:name="com.example.Liudiao.ui.home.Jezhong"
@@ -77,6 +79,10 @@
         </activity>
         <activity android:name=".login.QRLogin"
             android:theme="@style/BaseThemes"/>
+        <activity android:name=".ui.home.Familynew"
+            android:theme="@style/BaseThemes"/>
+        <activity android:name=".ui.xingcheng.XingchengAlter"
+            android:theme="@style/BaseThemes"/>
 
         <activity
             android:name="com.mob.tools.MobUIShell"
@@ -84,8 +90,12 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
-        <activity android:name=".login.Capture"
-            android:theme="@style/BaseThemes"/>
+
+        <activity
+            android:name=".zxing.android.CaptureActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
+            />
 
 
     </application>

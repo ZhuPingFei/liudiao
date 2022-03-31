@@ -35,23 +35,13 @@
             android:layout_centerHorizontal="true"
             android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/okey"
-            android:layout_marginRight="10dp"
-            android:textSize="20sp"
-            android:layout_alignParentRight="true"
-            android:textColor="@android:color/white"
-            android:layout_centerVertical="true"
-            android:text="完成"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
 
     </RelativeLayout>
 
     <TextView
         android:id="@+id/shengcheng"
-        android:text="生成专属流调码"
+        android:text="显示专属流调码"
         android:gravity="center"
         android:layout_marginTop="15dp"
         android:textColor="@android:color/background_dark"

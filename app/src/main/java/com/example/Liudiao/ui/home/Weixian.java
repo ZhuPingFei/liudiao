@@ -2,9 +2,14 @@ package com.example.Liudiao.ui.home;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,6 +21,7 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -24,14 +30,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.example.Liudiao.Main;
 import com.example.Liudiao.R;
 import com.example.Liudiao.ui.ArraJsonBean;
 import com.example.Liudiao.ui.GetJsonDataUtil;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 public class Weixian extends AppCompatActivity {
 
@@ -81,8 +99,6 @@ public class Weixian extends AppCompatActivity {
     private CheckBox checkBox11;
     private EditText edit3;
 
-
-
     private RadioGroup radioGroup4;
     private RadioButton radioButton41;
     private RadioButton radioButton42;
@@ -113,6 +129,12 @@ public class Weixian extends AppCompatActivity {
     private RadioButton radioButton91;
     private RadioButton radioButton92;
     private RadioButton radioButton93;
+
+    private RadioGroup radioGroup6;
+    private RadioGroup radioGroup7;
+    private RadioGroup radioGroup8;
+    private RadioGroup radioGroup9;
+    private RadioGroup smoke_group;
 
     private AlertDialog.Builder builder;
     private ProgressDialog progressDialog;
@@ -310,27 +332,260 @@ public class Weixian extends AppCompatActivity {
             "瓦努阿图            ",
             "不丹                "};
     private ArrayAdapter<String> arr_adapter_nation;
+
+    private SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+    private int current_transId;
+    private boolean isMe;
+
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Bundle bd = msg.getData();
+
+            int code = bd.getInt("code");
+
+            if (code == 0){
+
+                int job = bd.getInt("job");
+                int job_detail = bd.getInt("job_detail");
+                String other_job = bd.getString("other_job");
+
+                int maternity = bd.getInt("maternity");
+                int ges_week = bd.getInt("ges_week");
+
+                int smoke = bd.getInt("smoke");
+
+                String dis_his = bd.getString("dis_his");
+                String other_dis = bd.getString("other_dis");
+
+                int radiobutton1 = bd.getInt("radiobutton1");
+                String address = bd.getString("address");
+
+                int radiobutton2 = bd.getInt("radiobutton2");
+                int nation = bd.getInt("nation");
+
+                int radiobutton3 = bd.getInt("radiobutton3");
+                int radiobutton4 = bd.getInt("radiobutton4");
+                int radiobutton5 = bd.getInt("radiobutton5");
+                int radiobutton6 = bd.getInt("radiobutton6");
+
+                radioGroup1 = (RadioGroup) findViewById(R.id.weixian_radiogroup1);
+                radioButton1 = (RadioButton)findViewById(R.id.weixian_rediobutton1);
+                radioButton2 = (RadioButton)findViewById(R.id.weixian_rediobutton2);
+                radioButton3 = (RadioButton)findViewById(R.id.weixian_rediobutton3);
+                radioButton4 = (RadioButton)findViewById(R.id.weixian_rediobutton4);
+                radioButton5 = (RadioButton)findViewById(R.id.weixian_rediobutton5);
+                radioButton6 = (RadioButton)findViewById(R.id.weixian_rediobutton6);
+                radioButton7 = (RadioButton)findViewById(R.id.weixian_rediobutton7);
+                radioButton8 = (RadioButton)findViewById(R.id.weixian_rediobutton8);
+                radioButton9 = (RadioButton)findViewById(R.id.weixian_rediobutton9);
+
+                text2 = (TextView) findViewById(R.id.weixian_text2);
+                radioGroup2 = (RadioGroup) findViewById(R.id.weixian_radiogroup2);
+                radioButton10 = (RadioButton)findViewById(R.id.weixian_rediobutton10);
+                radioButton11 = (RadioButton)findViewById(R.id.weixian_rediobutton11);
+                radioButton12 = (RadioButton)findViewById(R.id.weixian_rediobutton12);
+                radioButton13 = (RadioButton)findViewById(R.id.weixian_rediobutton13);
+
+                edit1 = (EditText) findViewById(R.id.weixian_edit1);
+
+                radioGroup3 = (RadioGroup)findViewById(R.id.weixian_radiogroup3);
+                radioButton21 = (RadioButton)findViewById(R.id.weixian_radioButton21);
+                radioButton22 = (RadioButton)findViewById(R.id.weixian_radioButton22);
+                visible2 = (RelativeLayout)findViewById(R.id.yunzhou);
+                edit2 = (EditText)findViewById(R.id.weixian_edit2);
+
+                jingchangchou = (RadioButton)findViewById(R.id.jingchangchou);
+                ouerchou = (RadioButton)findViewById(R.id.ouerchou);
+                neverchou = (RadioButton)findViewById(R.id.never);
+
+                checkBox1 = (CheckBox)findViewById(R.id.checkbox1);
+                checkBox2 = (CheckBox)findViewById(R.id.checkbox2);
+                checkBox3 = (CheckBox)findViewById(R.id.checkbox3);
+                checkBox4 = (CheckBox)findViewById(R.id.checkbox4);
+                checkBox5 = (CheckBox)findViewById(R.id.checkbox5);
+                checkBox6 = (CheckBox)findViewById(R.id.checkbox6);
+                checkBox7 = (CheckBox)findViewById(R.id.checkbox7);
+                checkBox8 = (CheckBox)findViewById(R.id.checkbox8);
+                checkBox9 = (CheckBox)findViewById(R.id.checkbox9);
+                checkBox10 = (CheckBox)findViewById(R.id.checkbox10);
+                checkBox11 = (CheckBox)findViewById(R.id.checkbox11);
+                edit3 = (EditText)findViewById(R.id.weixian_edit3);
+
+                radioGroup4 = (RadioGroup)findViewById(R.id.weixian_radiogroup4);
+                radioButton41 = (RadioButton)findViewById(R.id.weixian_rediobutton41);
+                radioButton42 = (RadioButton)findViewById(R.id.weixian_rediobutton42);
+                radioButton43 = (RadioButton)findViewById(R.id.weixian_rediobutton43);
+                selectPlace1 = (TextView)findViewById(R.id.weixian_selectPlace1) ;
+                selectPlace = (RelativeLayout)findViewById(R.id.weixian_selectPlace);
+
+                radioGroup5 = (RadioGroup)findViewById(R.id.weixian_radiogroup5);
+                radioButton51 = (RadioButton)findViewById(R.id.weixian_rediobutton51);
+                radioButton52 = (RadioButton)findViewById(R.id.weixian_rediobutton52);
+                radioButton53 = (RadioButton)findViewById(R.id.weixian_rediobutton53);
+
+                selectPlace2 = (RelativeLayout)findViewById(R.id.weixian_selectPlace2);
+                selectPlace_spi = (Spinner)findViewById(R.id.weixian_selectNation);
+                radioButton61 = (RadioButton)findViewById(R.id.weixian_rediobutton61);
+                radioButton62 = (RadioButton)findViewById(R.id.weixian_rediobutton62);
+                radioButton63 = (RadioButton)findViewById(R.id.weixian_rediobutton63);
+                radioButton71 = (RadioButton)findViewById(R.id.weixian_rediobutton71);
+                radioButton72 = (RadioButton)findViewById(R.id.weixian_rediobutton72);
+                radioButton73 = (RadioButton)findViewById(R.id.weixian_rediobutton73);
+                radioButton81 = (RadioButton)findViewById(R.id.weixian_rediobutton81);
+                radioButton82 = (RadioButton)findViewById(R.id.weixian_rediobutton82);
+                radioButton83 = (RadioButton)findViewById(R.id.weixian_rediobutton83);
+                radioButton91 = (RadioButton)findViewById(R.id.weixian_rediobutton91);
+                radioButton92 = (RadioButton)findViewById(R.id.weixian_rediobutton92);
+                radioButton93 = (RadioButton)findViewById(R.id.weixian_rediobutton93);
+
+                if (job == 1){
+                    radioButton1.setChecked(true);
+                }else if(job == 2){
+                    radioButton2.setChecked(true);
+                }else if(job == 3){
+                    radioButton3.setChecked(true);
+                }else if(job == 4){
+                    radioButton4.setChecked(true);
+                }else if(job == 5){
+                    radioButton5.setChecked(true);
+                }else if(job == 6){
+                    radioButton6.setChecked(true);
+                }else if(job == 7){
+                    radioButton7.setChecked(true);
+                }else if(job == 8){
+                    radioButton8.setChecked(true);
+                }else {
+                    radioButton9.setChecked(true);
+                }
+                if (job_detail == 1){
+                    radioButton10.setChecked(true);
+                }else if (job_detail == 2){
+                    radioButton11.setChecked(true);
+                }else if (job_detail == 3){
+                    radioButton12.setChecked(true);
+                }else {
+                    radioButton13.setChecked(true);
+                }
+                edit1.setText(other_job);
+
+                if (maternity == 1){
+                    radioButton21.setChecked(true);
+                }else {
+                    radioButton22.setChecked(true);
+                }
+                edit2.setText(""+ges_week);
+
+                if (smoke == 1){
+                    jingchangchou.setChecked(true);
+                }else if (smoke == 2){
+                    ouerchou.setChecked(true);
+                }else {
+                    neverchou.setChecked(true);
+                }
+
+                if (dis_his.length()!=0){
+                    String[] split = dis_his.split("-");
+                    for (int i = 0;i<split.length;i++){
+                        if (Integer.parseInt(split[i])==1){
+                            checkBox1.setChecked(true);
+                        }else if (Integer.parseInt(split[i])==2){
+                            checkBox2.setChecked(true);
+                        }else if (Integer.parseInt(split[i])==3){
+                            checkBox3.setChecked(true);
+                        }else if (Integer.parseInt(split[i])==4){
+                            checkBox4.setChecked(true);
+                        }else if (Integer.parseInt(split[i])==5){
+                            checkBox5.setChecked(true);
+                        }else if (Integer.parseInt(split[i])==6){
+                            checkBox6.setChecked(true);
+                        }else if (Integer.parseInt(split[i])==7){
+                            checkBox7.setChecked(true);
+                        }else if (Integer.parseInt(split[i])==8){
+                            checkBox8.setChecked(true);
+                        }else if (Integer.parseInt(split[i])==9){
+                            checkBox9.setChecked(true);
+                        }else if (Integer.parseInt(split[i])==10){
+                            checkBox10.setChecked(true);
+                        }else {
+                            checkBox11.setChecked(true);
+                        }
+
+                    }
+                }
+                edit3.setText(other_dis);
+
+                if (radiobutton1 == 1){
+                    radioButton41.setChecked(true);
+                }else if(radiobutton1 == 2){
+                    radioButton42.setChecked(true);
+                }else {
+                    radioButton43.setChecked(true);
+                }
+                selectPlace1.setText(address);
+
+                if (radiobutton2 == 1){
+                    radioButton51.setChecked(true);
+                }else if(radiobutton1 == 2){
+                    radioButton52.setChecked(true);
+                }else {
+                    radioButton53.setChecked(true);
+                }
+                selectPlace_spi.setSelection(nation);
+
+                if (radiobutton3 == 1){
+                    radioButton61.setChecked(true);
+                }else if(radiobutton1 == 2){
+                    radioButton62.setChecked(true);
+                }else {
+                    radioButton63.setChecked(true);
+                }
+
+                if (radiobutton4 == 1){
+                    radioButton71.setChecked(true);
+                }else if(radiobutton1 == 2){
+                    radioButton72.setChecked(true);
+                }else {
+                    radioButton73.setChecked(true);
+                }
+
+                if (radiobutton5 == 1){
+                    radioButton81.setChecked(true);
+                }else if(radiobutton1 == 2){
+                    radioButton82.setChecked(true);
+                }else {
+                    radioButton83.setChecked(true);
+                }
+
+                if (radiobutton6 == 1){
+                    radioButton91.setChecked(true);
+                }else if(radiobutton1 == 2){
+                    radioButton92.setChecked(true);
+                }else {
+                    radioButton93.setChecked(true);
+                }
+            }
+        }
+    };
+
     
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_weixian);
 
-        r_back = (ImageView) findViewById(R.id.back);
-        r_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        okay = (TextView) findViewById(R.id.okay);
-        okay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dataCommit();
-                onBackPressed();
-            }
-        });
+        preferences = getSharedPreferences("daiban",Activity.MODE_PRIVATE);
+        editor = preferences.edit();
+        current_transId = preferences.getInt("current_banliId",0);
+        isMe = preferences.getBoolean("isMe",false);
+
+
+
+        String url = "http://175.23.169.100:9000/case-danger-exposure/get";
+        RequestWeixianThread rdt = new RequestWeixianThread(url,current_transId,handler);
+        rdt.start();
 
         radioGroup1 = (RadioGroup) findViewById(R.id.weixian_radiogroup1);
         radioButton1 = (RadioButton)findViewById(R.id.weixian_rediobutton1);
@@ -403,218 +658,224 @@ public class Weixian extends AppCompatActivity {
         radioButton92 = (RadioButton)findViewById(R.id.weixian_rediobutton92);
         radioButton93 = (RadioButton)findViewById(R.id.weixian_rediobutton93);
 
-        SharedPreferences preferences = getSharedPreferences("user_weixian", Activity.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = preferences.edit();//获取编辑器
-        Boolean getRadioButton1 = preferences.getBoolean("weixian_button1", false);
-        Boolean getRadioButton2 = preferences.getBoolean("weixian_button2", false);
-        Boolean getRadioButton3 = preferences.getBoolean("weixian_button3", false);
-        Boolean getRadioButton4 = preferences.getBoolean("weixian_button4", false);
-        Boolean getRadioButton5 = preferences.getBoolean("weixian_button5", false);
-        Boolean getRadioButton6 = preferences.getBoolean("weixian_button6", false);
-        Boolean getRadioButton7 = preferences.getBoolean("weixian_button7", false);
-        Boolean getRadioButton8 = preferences.getBoolean("weixian_button8", false);
-        Boolean getRadioButton9 = preferences.getBoolean("weixian_button9", false);
-        Boolean getRadioButton10 = preferences.getBoolean("weixian_button10", false);
-        Boolean getRadioButton11 = preferences.getBoolean("weixian_button11", false);
-        Boolean getRadioButton12 = preferences.getBoolean("weixian_button12", false);
-        Boolean getRadioButton13 = preferences.getBoolean("weixian_button13", false);
-        Boolean getRadioButton21 = preferences.getBoolean("weixian_button21",false);
-        Boolean getRadioButton22 = preferences.getBoolean("weixian_button21",false);
+        radioGroup6 = (RadioGroup) findViewById(R.id.weixian_radiogroup6);
+        radioGroup7 = (RadioGroup) findViewById(R.id.weixian_radiogroup7);
+        radioGroup8 = (RadioGroup) findViewById(R.id.weixian_radiogroup8);
+        radioGroup9 = (RadioGroup) findViewById(R.id.weixian_radiogroup9);
+        smoke_group = (RadioGroup) findViewById(R.id.smoke_group);
 
-        String getYunzhou = preferences.getString("weixian_yunzhou","");
+//        SharedPreferences preferences = getSharedPreferences("user_weixian", Activity.MODE_PRIVATE);
+//        final SharedPreferences.Editor editor = preferences.edit();//获取编辑器
+//        Boolean getRadioButton1 = preferences.getBoolean("weixian_button1", false);
+//        Boolean getRadioButton2 = preferences.getBoolean("weixian_button2", false);
+//        Boolean getRadioButton3 = preferences.getBoolean("weixian_button3", false);
+//        Boolean getRadioButton4 = preferences.getBoolean("weixian_button4", false);
+//        Boolean getRadioButton5 = preferences.getBoolean("weixian_button5", false);
+//        Boolean getRadioButton6 = preferences.getBoolean("weixian_button6", false);
+//        Boolean getRadioButton7 = preferences.getBoolean("weixian_button7", false);
+//        Boolean getRadioButton8 = preferences.getBoolean("weixian_button8", false);
+//        Boolean getRadioButton9 = preferences.getBoolean("weixian_button9", false);
+//        Boolean getRadioButton10 = preferences.getBoolean("weixian_button10", false);
+//        Boolean getRadioButton11 = preferences.getBoolean("weixian_button11", false);
+//        Boolean getRadioButton12 = preferences.getBoolean("weixian_button12", false);
+//        Boolean getRadioButton13 = preferences.getBoolean("weixian_button13", false);
+//        Boolean getRadioButton21 = preferences.getBoolean("weixian_button21",false);
+//        Boolean getRadioButton22 = preferences.getBoolean("weixian_button21",false);
+//
+//        String getYunzhou = preferences.getString("weixian_yunzhou","");
+//
+//        String getEdit1 = preferences.getString("weixian_edit1","");
+//
+//        Boolean getJingchangshou = preferences.getBoolean("weixian_jingchengchou",false);
+//        Boolean getOuerchou = preferences.getBoolean("weixian_ouerchou",false);
+//        Boolean getNever = preferences.getBoolean("weixian_never",false);
+//
+//        boolean getCheckbox1 = preferences.getBoolean("weixian_checkbox1",false);
+//        boolean getCheckbox2 = preferences.getBoolean("weixian_checkbox2",false);
+//        boolean getCheckbox3 = preferences.getBoolean("weixian_checkbox3",false);
+//        boolean getCheckbox4 = preferences.getBoolean("weixian_checkbox4",false);
+//        boolean getCheckbox5 = preferences.getBoolean("weixian_checkbox5",false);
+//        boolean getCheckbox6 = preferences.getBoolean("weixian_checkbox6",false);
+//        boolean getCheckbox7 = preferences.getBoolean("weixian_checkbox7",false);
+//        boolean getCheckbox8 = preferences.getBoolean("weixian_checkbox8",false);
+//        boolean getCheckbox9 = preferences.getBoolean("weixian_checkbox9",false);
+//        boolean getCheckbox10 = preferences.getBoolean("weixian_checkbox10",false);
+//        boolean getCheckbox11 = preferences.getBoolean("weixian_checkbox11",false);
+//        String getEdit3 = preferences.getString("weixian_edit3","");
+//
+//        String getPlace = preferences.getString("weixian_place","");
+//
+//        Boolean getRadioButton41 = preferences.getBoolean("weixian_button41", false);
+//        Boolean getRadioButton42 = preferences.getBoolean("weixian_button42", false);
+//        Boolean getRadioButton43 = preferences.getBoolean("weixian_button43", false);
+//        Boolean getRadioButton51 = preferences.getBoolean("weixian_button51", false);
+//        Boolean getRadioButton52 = preferences.getBoolean("weixian_button52", false);
+//        Boolean getRadioButton53 = preferences.getBoolean("weixian_button53", false);
+//
+//        int getNationposition = preferences.getInt("weixian_nation",0);
+//        Boolean getRadioButton61 = preferences.getBoolean("weixian_button61", false);
+//        Boolean getRadioButton62 = preferences.getBoolean("weixian_button62", false);
+//        Boolean getRadioButton63 = preferences.getBoolean("weixian_button63", false);
+//
+//        Boolean getRadioButton71 = preferences.getBoolean("weixian_button71", false);
+//        Boolean getRadioButton72 = preferences.getBoolean("weixian_button72", false);
+//        Boolean getRadioButton73 = preferences.getBoolean("weixian_button73", false);
+//
+//        Boolean getRadioButton81 = preferences.getBoolean("weixian_button81", false);
+//        Boolean getRadioButton82 = preferences.getBoolean("weixian_button82", false);
+//        Boolean getRadioButton83 = preferences.getBoolean("weixian_button83", false);
+//
+//        Boolean getRadioButton91 = preferences.getBoolean("weixian_button91", false);
+//        Boolean getRadioButton92 = preferences.getBoolean("weixian_button92", false);
+//        Boolean getRadioButton93 = preferences.getBoolean("weixian_button93", false);
 
-        String getEdit1 = preferences.getString("weixian_edit1","");
-        
-        Boolean getJingchangshou = preferences.getBoolean("weixian_jingchengchou",false);
-        Boolean getOuerchou = preferences.getBoolean("weixian_ouerchou",false);
-        Boolean getNever = preferences.getBoolean("weixian_never",false);
 
-        boolean getCheckbox1 = preferences.getBoolean("weixian_checkbox1",false);
-        boolean getCheckbox2 = preferences.getBoolean("weixian_checkbox2",false);
-        boolean getCheckbox3 = preferences.getBoolean("weixian_checkbox3",false);
-        boolean getCheckbox4 = preferences.getBoolean("weixian_checkbox4",false);
-        boolean getCheckbox5 = preferences.getBoolean("weixian_checkbox5",false);
-        boolean getCheckbox6 = preferences.getBoolean("weixian_checkbox6",false);
-        boolean getCheckbox7 = preferences.getBoolean("weixian_checkbox7",false);
-        boolean getCheckbox8 = preferences.getBoolean("weixian_checkbox8",false);
-        boolean getCheckbox9 = preferences.getBoolean("weixian_checkbox9",false);
-        boolean getCheckbox10 = preferences.getBoolean("weixian_checkbox10",false);
-        boolean getCheckbox11 = preferences.getBoolean("weixian_checkbox11",false);
-        String getEdit3 = preferences.getString("weixian_edit3","");
+//        if (getRadioButton1==true){
+//            radioButton1.setChecked(true);
+//            text2.setVisibility(View.GONE);
+//            radioGroup2.setVisibility(View.GONE);
+//        }
+//        else if (getRadioButton2 == true){
+//            radioButton2.setChecked(true);
+//            text2.setVisibility(View.VISIBLE);
+//            radioGroup2.setVisibility(View.VISIBLE);
+//        }
+//        else if (getRadioButton2 == true) {
+//            radioButton2.setChecked(true);
+//            text2.setVisibility(View.GONE);
+//            radioGroup2.setVisibility(View.GONE);
+//        }
+//        else if (getRadioButton3 == true) {
+//            radioButton3.setChecked(true);
+//            text2.setVisibility(View.GONE);
+//            radioGroup2.setVisibility(View.GONE);
+//        }
+//        else if (getRadioButton4 == true) {
+//            radioButton4.setChecked(true);
+//            text2.setVisibility(View.GONE);
+//            radioGroup2.setVisibility(View.GONE);
+//        }
+//        else if (getRadioButton5 == true) {
+//            radioButton5.setChecked(true);
+//            text2.setVisibility(View.GONE);
+//            radioGroup2.setVisibility(View.GONE);
+//        }
+//        else if (getRadioButton6 == true) {
+//            radioButton6.setChecked(true);
+//            text2.setVisibility(View.GONE);
+//            radioGroup2.setVisibility(View.GONE);
+//        }
+//        else if (getRadioButton7 == true) {
+//            radioButton7.setChecked(true);
+//            text2.setVisibility(View.GONE);
+//            radioGroup2.setVisibility(View.GONE);
+//        }else if (getRadioButton8 == true) {
+//            radioButton8.setChecked(true);
+//            text2.setVisibility(View.GONE);
+//            radioGroup2.setVisibility(View.GONE);
+//        }else {
+//            radioButton9.setChecked(true);
+//            text2.setVisibility(View.GONE);
+//            radioGroup2.setVisibility(View.GONE);
+//        }
+//
+//        if (getRadioButton10 == true){
+//            radioButton10.setChecked(true);
+//        }else if (getRadioButton11 == true){
+//            radioButton11.setChecked(true);
+//        } else if (getRadioButton12 == true) {
+//            radioButton12.setChecked(true);
+//        }else {
+//            radioButton13.setChecked(true);
+//        }
+//
+//        if (getRadioButton21 == true){
+//            radioButton21.setChecked(true);
+//            visible2.setVisibility(View.VISIBLE);
+//        }else {
+//            radioButton22.setChecked(true);
+//            visible2.setVisibility(View.GONE);
+//        }
+//
+//        edit1.setText(getEdit1);
+//        edit2.setText(getYunzhou);
+//
+//        if (getJingchangshou == true){
+//            jingchangchou.setChecked(true);
+//        }else if (getOuerchou == true){
+//            ouerchou.setChecked(true);
+//        }else {
+//            neverchou.setChecked(true);
+//        }
 
-        String getPlace = preferences.getString("weixian_place","");
+//        checkBox1.setChecked(getCheckbox1);
+//        checkBox2.setChecked(getCheckbox2);
+//        checkBox3.setChecked(getCheckbox3);
+//        checkBox4.setChecked(getCheckbox4);
+//        checkBox5.setChecked(getCheckbox5);
+//        checkBox6.setChecked(getCheckbox6);
+//        checkBox7.setChecked(getCheckbox7);
+//        checkBox8.setChecked(getCheckbox8);
+//        checkBox9.setChecked(getCheckbox9);
+//        checkBox10.setChecked(getCheckbox10);
+//        checkBox11.setChecked(getCheckbox11);
+//        edit3.setText(getEdit3);
+//
+//        selectPlace1.setText(getPlace);
 
-        Boolean getRadioButton41 = preferences.getBoolean("weixian_button41", false);
-        Boolean getRadioButton42 = preferences.getBoolean("weixian_button42", false);
-        Boolean getRadioButton43 = preferences.getBoolean("weixian_button43", false);
-        Boolean getRadioButton51 = preferences.getBoolean("weixian_button51", false);
-        Boolean getRadioButton52 = preferences.getBoolean("weixian_button52", false);
-        Boolean getRadioButton53 = preferences.getBoolean("weixian_button53", false);
+//        if (getRadioButton41==true){
+//            radioButton41.setChecked(true);
+//            selectPlace.setVisibility(View.GONE);
+//        }else if (getRadioButton42==true){
+//            radioButton42.setChecked(true);
+//            selectPlace.setVisibility(View.VISIBLE);
+//        }else {
+//            radioButton43.setChecked(true);
+//            selectPlace.setVisibility(View.VISIBLE);
+//        }
 
-        int getNationposition = preferences.getInt("weixian_nation",0);
-        Boolean getRadioButton61 = preferences.getBoolean("weixian_button61", false);
-        Boolean getRadioButton62 = preferences.getBoolean("weixian_button62", false);
-        Boolean getRadioButton63 = preferences.getBoolean("weixian_button63", false);
+//        if (getRadioButton51==true){
+//            radioButton51.setChecked(true);
+//            selectPlace_spi.setVisibility(View.GONE);
+//        }else if (getRadioButton52==true){
+//            radioButton52.setChecked(true);
+//            selectPlace_spi.setVisibility(View.VISIBLE);
+//        }else {
+//            radioButton53.setChecked(true);
+//            selectPlace_spi.setVisibility(View.VISIBLE);
+//        }
 
-        Boolean getRadioButton71 = preferences.getBoolean("weixian_button71", false);
-        Boolean getRadioButton72 = preferences.getBoolean("weixian_button72", false);
-        Boolean getRadioButton73 = preferences.getBoolean("weixian_button73", false);
+//        if (getRadioButton61==true){
+//            radioButton61.setChecked(true);
+//        }else if (getRadioButton62==true){
+//            radioButton62.setChecked(true);
+//        }else {
+//            radioButton63.setChecked(true);
+//        }
 
-        Boolean getRadioButton81 = preferences.getBoolean("weixian_button81", false);
-        Boolean getRadioButton82 = preferences.getBoolean("weixian_button82", false);
-        Boolean getRadioButton83 = preferences.getBoolean("weixian_button83", false);
+//        if (getRadioButton61==true){
+//            radioButton71.setChecked(true);
+//        }else if (getRadioButton62==true){
+//            radioButton72.setChecked(true);
+//        }else {
+//            radioButton73.setChecked(true);
+//        }
 
-        Boolean getRadioButton91 = preferences.getBoolean("weixian_button91", false);
-        Boolean getRadioButton92 = preferences.getBoolean("weixian_button92", false);
-        Boolean getRadioButton93 = preferences.getBoolean("weixian_button93", false);
+//        if (getRadioButton61==true){
+//            radioButton81.setChecked(true);
+//        }else if (getRadioButton62==true){
+//            radioButton82.setChecked(true);
+//        }else {
+//            radioButton83.setChecked(true);
+//        }
 
-
-        if (getRadioButton1==true){
-            radioButton1.setChecked(true);
-            text2.setVisibility(View.GONE);
-            radioGroup2.setVisibility(View.GONE);
-        }
-        else if (getRadioButton2 == true){
-            radioButton2.setChecked(true);
-            text2.setVisibility(View.VISIBLE);
-            radioGroup2.setVisibility(View.VISIBLE);
-        }
-        else if (getRadioButton2 == true) {
-            radioButton2.setChecked(true);
-            text2.setVisibility(View.GONE);
-            radioGroup2.setVisibility(View.GONE);
-        }
-        else if (getRadioButton3 == true) {
-            radioButton3.setChecked(true);
-            text2.setVisibility(View.GONE);
-            radioGroup2.setVisibility(View.GONE);
-        }
-        else if (getRadioButton4 == true) {
-            radioButton4.setChecked(true);
-            text2.setVisibility(View.GONE);
-            radioGroup2.setVisibility(View.GONE);
-        }
-        else if (getRadioButton5 == true) {
-            radioButton5.setChecked(true);
-            text2.setVisibility(View.GONE);
-            radioGroup2.setVisibility(View.GONE);
-        }
-        else if (getRadioButton6 == true) {
-            radioButton6.setChecked(true);
-            text2.setVisibility(View.GONE);
-            radioGroup2.setVisibility(View.GONE);
-        }
-        else if (getRadioButton7 == true) {
-            radioButton7.setChecked(true);
-            text2.setVisibility(View.GONE);
-            radioGroup2.setVisibility(View.GONE);
-        }else if (getRadioButton8 == true) {
-            radioButton8.setChecked(true);
-            text2.setVisibility(View.GONE);
-            radioGroup2.setVisibility(View.GONE);
-        }else {
-            radioButton9.setChecked(true);
-            text2.setVisibility(View.GONE);
-            radioGroup2.setVisibility(View.GONE);
-        }
-
-        if (getRadioButton10 == true){
-            radioButton10.setChecked(true);
-        }else if (getRadioButton11 == true){
-            radioButton11.setChecked(true);
-        } else if (getRadioButton12 == true) {
-            radioButton12.setChecked(true);
-        }else {
-            radioButton13.setChecked(true);
-        }
-
-        if (getRadioButton21 == true){
-            radioButton21.setChecked(true);
-            visible2.setVisibility(View.VISIBLE);
-        }else {
-            radioButton22.setChecked(true);
-            visible2.setVisibility(View.GONE);
-        }
-
-        edit1.setText(getEdit1);
-        edit2.setText(getYunzhou);
-        
-        if (getJingchangshou == true){
-            jingchangchou.setChecked(true);
-        }else if (getOuerchou == true){
-            ouerchou.setChecked(true);
-        }else {
-            neverchou.setChecked(true);
-        }
-
-        checkBox1.setChecked(getCheckbox1);
-        checkBox2.setChecked(getCheckbox2);
-        checkBox3.setChecked(getCheckbox3);
-        checkBox4.setChecked(getCheckbox4);
-        checkBox5.setChecked(getCheckbox5);
-        checkBox6.setChecked(getCheckbox6);
-        checkBox7.setChecked(getCheckbox7);
-        checkBox8.setChecked(getCheckbox8);
-        checkBox9.setChecked(getCheckbox9);
-        checkBox10.setChecked(getCheckbox10);
-        checkBox11.setChecked(getCheckbox11);
-        edit3.setText(getEdit3);
-
-        selectPlace1.setText(getPlace);
-
-        if (getRadioButton41==true){
-            radioButton41.setChecked(true);
-            selectPlace.setVisibility(View.GONE);
-        }else if (getRadioButton42==true){
-            radioButton42.setChecked(true);
-            selectPlace.setVisibility(View.VISIBLE);
-        }else {
-            radioButton43.setChecked(true);
-            selectPlace.setVisibility(View.VISIBLE);
-        }
-
-        if (getRadioButton51==true){
-            radioButton51.setChecked(true);
-            selectPlace_spi.setVisibility(View.GONE);
-        }else if (getRadioButton52==true){
-            radioButton52.setChecked(true);
-            selectPlace_spi.setVisibility(View.VISIBLE);
-        }else {
-            radioButton53.setChecked(true);
-            selectPlace_spi.setVisibility(View.VISIBLE);
-        }
-
-        if (getRadioButton61==true){
-            radioButton61.setChecked(true);
-        }else if (getRadioButton62==true){
-            radioButton62.setChecked(true);
-        }else {
-            radioButton63.setChecked(true);
-        }
-
-        if (getRadioButton61==true){
-            radioButton71.setChecked(true);
-        }else if (getRadioButton62==true){
-            radioButton72.setChecked(true);
-        }else {
-            radioButton73.setChecked(true);
-        }
-
-        if (getRadioButton61==true){
-            radioButton81.setChecked(true);
-        }else if (getRadioButton62==true){
-            radioButton82.setChecked(true);
-        }else {
-            radioButton83.setChecked(true);
-        }
-
-        if (getRadioButton61==true){
-            radioButton91.setChecked(true);
-        }else if (getRadioButton62==true){
-            radioButton92.setChecked(true);
-        }else {
-            radioButton93.setChecked(true);
-        }
+//        if (getRadioButton61==true){
+//            radioButton91.setChecked(true);
+//        }else if (getRadioButton62==true){
+//            radioButton92.setChecked(true);
+//        }else {
+//            radioButton93.setChecked(true);
+//        }
 
         radioGroup1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -676,7 +937,7 @@ public class Weixian extends AppCompatActivity {
         //加载适配器
         selectPlace_spi.setAdapter(arr_adapter_nation);
 
-        selectPlace_spi.setSelection(getNationposition);
+        //selectPlace_spi.setSelection(getNationposition);
         selectPlace_spi.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -694,6 +955,318 @@ public class Weixian extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showPickerView();
+            }
+        });
+
+        r_back = (ImageView) findViewById(R.id.back);
+        r_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        okay = (TextView) findViewById(R.id.okay);
+        okay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int job_select = 0;
+                if (radioButton1.isChecked()){
+                    job_select = 1;
+                }else if (radioButton2.isChecked()){
+                    job_select = 2;
+                }else if (radioButton3.isChecked()){
+                    job_select = 3;
+                }else if (radioButton4.isChecked()){
+                    job_select = 4;
+                }else if (radioButton5.isChecked()){
+                    job_select = 5;
+                }else if (radioButton6.isChecked()){
+                    job_select = 6;
+                }else if (radioButton7.isChecked()){
+                    job_select = 7;
+                }else if (radioButton8.isChecked()){
+                    job_select =8;
+                }else {
+                    job_select = 9;
+                }
+                int job_detail_select = 0;
+                if (radioButton10.isChecked()){
+                    job_detail_select = 1;
+                }else if (radioButton11.isChecked()){
+                    job_detail_select = 2;
+                }else if (radioButton12.isChecked()){
+                    job_detail_select = 3;
+                }else {
+                    job_detail_select = 4;
+                }
+
+                int is_mannity = 0;
+                if (radioButton21.isChecked()){
+                    is_mannity = 1;
+                }else {
+                    is_mannity = 0;
+                }
+
+                int is_smoke = 0;
+                if (jingchangchou.isChecked()){
+                    is_smoke = 1;
+                }else if (ouerchou.isChecked()){
+                    is_smoke = 2;
+                }else {
+                    is_smoke = 3;
+                }
+
+                final StringBuffer jibingshi = new StringBuffer();
+                if (checkBox1.isChecked()){
+                    jibingshi.append("1");
+                }else {
+                    if (checkBox2.isChecked()){
+                        jibingshi.append("2-");
+                    }
+                    if (checkBox3.isChecked()){
+                        jibingshi.append("3-");
+                    }
+                    if (checkBox4.isChecked()){
+                        jibingshi.append("4-");
+                    }
+                    if (checkBox5.isChecked()){
+                        jibingshi.append("5-");
+                    }
+                    if (checkBox6.isChecked()){
+                        jibingshi.append("6-");
+                    }
+                    if (checkBox7.isChecked()){
+                        jibingshi.append("7-");
+                    }
+                    if (checkBox8.isChecked()){
+                        jibingshi.append("8-");
+                    }
+                    if (checkBox9.isChecked()){
+                        jibingshi.append("9-");
+                    }
+                    if (checkBox10.isChecked()){
+                        jibingshi.append("10-");
+                    }
+                    if (checkBox11.isChecked()){
+                        jibingshi.append("11-");
+                    }
+                }
+                int down1 = 0;
+                if (radioButton41.isChecked()){
+                    down1 = 1;
+                }else if (radioButton42.isChecked()){
+                    down1 = 2;
+                }else {
+                    down1 = 3;
+                }
+
+                int down2 = 0;
+                if (radioButton51.isChecked()){
+                    down2 = 1;
+                }else if (radioButton52.isChecked()){
+                    down2 = 2;
+                }else {
+                    down2 = 3;
+                }
+
+                int down3 = 0;
+                if (radioButton61.isChecked()){
+                    down3 = 1;
+                }else if (radioButton62.isChecked()){
+                    down3 = 2;
+                }else {
+                    down3 = 3;
+                }
+
+                int down4 = 0;
+                if (radioButton71.isChecked()){
+                    down4 = 1;
+                }else if (radioButton72.isChecked()){
+                    down4 = 2;
+                }else {
+                    down4 = 3;
+                }
+
+                int down5 = 0;
+                if (radioButton81.isChecked()){
+                    down5 = 1;
+                }else if (radioButton82.isChecked()){
+                    down5 = 2;
+                }else {
+                    down5 = 3;
+                }
+
+                int down6 = 0;
+                if (radioButton91.isChecked()){
+                    down6 = 1;
+                }else if (radioButton92.isChecked()){
+                    down6 = 2;
+                }else {
+                    down6 = 3;
+                }
+
+                final String ges_w = edit2.getText().toString();
+                final int ges;
+                if (ges_w.length() == 0){
+                    ges = 0;
+                }else {
+                    ges = Integer.parseInt(ges_w);
+                }
+                //dataCommit();
+                final int finalJob_select = job_select;
+                final int finalJob_detail_select = job_detail_select;
+                final int finalIs_mannity = is_mannity;
+                final int finalIs_smoke = is_smoke;
+                final int finalDown = down1;
+                final int finalDown1 = down2;
+                final int finalDown2 = down3;
+                final int finalDown3 = down4;
+                final int finalDown4 = down5;
+                final int finalDown5 = down6;
+                if (!isMe){
+                    builder = new AlertDialog.Builder(Weixian.this).setTitle("重要提醒")
+                            .setMessage("当前为代办模式，是否确认提交？")
+                            .setPositiveButton("提交", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //ToDo: 你想做的事情
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                String postUrl = "http://175.23.169.100:9000/case-danger-exposure/set";
+                                                JSONObject jsonObject = new JSONObject();
+                                                jsonObject.put("transactor_id",current_transId);
+                                                jsonObject.put("job", finalJob_select);
+                                                jsonObject.put("job_detail", finalJob_detail_select);
+                                                jsonObject.put("other_job",edit1.getText().toString());
+                                                jsonObject.put("maternity", finalIs_mannity);
+                                                jsonObject.put("ges_week",ges);
+                                                jsonObject.put("smoke", finalIs_smoke);
+                                                jsonObject.put("dis_his",jibingshi);
+                                                jsonObject.put("other_dis",edit3.getText().toString());
+                                                jsonObject.put("radiobutton1", finalDown);
+                                                jsonObject.put("address",selectPlace1.getText().toString());
+                                                jsonObject.put("radiobutton2", finalDown1);
+                                                jsonObject.put("nation",nationPosition);
+                                                jsonObject.put("radiobutton3", finalDown2);
+                                                jsonObject.put("radiobutton4", finalDown3);
+                                                jsonObject.put("radiobutton5", finalDown4);
+                                                jsonObject.put("radiobutton6", finalDown5);
+
+                                                URL httpUrl = new URL(postUrl);
+                                                HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
+                                                PrintWriter out = null;
+                                                conn.setRequestMethod("POST");
+                                                conn.setReadTimeout(5000);
+                                                conn.setRequestProperty("Content-type", "application/json");
+                                                conn.setDoInput(true);
+                                                conn.setDoOutput(true);
+                                                out = new PrintWriter(conn.getOutputStream());
+                                                out.print(jsonObject);
+                                                out.flush();
+                                                InputStream is = conn.getInputStream();
+                                                BufferedReader reader = new BufferedReader(new InputStreamReader(is,"utf-8"));
+                                                StringBuffer sb = new StringBuffer();
+                                                String str;
+                                                while ((str = reader.readLine()) != null) {
+                                                    sb.append(str);
+                                                }
+                                                JSONObject jsonObj1 = new JSONObject(sb.toString());
+                                                int isUpadteSeccess = jsonObj1.getInt("code");
+                                                if (isUpadteSeccess == 0){
+                                                    editor.putBoolean(current_transId+"hasWeixian",true);
+                                                    editor.commit();
+                                                    Looper.prepare();
+                                                    Toast.makeText(Weixian.this,"提交成功",Toast.LENGTH_SHORT).show();
+                                                    Looper.loop();
+                                                }
+                                            }catch (MalformedURLException e) {
+                                                e.printStackTrace();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }).start();
+                                    dialogInterface.dismiss();
+                                    //onBackPressed();
+                                    Intent intent = new Intent(Weixian.this, Main.class);
+                                    startActivity(intent);
+                                    finish();
+
+                                }
+                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    builder.create().show();
+                }else {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                String postUrl = "http://175.23.169.100:9000/case-danger-exposure/set";
+                                JSONObject jsonObject = new JSONObject();
+                                jsonObject.put("transactor_id",current_transId);
+                                jsonObject.put("job", finalJob_select);
+                                jsonObject.put("job_detail", finalJob_detail_select);
+                                jsonObject.put("other_job",edit1.getText().toString());
+                                jsonObject.put("maternity", finalIs_mannity);
+                                jsonObject.put("ges_week",ges);
+                                jsonObject.put("smoke", finalIs_smoke);
+                                jsonObject.put("dis_his",jibingshi);
+                                jsonObject.put("other_dis",edit3.getText().toString());
+                                jsonObject.put("radiobutton1", finalDown);
+                                jsonObject.put("address",selectPlace1.getText().toString());
+                                jsonObject.put("radiobutton2", finalDown1);
+                                jsonObject.put("nation",nationPosition);
+                                jsonObject.put("radiobutton3", finalDown2);
+                                jsonObject.put("radiobutton4", finalDown3);
+                                jsonObject.put("radiobutton5", finalDown4);
+                                jsonObject.put("radiobutton6", finalDown5);
+
+                                URL httpUrl = new URL(postUrl);
+                                HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
+                                PrintWriter out = null;
+                                conn.setRequestMethod("POST");
+                                conn.setReadTimeout(5000);
+                                conn.setRequestProperty("Content-type", "application/json");
+                                conn.setDoInput(true);
+                                conn.setDoOutput(true);
+                                out = new PrintWriter(conn.getOutputStream());
+                                out.print(jsonObject);
+                                out.flush();
+                                InputStream is = conn.getInputStream();
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(is,"utf-8"));
+                                StringBuffer sb = new StringBuffer();
+                                String str;
+                                while ((str = reader.readLine()) != null) {
+                                    sb.append(str);
+                                }
+                                JSONObject jsonObj1 = new JSONObject(sb.toString());
+                                int isUpadteSeccess = jsonObj1.getInt("code");
+                                if (isUpadteSeccess == 0){
+                                    Looper.prepare();
+                                    Toast.makeText(Weixian.this,"提交成功",Toast.LENGTH_SHORT).show();
+                                    Looper.loop();
+                                }
+                            }catch (MalformedURLException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                    //onBackPressed();
+                }
+
             }
         });
 

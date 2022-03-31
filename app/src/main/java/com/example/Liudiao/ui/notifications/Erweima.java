@@ -1,7 +1,9 @@
 package com.example.Liudiao.ui.notifications;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -24,13 +26,14 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.Liudiao.R;
 import com.example.Liudiao.login.QRLogin;
+import com.example.Liudiao.zxing.encode.CodeCreator;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.yzq.zxinglibrary.common.Constant;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -47,12 +50,21 @@ public class Erweima extends AppCompatActivity {
     private ImageView image;
     private TextView shengcheng;
     private ImageView r_back;
-    private TextView okey;
     private TextView save;
+    private SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+    private String user_phone;
+    private boolean hasQR ;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_erweima);
+
+        preferences = getSharedPreferences("user", Activity.MODE_PRIVATE);
+        editor = preferences.edit();
+        user_phone = preferences.getString("user_phone","");
+        hasQR = preferences.getBoolean(user_phone+"hasQR",false);
+
 
         image = (ImageView) findViewById(R.id.image);
         shengcheng = (TextView) findViewById(R.id.shengcheng);
@@ -65,22 +77,25 @@ public class Erweima extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        okey = (TextView) findViewById(R.id.okey);
-        okey.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //dataCommit();
-                onBackPressed();
-            }
-        });
+
+        if (hasQR == true){
+            Bitmap qrcodeBitmap = createQRCode(user_phone, 800,800);
+            image.setImageBitmap(qrcodeBitmap);
+            shengcheng.setVisibility(View.GONE);
+            save.setVisibility(View.VISIBLE);
+        }
 
         shengcheng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bitmap bitmap = createQRCode("1",image.getHeight(),image.getWidth());
-                image.setImageBitmap(bitmap);
+                Bitmap qrcodeBitmap = createQRCode(user_phone, 800,800);
+                image.setImageBitmap(qrcodeBitmap);
+                //Bitmap bitmap = createQRCode(String.valueOf(current_transId),image.getHeight(),image.getWidth());
+
                 shengcheng.setVisibility(View.GONE);
                 save.setVisibility(View.VISIBLE);
+                editor.putBoolean(user_phone+"hasQR",true);
+                editor.commit();
             }
         });
 
@@ -110,10 +125,10 @@ public class Erweima extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1111) {
             if (data != null) {
-                String content = data.getStringExtra(Constant.CODED_CONTENT);
+                //String content = data.getStringExtra(Constant.CODED_CONTENT);
                 Bitmap bitmap = data.getParcelableExtra("conteng_key");
                 // syncDecodeQRCode(bitmap);
-                Toast.makeText(Erweima.this,"111"+content,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Erweima.this,"111"+content,Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -89,11 +89,12 @@
 
 
                 <EditText
+
                     android:id="@+id/edittext_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="true"
-                    android:gravity="right" />
+                    android:gravity="center" />
 
             </LinearLayout>
 
@@ -169,7 +170,7 @@
                     android:layout_height="wrap_content"/>
 
                 <Spinner
-                    android:background="@drawable/spinner_style"
+
                     android:layout_gravity="center_vertical"
                     android:id="@+id/spinner_old"
                     android:padding="0dp"
@@ -202,7 +203,7 @@
 
                 <Spinner
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/spinner_style"
+
                     android:layout_marginLeft="10dp"
                     android:id="@+id/spinner_zhegnjianleixing"
                     android:padding="0dp"
@@ -233,6 +234,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <EditText
+                    android:digits="1234567890Xx"
+                    android:maxLength="18"
+                    android:inputType="number"
                     android:enabled="true"
                     android:id="@+id/edittext_zhengjian"
                     android:layout_width="0dp"
@@ -260,12 +264,15 @@
                     android:layout_height="wrap_content"/>
 
                 <EditText
+                    android:digits="1234567890"
+                    android:maxLength="11"
+                    android:inputType="phone"
                     android:enabled="true"
                     android:id="@+id/edittext_phone"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:gravity="right" />
+                    android:gravity="center" />
 
             </LinearLayout>
 
@@ -297,7 +304,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/spinner_style"
+
                     android:gravity="right"
                     android:padding="0dp"
                     android:spinnerMode="dropdown"

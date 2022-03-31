@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -16,10 +17,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.Liudiao.R;
+import com.example.Liudiao.ui.home.adpter.FamilyAdapter;
+import com.example.Liudiao.ui.notifications.adapter.DaibanAdapter;
 
 import java.util.ArrayList;
 
 public class Family extends AppCompatActivity {
+
+    private ListView listView;
+    private FamilyAdapter familyAdapter;
 
     private TextView textView;
     private TextView textView2;

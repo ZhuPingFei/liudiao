@@ -65,6 +65,7 @@
 
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/login2_btn"
             android:background="@android:color/white"
             android:textSize="15sp"

@@ -118,7 +118,7 @@
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@id/set_up_image"
                 android:background="@android:color/transparent"
-                android:text="流调代办"
+                android:text="流调办理"
                 android:textSize="17sp" />
 
 
@@ -180,6 +180,7 @@
         >
 
         <Button
+            android:visibility="gone"
             android:id="@+id/user_saoyisao"
             android:textSize="17sp"
             android:text="扫一扫"
