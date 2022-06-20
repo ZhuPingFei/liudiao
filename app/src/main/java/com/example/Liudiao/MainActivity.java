@@ -25,6 +25,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.Liudiao.login.QRLogin;
+import com.example.Liudiao.login.ZhanghaoLogin;
 //import com.yzq.zxinglibrary.android.CaptureActivity;
 
 import org.json.JSONException;
@@ -58,11 +59,9 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView login2;
     private TextView login3;
-    private TextView zidongLogin;
-    private TextView yanzhengLogin;
-    private RelativeLayout yanzheng;
 
     private String last_user_phone;
+    private RelativeLayout yanzheng;
 
     public EventHandler eh; //事件接收器
     private TimeCount mTimeCount;//计时器
@@ -71,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
 
     private int uid = 0;
+    private int authority = 1;
     int loginType = 0;
 
     @Override
@@ -83,8 +83,6 @@ public class MainActivity extends AppCompatActivity {
         phone = (EditText)findViewById(R.id.login_edit_account);
         phone.setInputType(InputType.TYPE_CLASS_PHONE);
         login2 = (TextView) findViewById(R.id.login2_btn);
-        zidongLogin = (TextView) findViewById(R.id.zidongLogin);
-        yanzhengLogin = (TextView) findViewById(R.id.yanzhengLogin);
         yanzheng = (RelativeLayout) findViewById(R.id.yanzheng);
 
         login3 = (TextView) findViewById(R.id.login3_btn);
@@ -93,21 +91,20 @@ public class MainActivity extends AppCompatActivity {
 
         mTimeCount = new TimeCount(60000, 1000);
         login = (Button) findViewById(R.id.login_btn_login);
-        zhijielogin = (Button) findViewById(R.id.login_btn_login2);
         isLogin = false;
         sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();//获取编辑器
         last_user_phone = sharedPreferences.getString("user_phone","");
         final String user_phone = sharedPreferences.getString("user_phone","");
         boolean is_first = sharedPreferences.getBoolean("is_first_login",true);
-        phone.setText(user_phone);
+
         phone.setFocusable(true);
-        if (is_first==true){
-            zidongLogin.setVisibility(View.GONE);
-            yanzhengLogin.setVisibility(View.GONE);
-        }else {
-            zidongLogin.setVisibility(View.VISIBLE);
-        }
+//        if (is_first==true){
+//            zidongLogin.setVisibility(View.GONE);
+//            yanzhengLogin.setVisibility(View.GONE);
+//        }else {
+//            zidongLogin.setVisibility(View.VISIBLE);
+//        }
         //init();
 
         eh = new EventHandler(){
@@ -131,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE){ //获取验证码成功
 
                     } else if (event ==SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES){ //返回支持发送验证码的国家列表
-
                     }
                 } else{
                     ((Throwable)data).printStackTrace();
@@ -163,19 +159,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "手机号不能为空", Toast.LENGTH_SHORT).show();
                 }
 
-//                if(TextUtils.isEmpty(phone.getText().toString().trim())){
-//                    Toast.makeText(MainActivity.this,"手机号不能为空",Toast.LENGTH_SHORT).show();
-//                }else if(!isMobilPhone(phone.getText().toString().trim())){
-//                    Toast.makeText(MainActivity.this,"请输入正确的手机号码",Toast.LENGTH_SHORT).show();
-//                }else {
-//                    editor.putString("user_phone",s);
-//                    editor.putBoolean("is_login",true);
-//                    editor.commit();//提交修改
-//                    Intent intent = new Intent(MainActivity.this,Main.class);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    startActivity(intent);
-//                    finish();
-//                }
+
 
             }
         });
@@ -196,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                                 try{
                                     JSONObject jsonObject = new JSONObject();
                                     jsonObject.put("user_phone",phone.getText().toString());
-                                    String url = "http://175.23.169.100:9000/user/register/";
+                                    String url = "http://175.23.169.100:9030/user/register/";
                                     URL httpUrl = new URL(url);
                                     HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
                                     PrintWriter out = null;
@@ -223,28 +207,6 @@ public class MainActivity extends AppCompatActivity {
                                     Message message = new Message();
                                     int code = jsonObj1.getInt("code");
                                     //conn.disconnect();
-//                    if (code != 502){
-//                        uid = jsonObj1.getInt("user_id");
-//                        editor.putInt("user_id",uid);
-//                        editor.putInt(""+phone.getText().toString(),uid);
-//                        editor.putString("user_phone",phone.getText().toString());
-//                        editor.putBoolean("is_first_login",true);
-//                        editor.putBoolean("is_login",true);
-//                        editor.commit();//提交修改
-//
-//                    }else {
-//                        uid = sharedPreferences.getInt(""+phone.getText().toString(),0);
-//                        editor.putInt("user_id",uid);
-//                        editor.putString("user_phone",phone.getText().toString());
-//                        editor.putBoolean("is_first_login",false);
-//                        editor.putBoolean("is_login",true);
-//                        editor.commit();//提交修改
-//                    }
-//                    Intent intent = new Intent(MainActivity.this,Main.class);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    startActivity(intent);
-//                    finish();
-
 
                                 } catch (MalformedURLException e) {
                                     e.printStackTrace();
@@ -267,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
         login2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,ZhanghaoLogin.class);
+                Intent intent = new Intent(MainActivity.this, ZhanghaoLogin.class);
                 startActivity(intent);
                 finish();
             }
@@ -288,32 +250,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        zidongLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                phone.setText(user_phone);
-                login.setText("直接登录 ");
-                zidongLogin.setVisibility(View.GONE);
-                yanzhengLogin.setVisibility(View.VISIBLE);
-                login.setVisibility(View.GONE);
-                yanzheng.setVisibility(View.GONE);
-                zhijielogin.setVisibility(View.VISIBLE);
-                //phone.setFocusable(false);
-            }
-        });
-
-        yanzhengLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login.setText("登录");
-                yanzhengLogin.setVisibility(View.GONE);
-                zidongLogin.setVisibility(View.VISIBLE);
-                zhijielogin.setVisibility(View.GONE);
-                login.setVisibility(View.VISIBLE);
-                yanzheng.setVisibility(View.VISIBLE);
-                //phone.setFocusable(true);
-            }
-        });
 
         zhijielogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -500,7 +436,7 @@ public class MainActivity extends AppCompatActivity {
                 try{
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("mobile",phone.getText().toString());
-                    String url = "http://175.23.169.100:9000/user/login/phone";
+                    String url = "http://175.23.169.100:9030/user/login/phone";
                     URL httpUrl = new URL(url);
                     HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
                     PrintWriter out = null;
@@ -510,11 +446,7 @@ public class MainActivity extends AppCompatActivity {
                     conn.setDoInput(true);
                     conn.setDoOutput(true);
                     out = new PrintWriter(conn.getOutputStream());
-                    //OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
-                    //发送请求的参数
-                    //String content ="{mobile:"+phone.getText().toString()+"}";
                     out.print(jsonObject);
-
                     out.flush();
                     InputStream is = conn.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(is,"utf-8"));
@@ -528,18 +460,26 @@ public class MainActivity extends AppCompatActivity {
                     int code = jsonObj1.getInt("code");
                     if (code == 0){
                         uid = jsonObj1.getInt("user_id");
+                        authority = jsonObj1.getInt("authority");
                         editor.putInt("user_id",uid);
+
                         // editor.putInt(""+phone.getText().toString(),uid);
-                        editor.putString("user_phone",phone.getText().toString());
+                        if (!(jsonObj1.getString("user_name")+"").equals("") && !(jsonObj1.getString("user_name")+"").equals("null") ){
+                            editor.putString("user_name",jsonObj1.getString("user_name"));
+                        }
+                        if (!(jsonObj1.getString("user_phone")+"").equals("") && !(jsonObj1.getString("user_phone")+"").equals("null") ){
+                            editor.putString("user_phone",jsonObj1.getString("user_phone"));
+                        }
                         editor.putBoolean("is_first_login",false);
                         editor.putBoolean("is_login",true);
+                        editor.putInt("authority",authority);
                         editor.commit();//提交修改
-
                         if (!phone.equals(last_user_phone)){
                             sharedPreferences = getSharedPreferences("daiban", Activity.MODE_PRIVATE);
                             editor = sharedPreferences.edit();
                             editor.putInt("current_banliId",0);
                             editor.putString("current_banliName","未绑定");
+                            editor.putInt("authority",authority);
                             editor.commit();
                         }
                         Intent intent = new Intent(MainActivity.this,Main.class);
@@ -555,16 +495,7 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this,"登录失败！",Toast.LENGTH_SHORT).show();
                             }
                         });
-//                        uid = sharedPreferences.getInt(""+phone.getText().toString(),0);
-//                        editor.putInt("user_id",uid);
-//                        editor.putString("user_phone",phone.getText().toString());
-//                        editor.putBoolean("is_first_login",false);
-//                        editor.putBoolean("is_login",true);
-//                        editor.commit();//提交修改
                     }
-
-
-
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (IOException e) {

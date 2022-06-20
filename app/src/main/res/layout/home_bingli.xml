@@ -8,7 +8,6 @@
     <RelativeLayout
         android:clipToPadding="true"
         android:fitsSystemWindows="true"
-        android:id="@+id/My_collection_buju1"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="#10BD10">
@@ -19,13 +18,11 @@
             android:id="@+id/back"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
             />
 
         <TextView
             android:layout_centerVertical="true"
-            android:id="@+id/My_collection"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:gravity="center"
@@ -53,7 +50,6 @@
         android:id="@+id/biaoti"
         android:text="请填写病例发现与就诊信息"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
         android:textSize="20dp"
         android:textColor="@android:color/black"
         android:layout_width="match_parent"
@@ -64,6 +60,8 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -85,7 +83,7 @@
                     android:text="1.病例发现途径"
                     android:textSize="17sp" />
 
-                <LinearLayout
+                <RadioGroup
                     android:id="@+id/bingli_line1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -94,37 +92,83 @@
                     android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
+                    <RadioButton
+                        android:text="集中隔离"
+                        android:id="@+id/radioButton1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="居家隔离"
+                        android:id="@+id/radioButton2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="封控区筛查"
+                        android:id="@+id/radioButton3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="管控区筛查"
+                        android:id="@+id/radioButton4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="社区筛查"
+                        android:id="@+id/radioButton5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="主动就诊"
+                        android:id="@+id/radioButton6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="主动检测"
+                        android:id="@+id/radioButton7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="重点人员筛查"
+                        android:id="@+id/radioButton8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
                     <CheckBox
+                        android:visibility="gone"
                         android:id="@+id/checkbox11"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="主动就诊" />
 
                     <CheckBox
+                        android:visibility="gone"
                         android:id="@+id/checkbox12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="密接管理发现" />
 
                     <CheckBox
+                        android:visibility="gone"
                         android:id="@+id/checkbox13"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="入境筛查" />
 
                     <CheckBox
+                        android:visibility="gone"
                         android:id="@+id/checkbox14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="人群主动筛查" />
 
                     <CheckBox
+                        android:visibility="gone"
                         android:id="@+id/checkbox15"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="不明原因肺炎、SARI等检测发现" />
 
-                </LinearLayout>
+                </RadioGroup>
 
 
                 <RelativeLayout
@@ -335,7 +379,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:id="@+id/bushizhengzhuang_other"
                     android:layout_below="@+id/bushizhengzhuang_line1"
                     android:background="@android:color/white"
                     android:orientation="horizontal">
@@ -355,6 +399,40 @@
                         android:layout_toRightOf="@+id/qitabushi_text"
                         android:gravity="right|center_horizontal" />
                 </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/bushizhengzhuang_other"
+                    android:background="@android:color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tiwen_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="体温"
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:maxLength="4"
+                        android:inputType="number"
+                        android:digits="0123456789."
+                        android:id="@+id/tiwen_edit"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/tiwen_text"
+                        android:gravity="right|center_horizontal" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="℃"
+                        android:textSize="17sp"
+                        android:layout_alignParentRight="true" />
+                </LinearLayout>
 
             </RelativeLayout>
 
@@ -481,25 +559,25 @@
                         android:id="@+id/checkbox36"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="癫痫" />
+                        android:text="急性肾损伤" />
 
                     <CheckBox
                         android:id="@+id/checkbox37"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="急性肾损伤" />
+                        android:text="癫痫" />
 
                     <CheckBox
                         android:id="@+id/checkbox38"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="急性肺损伤/ARDS" />
+                        android:text="继发细菌性肺炎" />
 
                     <CheckBox
                         android:id="@+id/checkbox39"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="继发细菌性肺炎" />
+                        android:text="其他" />
 
                 </LinearLayout>
 
@@ -611,12 +689,37 @@
                     android:layout_alignParentRight="true"
                     android:id="@+id/select_ct_date"
                     android:gravity="right"
-                    android:text="选择日期"
                     android:textSize="17sp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
             </RelativeLayout>
+
+            <LinearLayout
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/bingli_ruyuandate_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+                <TextView
+                    android:text="5.入院日期"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/select_ruyuandate"
+                    android:gravity="right"
+                    android:textSize="17sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:background="@android:color/white"
@@ -628,26 +731,207 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp">
                 <TextView
-                    android:id="@+id/text_born"
-                    android:text="5.出院日期"
+                    android:text="6.出院日期"
                     android:textSize="17sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"/>
-                <TextView
                     android:id="@+id/select_chuyuandate"
                     android:gravity="right"
-                    android:text="选择日期"
                     android:textSize="17sp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
 
             </LinearLayout>
+            <LinearLayout
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+                <TextView
+                    android:text="7.实验室检测情况"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:background="@android:color/white"
+
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+                <TextView
+                    android:text="末次核酸阴性采样时间"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/select_yinxing"
+                    android:gravity="right"
+                    android:textSize="17sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:background="@android:color/white"
+
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+                <TextView
+                    android:text="首次核酸阳性采样时间"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/select_yangxing"
+                    android:gravity="right"
+                    android:textSize="17sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/bingli_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="8.目前现状"
+                    android:textSize="17sp" />
+
+                <RadioGroup
+                    android:id="@+id/bingli_statusGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/bingli_status"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:text="居家隔离（贴封条）"
+                        android:id="@+id/radioButton81"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="集中隔离（政府指定的隔离地点）"
+                        android:id="@+id/radioButton82"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="封控区居住（现住地是否在封控区域内）"
+                        android:id="@+id/radioButton83"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="因新冠在医院治疗（方舱、各级定点收治医疗机构）"
+                        android:id="@+id/radioButton84"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="在管控区居住（现住地是否在管控区域内）"
+                        android:id="@+id/radioButton85"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="在家自行隔离（未贴封条）"
+                        android:id="@+id/radioButton86"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="在工作单位自行隔离"
+                        android:id="@+id/radioButton87"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="在车辆、仓库、车库、停车场等临时场所自行隔离"
+                        android:id="@+id/radioButton88"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="因其他疾病在医院治疗"
+                        android:id="@+id/radioButton89"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="发热门诊"
+                        android:id="@+id/radioButton810"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="因疫情防控、出差等原因滞留在酒店、单位、宿舍等地居住（非集中隔离地点）"
+                        android:id="@+id/radioButton811"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="正在转运中"
+                        android:id="@+id/radioButton812"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <RadioButton
+                        android:text="密接人员近四日核酸检测阳性"
+                        android:id="@+id/radioButton813"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </RadioGroup>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/bingli_statusGroup"
+                    android:background="@android:color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/bingli_otherxianzhuang_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="其他情况"
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:id="@+id/bingli_otherxianzhuang_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/bingli_otherxianzhuang_text"
+                        android:gravity="right|center_horizontal" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
 
             <ImageView
                 android:layout_width="match_parent"

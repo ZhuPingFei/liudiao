@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#10BD10">
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/r_back"
+            android:id="@+id/back"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="隐私政策"
+            android:textColor="#ffffff"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+    <ScrollView
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:text="流调APP隐私政策"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textStyle="bold"
+                android:gravity="right"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="更新日期：2022年4月15日"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="25dp"
+                android:layout_marginLeft="30dp"
+                android:text="【引言】"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="        流调App开发方吉林大学符号计算与知识工程国家重点实验室（“我们”） 尊重并保护所有使用服务用户的个人隐私权。为了给您提供更准确、更有个性化的服务，我们会按照本隐私权政策的规定使用和披露您的个人信息。但我们将以高度的勤勉、审慎义务对待这些信息。除本隐私权政策另有规定外，在未征得您事先许可的情况下，我们不会将这些信息对外披露或向第三方提供。我们会不时更新本隐私权政策。您在同意我们服务使用协议之时，即视为您已经同意本隐私权政策全部内容。本隐私权政策属于我们服务使用协议不可分割的一部分。"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="30dp"
+                android:text="本隐私政策将帮助您了解以下内容："
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="30dp"
+                android:text="一、适用范围"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="30dp"
+                android:text="二、信息使用"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="30dp"
+                android:text="三、信息披露"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="30dp"
+                android:text="四、信息存储和交换"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="30dp"
+                android:text="五、信息安全"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="30dp"
+                android:text="六、其他功能及附加条款"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"
+                android:text="        一、适用范围"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="        在您使用我们网络服务时，我们自动接收并记录的您的访问日期和时间、填写的个人与代填的流行病学调查信息等数据；\n        我们通过合法途径从其他服务提供商（移动运营商及地图服务提供商）处取得的用户个人数据。
+        \n        您了解并同意，以下信息不适用本隐私权政策：
+        \n        1.我们收集到的您对我们发布的有关信息数据，包括但不限于参与活动及评价详情；
+        \n        2.违反法律规定或违反我们规则行为及我们已对您采取的措施。"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"
+                android:text="        二、信息使用"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="        我们不会向任何无关第三方提供、出售、出租、分享或交易您的个人信息，除非事先得到您的许可，或该第三方和我们（含我们关联公司）单独或共同为您提供服务，且在该服务结束后，其将被禁止访问包括其以前能够访问的所有这些资料。
+        \n        我们亦不允许任何第三方以任何手段收集、编辑、出售或者无偿传播您的个人信息。任何我们平台用户如从事上述活动，一经发现，我们有权立即终止与该用户的服务协议。
+        \n        为服务用户的目的，我们可能通过使用您的个人信息，向您提供您感兴趣的信息，包括但不限于向您发出产品和服务信息，以及流行病学传播过程中的针对性建议和风险提示。"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"
+                android:text="        三、信息披露"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="        在如下情况下，我们将依据您的个人意愿或法律的规定全部或部分的披露您的个人信息：
+        \n        1.经您事先同意，向第三方披露；
+        \n        2.为提供您所要求的产品和服务，而必须和第三方分享您的个人信息；
+        \n        3.根据法律的有关规定，或者行政或司法机构的要求，向第三方或者行政、司法机构披露；
+        \n        4.如您出现违反中国有关法律、法规或者我们服务协议或相关规则的情况，需要向第三方披露；
+        \n        5.如您是适格的知识产权投诉人并已提起投诉，应被投诉人要求，向被投诉人披露，以便双方处理可能的权利纠纷；"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"
+                android:text="        四、信息存储和交换"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="        我们收集的有关您的信息和资料将保存在我们及（或）其关联公司的服务器上，这些信息和资料不会传送至中华人民共和国外任何国家和地区，不会再收集信息和资料所在地的境外被访问、存储和展示。"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"
+                android:text="        五、信息安全"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="        在使用我们网络服务进行流行病学调查时，您不可避免的要向调查方或潜在的调查方披露自己的个人信息，如联络方式或者行程信息。请您妥善保护自己的个人信息，仅在必要的情形下向他人提供。如您发现自己的个人信息泄密，尤其是我们用户名及密码发生泄露，请您立即联络我们客服，以便我们采取相应措施。"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"
+                android:text="        六、其他功能及附加条款"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="        我们使用了第三方（上海游昆信息技术有限公司，以下称“MobTech”）MobTech SMSSDK服务为您提供获取验证码功能。为了顺利实现该功能，您需要授权MobTechSDK提供对应的服务;在您授权后，MobTech将收集您相关的个人信息。关于MobTech所收集的信息种类、用途、个人信息保护的规则及退出机制等，详见MobTech官网（www.mob.com）上的隐私政策 （www.mob.com/about/policy）条款。"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -241,4 +241,9 @@ public class Family extends AppCompatActivity {
         editor.putString("family_phone4",phone4.getText().toString());
         editor.commit();
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onCreate(null);
+    }
 }

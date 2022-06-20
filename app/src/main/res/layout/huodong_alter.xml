@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#f0f0f0"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#10BD10">
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/r_back"
+            android:id="@+id/back"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="行程修改"
+            android:textColor="#ffffff"
+
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/okay"
+            android:layout_marginRight="10dp"
+            android:textSize="20sp"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/white"
+            android:layout_centerVertical="true"
+            android:text="完成"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </RelativeLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:background="@android:color/white"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:id="@+id/xingcheng_qidianText"
+                android:text="行程地区"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:background="@android:color/white"
+                android:padding="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/huodong_select_place"
+                android:text="选择地区"
+                android:textSize="17sp"
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
+
+            <TextView
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:text="行程地址"
+                android:textSize="17sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:background="@android:color/white"
+                android:padding="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:enabled="true"
+                android:id="@+id/huodong_detailPlace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right" />
+
+            <RelativeLayout
+                android:padding="10dp"
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/xingcheng_qidianDate"
+                android:layout_below="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/t1"
+                    android:text="行程开始日期"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/huodong_date"
+                    android:layout_toRightOf="@+id/t1"
+                    android:textSize="17sp"
+                    android:gravity="right"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:padding="10dp"
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+
+                android:layout_below="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/t2"
+                    android:text="开始时间"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/huodong_startTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/t2"
+                    android:drawableRight="@drawable/ic_navigate_next_black_24dp"
+                    android:gravity="right"
+                    android:textSize="17sp" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:padding="10dp"
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/xingcheng_endDate"
+                android:layout_below="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/t_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="行程结束日期"
+                    android:textSize="17sp" />
+                <TextView
+                    android:id="@+id/end_date"
+                    android:layout_toRightOf="@+id/t_end"
+                    android:textSize="17sp"
+                    android:gravity="right"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:padding="10dp"
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+
+                android:layout_below="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/t3"
+                    android:text="结束时间"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_toRightOf="@+id/t3"
+                    android:gravity="right"
+                    android:id="@+id/huodong_endTime"
+
+                    android:textSize="17sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:visibility="gone"
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:text="活动举办单位（选填）"
+                android:textSize="17sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:visibility="gone"
+                android:background="@android:color/white"
+                android:padding="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:enabled="true"
+                android:id="@+id/huodongdanwei_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right" />
+
+
+            <TextView
+                android:background="@android:color/white"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:text="情况描述（交通方式）"
+                android:textSize="17sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:background="@android:color/white"
+                android:padding="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="150dp">
+                <EditText
+                    android:background="@drawable/spinner_style"
+                    android:enabled="true"
+                    android:id="@+id/huodong_Detail_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left" />
+            </LinearLayout>
+
+            <ImageView
+                android:background="@android:color/white"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

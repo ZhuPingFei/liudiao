@@ -39,12 +39,10 @@
                 android:textSize="17sp"
                 android:layout_below="@+id/zhanwei"
                 android:id="@+id/login_edit_account"
-                android:digits="1234567890"
-                android:maxLength="11"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
+                android:inputType="text"
                 android:hint="输入账号"
                 />
         </LinearLayout>
@@ -70,12 +68,10 @@
                 android:textSize="17sp"
                 android:layout_below="@+id/zhanwei"
                 android:id="@+id/login_edit_key"
-                android:digits="1234567890"
-                android:maxLength="11"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
+                android:inputType="textPassword"
                 android:hint="输入密码"
                 />
         </LinearLayout>
@@ -87,7 +83,7 @@
             android:text="登陆"
             android:layout_marginRight="45dp"
             android:layout_marginLeft="45dp"
-            android:id="@+id/login1_btn_login"
+            android:id="@+id/login"
             android:onClick="finish_login"
             android:background="@drawable/login_bt_shape2"
             android:textSize="20dp"
@@ -95,6 +91,32 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="80dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:layout_marginLeft="45dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.AppCompat.CompoundButton.RadioButton"
+                    android:gravity="center"
+                    android:id="@+id/xieyi"
+                    android:text="您已阅读并同意"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp">
+            </CheckBox>
+            <TextView
+                android:id="@+id/xieyi_text"
+                android:layout_gravity="center_vertical"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:text="《流调APP用户隐私权政策》"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
 
 
 
@@ -120,6 +142,7 @@
 
 
         <TextView
+            android:id="@+id/login2_btn"
             android:background="@android:color/white"
             android:textSize="15sp"
             android:text="二维码登录"
@@ -129,12 +152,4 @@
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
-
-
-
-
-
-
-
-
 </LinearLayout>

@@ -8,7 +8,6 @@
     <RelativeLayout
         android:clipToPadding="true"
         android:fitsSystemWindows="true"
-        android:id="@+id/My_collection_buju1"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="#10BD10">
@@ -19,17 +18,15 @@
             android:id="@+id/back"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
             />
 
         <TextView
             android:layout_centerVertical="true"
-            android:id="@+id/My_collection"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:gravity="center"
-            android:text="行程修改"
+            android:text="旅程修改"
             android:textColor="#ffffff"
             android:layout_centerHorizontal="true"
             android:textSize="20sp" />
@@ -52,6 +49,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -298,7 +297,7 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/t3"
-                    android:text="终点日期"
+                    android:text="到达日期"
                     android:textSize="17sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -340,6 +339,9 @@
                     android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
 
             </RelativeLayout>
+
+
+
 
 
             <ImageView

@@ -21,14 +21,15 @@
             <ImageView
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/jibenzhuangkuang_image"
-                android:layout_width="85dp"
-                android:layout_height="85dp" />
+                android:layout_width="75dp"
+                android:layout_height="75dp" />
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_gravity="center_horizontal"
                 android:text="基本状况"
-                android:layout_marginTop="7dp"
-                android:textSize="16sp"
+                android:layout_marginTop="5dp"
+                android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -44,20 +45,46 @@
             <ImageView
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/familymemeber_image"
-                android:layout_width="85dp"
-                android:layout_height="85dp" />
+                android:layout_width="75dp"
+                android:layout_height="75dp" />
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_gravity="center_horizontal"
-                android:text="家庭成员"
-                android:layout_marginTop="7dp"
-                android:textSize="16sp"
+                android:text="密接家庭成员"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/gongneng3"
+            android:id="@+id/gongneng8"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/mijie"
+                android:layout_width="75dp"
+                android:layout_height="75dp" />
+
+            <TextView
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="密接其他人员"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/gongneng6"
             android:orientation="vertical"
             android:layout_toRightOf="@id/gongneng2"
             android:layout_width="0dp"
@@ -66,40 +93,24 @@
 
             <ImageView
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/jiankangzhuangkuang_image"
-                android:layout_width="85dp"
-                android:layout_height="85dp" />
+                android:src="@drawable/binglifaxian"
+                android:layout_width="75dp"
+                android:layout_height="75dp" />
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_gravity="center_horizontal"
-                android:text="健康状况"
-                android:layout_marginTop="7dp"
-                android:textSize="16sp"
+                android:text="病例发现"
+                android:layout_marginTop="5dp"
+                android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/gongneng4"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
 
-            <ImageView
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/jingwai_image"
-                android:layout_width="85dp"
-                android:layout_height="85dp" />
 
-            <TextView
-                android:layout_gravity="center_horizontal"
-                android:text="境外输入"
-                android:layout_marginTop="7dp"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+
+
     </LinearLayout>
 
     <LinearLayout
@@ -107,7 +118,7 @@
         android:layout_marginLeft="10dp"
         android:id="@+id/list2"
         android:layout_below="@id/list1"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -124,20 +135,21 @@
             <ImageView
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/jiezhong_image"
-                android:layout_width="85dp"
-                android:layout_height="85dp" />
+                android:layout_width="75dp"
+                android:layout_height="75dp" />
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_gravity="center_horizontal"
                 android:text="接种信息"
-                android:layout_marginTop="7dp"
-                android:textSize="16sp"
+                android:layout_marginTop="5dp"
+                android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/gongneng6"
+            android:id="@+id/gongneng3"
             android:orientation="vertical"
             android:layout_toRightOf="@id/gongneng2"
             android:layout_width="0dp"
@@ -146,18 +158,20 @@
 
             <ImageView
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/binglifaxian"
-                android:layout_width="85dp"
-                android:layout_height="85dp" />
+                android:src="@drawable/jiankangzhuangkuang_image"
+                android:layout_width="75dp"
+                android:layout_height="75dp" />
 
             <TextView
-                android:layout_gravity="center_horizontal"
-                android:text="病例发现"
-                android:layout_marginTop="7dp"
-                android:textSize="16sp"
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:text="健康状况"
+                android:textSize="13sp" />
         </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/gongneng7"
@@ -169,19 +183,21 @@
             <ImageView
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/weixianyinsu"
-                android:layout_width="85dp"
-                android:layout_height="85dp" />
+                android:layout_width="75dp"
+                android:layout_height="75dp" />
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_gravity="center_horizontal"
                 android:text="危险因素"
-                android:layout_marginTop="7dp"
-                android:textSize="16sp"
+                android:layout_marginTop="5dp"
+                android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
+
         <LinearLayout
-            android:id="@+id/gongneng8"
+            android:id="@+id/gongneng4"
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -189,19 +205,21 @@
 
             <ImageView
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/caiyangjiance"
-                android:layout_width="85dp"
-                android:layout_height="85dp" />
+                android:src="@drawable/jingwai_image"
+                android:layout_width="75dp"
+                android:layout_height="75dp" />
 
             <TextView
-                android:textColor="@android:color/darker_gray"
-                android:layout_gravity="center_horizontal"
-                android:text="采样检测"
-                android:layout_marginTop="7dp"
-                android:textSize="16sp"
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:text="境外输入"
+                android:textSize="13sp" />
         </LinearLayout>
+
+
     </LinearLayout>
 
     <LinearLayout
@@ -209,10 +227,11 @@
         android:layout_marginLeft="10dp"
         android:id="@+id/list3"
         android:layout_below="@+id/list2"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:id="@+id/gongneng9"
             android:orientation="vertical"
@@ -222,20 +241,19 @@
 
             <ImageView
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/jiyincexu"
-                android:layout_width="85dp"
-                android:layout_height="85dp" />
+                android:src="@drawable/baogao"
+                android:layout_width="75dp"
+                android:layout_height="75dp" />
 
             <TextView
-                android:textColor="@android:color/darker_gray"
+                android:textColor="@color/black"
                 android:layout_gravity="center_horizontal"
-                android:text="基因测序"
-                android:layout_marginTop="7dp"
-                android:textSize="16sp"
+                android:text="流调报告"
+                android:layout_marginTop="5dp"
+                android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/gongneng10"
             android:orientation="vertical"
@@ -245,19 +263,20 @@
 
             <ImageView
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/huanzhe_image"
-                android:layout_width="85dp"
-                android:layout_height="85dp" />
+                android:src="@drawable/jiyincexu"
+                android:layout_width="75dp"
+                android:layout_height="75dp" />
 
             <TextView
-                android:layout_gravity="center_horizontal"
                 android:textColor="@android:color/darker_gray"
-                android:text="患者信息"
-                android:layout_marginTop="7dp"
-                android:textSize="16sp"
+                android:layout_gravity="center_horizontal"
+                android:text="基因测序"
+                android:layout_marginTop="5dp"
+                android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/gongneng11"
             android:orientation="vertical"
@@ -267,28 +286,41 @@
 
             <ImageView
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/yuyin_image"
-                android:layout_width="85dp"
-                android:layout_height="85dp" />
+                android:src="@drawable/huanzhe_image"
+                android:layout_width="75dp"
+                android:layout_height="75dp" />
 
             <TextView
                 android:layout_gravity="center_horizontal"
                 android:textColor="@android:color/darker_gray"
-                android:text="语音录入"
-                android:layout_marginTop="7dp"
-                android:textSize="16sp"
+                android:text="患者信息"
+                android:layout_marginTop="5dp"
+                android:textSize="13sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/gongneng12"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/caiyangjiance"
+                android:layout_width="75dp"
+                android:layout_height="75dp" />
+
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:textColor="@android:color/darker_gray"
+                android:text="采样检测"
+                android:layout_marginTop="5dp"
+                android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
 
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"/>
     </LinearLayout>
-
-
-
-
 </RelativeLayout>

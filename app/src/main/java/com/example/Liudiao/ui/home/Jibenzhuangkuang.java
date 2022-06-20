@@ -12,7 +12,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -53,6 +55,7 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -66,7 +69,12 @@ public class Jibenzhuangkuang extends AppCompatActivity {
     SharedPreferences.Editor editor;
 
     private int current_transId;
+    private String current_banliName;
+    private String idCard;
     private boolean isMe;
+    private int age;
+    private int idcard_sex;
+    private String bornDate;
 
     private String str1;
     private String str2;
@@ -80,20 +88,22 @@ public class Jibenzhuangkuang extends AppCompatActivity {
     private ArrayList<String> old = new ArrayList<>();
     private ArrayList<String> zhengjianleixing = new ArrayList<String>();
     //private ArrayList<String> job = new ArrayList<String>();
-    private String[] job = {"教师","工人","记者","厨师","医务人员","司机","军人","律师","会计","出纳",
-            "作家","程序员","模特","警察","公职人员","保安","其他"};
+    private String[] job = {"","幼托儿童","散居儿童","学生（大中小学）","教师","保育员及保姆","餐饮食品业","商业服务","医务人员","工人","民工",
+            "农民","渔（船）民","干部职员","离退人员","家务及待业","其他","不详"};
 
     private Spinner spinner_old;
     private int selectOld;
     private Spinner spinner_zhengjianleixing;
     private int selectZhengjian;
     private Spinner spinner_job;
+    private String str_job;
     private int selectJob;
-    private TextView seleteDate;
     private TextView selecePlace;
     private ImageView r_back;
     private TextView okey;
     private EditText name;
+    private EditText workUnit;
+    private String unit_baogao;
     private RadioGroup radioGroup;
     private RadioButton radioButton1;
     private RadioButton radioButton2;
@@ -119,9 +129,15 @@ public class Jibenzhuangkuang extends AppCompatActivity {
     private AlertDialog.Builder builder;
     private ProgressDialog progressDialog;
 
+    private boolean isZhengjianRight;
+
     private ArrayList<ArraJsonBean> options1Items = new ArrayList<>(); //省
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();//市
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>(); //区
+
+    private Handler handler2 = new Handler();
+    private Runnable runnable;
+
 
     private Handler handler = new Handler() {
         @Override
@@ -140,12 +156,12 @@ public class Jibenzhuangkuang extends AppCompatActivity {
                 String address = bd.getString("address");
                 String address_detail = bd.getString("address_detail");
                 String date = bd.getString("birth_date");
+                String unit = bd.getString("job_address");
                 name = (EditText) findViewById(R.id.edittext_name);
                 radioButton1 = (RadioButton)findViewById(R.id.sex_radioButton1);
                 radioButton2 = (RadioButton)findViewById(R.id.sex_radioButton2);
-                name = (EditText) findViewById(R.id.edittext_name);
+                workUnit = (EditText) findViewById(R.id.edittext_workunit);
                 radioGroup = (RadioGroup) findViewById(R.id.sex_radiogroup);
-                seleteDate = (TextView) findViewById(R.id.select_borndate);
                 selecePlace = (TextView) findViewById(R.id.select_place);
                 spinner_old = (Spinner) findViewById(R.id.spinner_old);
                 spinner_zhengjianleixing = (Spinner) findViewById(R.id.spinner_zhegnjianleixing);
@@ -170,6 +186,13 @@ public class Jibenzhuangkuang extends AppCompatActivity {
                 homePlace.setText(address);
                 homePlacedetail.setText(address_detail);
                 borndate.setText(date);
+
+                //4.9
+                if (unit.equals("null")||unit.equals("")){
+                    workUnit.setText("");
+                }else {
+                    workUnit.setText(unit);
+                }
             }
         }
     };
@@ -181,12 +204,102 @@ public class Jibenzhuangkuang extends AppCompatActivity {
         setContentView(R.layout.home_jibenzhuangkuang);
 
         radioGroup = (RadioGroup) findViewById(R.id.sex_radiogroup);
+        radioButton1 = (RadioButton)findViewById(R.id.sex_radioButton1);
+        radioButton2 = (RadioButton)findViewById(R.id.sex_radioButton2);
+        name = (EditText) findViewById(R.id.edittext_name);
+
+        name.setEnabled(false);//不让改名
+
+        workUnit = (EditText) findViewById(R.id.edittext_workunit);
+        radioGroup = (RadioGroup) findViewById(R.id.sex_radiogroup);
+        selecePlace = (TextView) findViewById(R.id.select_place);
+        spinner_old = (Spinner) findViewById(R.id.spinner_old);
+        spinner_zhengjianleixing = (Spinner) findViewById(R.id.spinner_zhegnjianleixing);
+        spinner_job = (Spinner) findViewById(R.id.spinner_job);
+        zhengjianedit = (EditText) findViewById(R.id.edittext_zhengjian);
+
+        zhengjianedit.setEnabled(false);
+
+
+        phone = (EditText) findViewById(R.id.edittext_phone);
+        phone.setInputType(InputType.TYPE_CLASS_PHONE);
+
+        borndate = (TextView)findViewById(R.id.select_borndate);
+        homePlace = (TextView)findViewById(R.id.select_place);
+        homePlacedetail = (EditText) findViewById(R.id.edittext_homeplacedetail);
 
         preferences = getSharedPreferences("daiban",Activity.MODE_PRIVATE);
         editor = preferences.edit();
         current_transId = preferences.getInt("current_banliId",0);
+        current_banliName = preferences.getString("current_banliName","");
+        idCard = preferences.getString("idCard","");
+
         Log.d("JIbne", "current_banliId "+current_transId);
         isMe = preferences.getBoolean("isMe",false);
+
+        StringBuffer stringBuffer = new StringBuffer("");
+        int age1 = 0;
+        if (idCard.length()==18){
+            idcard_sex = idCard.toCharArray()[16];
+            idcard_sex = idcard_sex - 48;
+            stringBuffer = new StringBuffer();
+            stringBuffer.append(idCard.substring(6,10));
+            age1 = Integer.parseInt(stringBuffer.toString());
+            stringBuffer.append("-");
+            stringBuffer.append(idCard.substring(10,12));
+            stringBuffer.append("-");
+            stringBuffer.append(idCard.substring(12,14));
+
+            if (idcard_sex%2 == 0){
+                radioButton2.setChecked(true);
+            }else {
+                radioButton1.setChecked(true);
+            }
+        }
+        age = 2022 - age1;
+
+        phone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(final Editable s) {
+                if (runnable != null) {
+                    handler2.removeCallbacks(runnable);
+                }
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!isMobilPhone(s.toString())){
+                            Toast.makeText(Jibenzhuangkuang.this,"请填写正确的手机号！",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                };
+                handler2.postDelayed(runnable, 1500);
+            }
+        });
+        
+
+
+//        if (!current_banliName.equals("本人")){
+            String strName = current_banliName;
+            name.setText(strName);
+//            name.setFocusable(false);
+            zhengjianedit.setText(idCard);
+//            zhengjianedit.setFocusable(false);
+            borndate.setText(stringBuffer.toString());
+//        }else {
+//            name.setFocusable(true);
+//            zhengjianedit.setFocusable(true);
+//        }
+
 
 
         r_back = (ImageView) findViewById(R.id.back);
@@ -199,71 +312,18 @@ public class Jibenzhuangkuang extends AppCompatActivity {
         okey = (TextView) findViewById(R.id.okey);
 
 
-        String url = "http://175.23.169.100:9000/personal/getPersonal";
+        String url = "http://175.23.169.100:9030/personal/getPersonal";
         RequestJibenThread rdt = new RequestJibenThread(url,current_transId,handler);
         rdt.start();
 
 
-        for (int i = 1;i<100;i++){
+        for (int i = 1;i<120;i++){
             old.add(Integer.toString(i));
         }
         zhengjianleixing.add("居民身份证");
-        zhengjianleixing.add("护照");
         zhengjianleixing.add("港澳台居民来往通行证");
+        zhengjianleixing.add("护照");
 
-//        preferences = getSharedPreferences("user_jibenzhuangkuang", Activity.MODE_PRIVATE);
-//        editor = preferences.edit();
-//        final SharedPreferences.Editor editor = preferences.edit();//获取编辑器
-//        String getName =preferences.getString("jibenzhuangkuang_name","");
-//        boolean getSex_man = preferences.getBoolean("jibenzhuangkuang_sexMan", Boolean.parseBoolean(""));
-//        boolean getSex_woman = preferences.getBoolean("jibenzhuangkuang_sexWoman", Boolean.parseBoolean(""));
-//        int getOld = preferences.getInt("jibenzhuangkuang_old", 0);
-//        int getZhengjian = preferences.getInt("jibenzhuangkuang_zhengjian",0);
-//        int getJob = preferences.getInt("jibenzhuangkuang_job",0);
-//        String zhengjian = preferences.getString("jibenzhuangkuang_zhengjianhaoma","");
-//        String getPhone = preferences.getString("jibenzhuangkuang_phone","");
-//        String getBorndate = preferences.getString("jibenzhuangkuang_borndate","");
-//        String getHomeplace = preferences.getString("jibenzhuangkuang_homeplace","");
-//        String getHomeplacedetail = preferences.getString("jibenzhuangkuang_homeplaceDetail","");
-
-
-        radioButton1 = (RadioButton)findViewById(R.id.sex_radioButton1);
-        radioButton2 = (RadioButton)findViewById(R.id.sex_radioButton2);
-        name = (EditText) findViewById(R.id.edittext_name);
-        radioGroup = (RadioGroup) findViewById(R.id.sex_radiogroup);
-        seleteDate = (TextView) findViewById(R.id.select_borndate);
-        selecePlace = (TextView) findViewById(R.id.select_place);
-        spinner_old = (Spinner) findViewById(R.id.spinner_old);
-        spinner_zhengjianleixing = (Spinner) findViewById(R.id.spinner_zhegnjianleixing);
-        spinner_job = (Spinner) findViewById(R.id.spinner_job);
-        zhengjianedit = (EditText) findViewById(R.id.edittext_zhengjian);
-        phone = (EditText) findViewById(R.id.edittext_phone);
-        phone.setInputType(InputType.TYPE_CLASS_PHONE);
-
-        borndate = (TextView)findViewById(R.id.select_borndate);
-        homePlace = (TextView)findViewById(R.id.select_place);
-        homePlacedetail = (EditText) findViewById(R.id.edittext_homeplacedetail);
-
-//        name.setText(getName);
-//
-//
-//        if (getSex_man == false){
-//            radioButton2.setChecked(true);
-//        }else {
-//            radioButton1.setChecked(true);
-//        }
-//        zhengjianedit.setText(zhengjian);
-//        phone.setText(getPhone);
-//        borndate.setText(getBorndate);
-//        homePlace.setText(getHomeplace);
-//        homePlacedetail.setText(getHomeplacedetail);
-
-
-
-
-        //str1 =(String)spinner_old.getSelectedItem();
-        // str2 =(String)spinner_zhengjianleixing.getSelectedItem();
-        //str3 =(String)spinner_job.getSelectedItem();
         arr_adapter_old = new ArrayAdapter<String>(Jibenzhuangkuang.this, R.layout.simple_spinner_item, old);
         arr_adapter_zhegnjianleixing = new ArrayAdapter<String>(Jibenzhuangkuang.this,R.layout.simple_spinner_item,zhengjianleixing);
         arr_adapter_job = new ArrayAdapter<String>(Jibenzhuangkuang.this,R.layout.simple_spinner_item,job);
@@ -276,6 +336,11 @@ public class Jibenzhuangkuang extends AppCompatActivity {
         spinner_zhengjianleixing.setAdapter(arr_adapter_zhegnjianleixing);
         spinner_job.setAdapter(arr_adapter_job);
 
+        if (idCard.length()==18){
+            spinner_old.setSelection(age-1);
+        }
+
+
         //初始化日期选择器
         dp = (DatePicker) findViewById(R.id.date_picker);
         calendar = Calendar.getInstance();
@@ -285,17 +350,13 @@ public class Jibenzhuangkuang extends AppCompatActivity {
         hour = calendar.get(Calendar.HOUR);
         min = calendar.get(Calendar.MINUTE);
 
-//        spinner_old.setSelection(getOld);
-//        spinner_zhengjianleixing.setSelection(getZhengjian);
-//        spinner_job.setSelection(getJob);
-
         spinner_old.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (isSpinnerFirst1){
-                    view.setVisibility(View.INVISIBLE);
-                }
-                isSpinnerFirst1 = false;
+//                if (isSpinnerFirst1){
+//                    view.setVisibility(View.INVISIBLE);
+//                }
+//                isSpinnerFirst1 = false;
                 selectOld = position;
 
             }
@@ -307,11 +368,11 @@ public class Jibenzhuangkuang extends AppCompatActivity {
         spinner_zhengjianleixing.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (isSpinnerFirst2){
-                    view.setVisibility(View.INVISIBLE);
-                }
-                isSpinnerFirst3 = false;
+
                 selectZhengjian = position;
+                if (selectZhengjian != 0){
+                    zhengjianedit.setFocusable(true);
+                }
             }
 
             @Override
@@ -322,11 +383,12 @@ public class Jibenzhuangkuang extends AppCompatActivity {
         spinner_job.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (isSpinnerFirst3){
-                    view.setVisibility(View.INVISIBLE);
-                }
-                isSpinnerFirst3 = false;
+//                if (isSpinnerFirst3){
+//                    view.setVisibility(View.INVISIBLE);
+//                }
+//                isSpinnerFirst3 = false;
                 selectJob = position;
+                str_job = (String) spinner_job.getSelectedItem();
             }
 
             @Override
@@ -336,15 +398,15 @@ public class Jibenzhuangkuang extends AppCompatActivity {
         });
 
 
-        seleteDate.setOnClickListener(new View.OnClickListener() {
+        borndate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 //showDateDialog();
-                DatePickerDialog datePickerDialog = new DatePickerDialog(Jibenzhuangkuang.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(Jibenzhuangkuang.this, android.app.AlertDialog.THEME_HOLO_LIGHT,new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        seleteDate.setText(year + "-" + (month+1) + "-" + dayOfMonth);
+                        borndate.setText(year + "-" + (month+1) + "-" + dayOfMonth);
                     }
                 },year, calendar.get(Calendar.MONTH), day);
                 datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
@@ -368,22 +430,75 @@ public class Jibenzhuangkuang extends AppCompatActivity {
 //        }else {
 //            gender = 0;
 //        }
+        zhengjianedit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (selectZhengjian == 0){
+                    isZhengjianRight = zhengjianedit.getText().toString().length() == 18 && personIdValidation(zhengjianedit.getText().toString());
+                }else if (selectZhengjian == 1){
+                    isZhengjianRight = zhengjianedit.getText().toString().length()==9;
+                }else {
+                    isZhengjianRight = zhengjianedit.getText().toString().length() == 11;
+                }
+                if (!b && !isZhengjianRight){
+                    Toast.makeText(Jibenzhuangkuang.this, "输入的身份证号有误", Toast.LENGTH_SHORT).show();
+                    zhengjianedit.setTextColor(Color.rgb(255,0,0));
+                }else{
+                    zhengjianedit.setTextColor(-1979711488);
+                }
+            }
+        });
+
 
         okey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (workUnit.getText().toString().equals("") || workUnit.getText().toString().equals("null")){
+                    unit_baogao = "";
+                }else {
+                    unit_baogao = workUnit.getText().toString();
+                }
+
+                String unit = workUnit.getText().toString();
+                if (unit.equals("")){
+                    unit = null;
+                }
+
                 final int gender;
                 if (radioButton1.isChecked()) {
                     gender = 1;
                 } else {
                     gender = 0;
                 }
+                if (selectZhengjian == 0){
+                    isZhengjianRight = zhengjianedit.getText().toString().length() == 18 && personIdValidation(zhengjianedit.getText().toString());
+                }else if (selectZhengjian == 1){
+                    isZhengjianRight = zhengjianedit.getText().toString().length()==9;
+                }else {
+                    isZhengjianRight = zhengjianedit.getText().toString().length() == 11;
+                }
+
+
+
+                final StringBuffer stringBuffer = new StringBuffer(borndate.getText().toString());
+                if (borndate.getText().toString().length()==8){
+                    stringBuffer.insert(5,"0");
+                    stringBuffer.insert(8,"0");
+                }else if (borndate.getText().toString().length()==9){
+                    String[] split = borndate.getText().toString().split("-");
+                    if (split[1].length() == 2){
+                        stringBuffer.insert(8,"0");
+                    }else {
+                        stringBuffer.insert(5,"0");
+                    }
+                }
                 if (name.getText().toString().length() != 0 && zhengjianedit.getText().toString().length() != 0 && phone.getText().toString().length() != 0
                         && borndate.getText().toString().length() != 0 && homePlace.getText().toString().length() != 0 && homePlacedetail.getText().toString().length() != 0) {
-                    if (zhengjianedit.getText().toString().length() == 18) {
+                    if (isZhengjianRight) {
                         if (isMobilPhone(phone.getText().toString())) {
-                            //dataCommit();
+                            dataCommit();
                             if (!isMe){
+                                final String finalUnit = unit;
                                 builder = new AlertDialog.Builder(Jibenzhuangkuang.this).setTitle("重要提醒")
                                         .setMessage("当前为代办模式，是否确认提交？")
                                         .setPositiveButton("提交", new DialogInterface.OnClickListener() {
@@ -394,18 +509,20 @@ public class Jibenzhuangkuang extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         try {
-                                                            String postUrl = "http://175.23.169.100:9000/personal/updatePersonal";
+                                                            String postUrl = "http://175.23.169.100:9030/personal/updatePersonal";
                                                             JSONObject jsonObject = new JSONObject();
                                                             jsonObject.put("transactor_id", current_transId);
                                                             jsonObject.put("name", name.getText().toString());
                                                             jsonObject.put("sex", gender);
-                                                            jsonObject.put("age", selectOld);
+                                                            jsonObject.put("id_type",selectZhengjian);
+                                                            jsonObject.put("age", 2021-Integer.parseInt(zhengjianedit.getText().toString().substring(6,10)));
                                                             jsonObject.put("id_number", zhengjianedit.getText().toString());
                                                             jsonObject.put("mobile", phone.getText().toString());
                                                             jsonObject.put("job", selectJob);
-                                                            jsonObject.put("birth_date", borndate.getText().toString());
+                                                            jsonObject.put("birth_date", stringBuffer.toString());
                                                             jsonObject.put("address", homePlace.getText().toString());
                                                             jsonObject.put("address_detail", homePlacedetail.getText().toString());
+                                                            jsonObject.put("job_address", finalUnit);
                                                             URL httpUrl = new URL(postUrl);
                                                             HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
                                                             PrintWriter out = null;
@@ -432,7 +549,6 @@ public class Jibenzhuangkuang extends AppCompatActivity {
                                                                 runOnUiThread(new Runnable() {
                                                                     @Override
                                                                     public void run() {
-
                                                                         Toast.makeText(Jibenzhuangkuang.this, "提交成功", Toast.LENGTH_SHORT).show();
                                                                     }
                                                                 });
@@ -457,22 +573,25 @@ public class Jibenzhuangkuang extends AppCompatActivity {
                                         });
                                 builder.create().show();
                             }else {
+                                final String finalUnit1 = unit;
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
                                         try {
-                                            String postUrl = "http://175.23.169.100:9000/personal/updatePersonal";
+                                            String postUrl = "http://175.23.169.100:9030/personal/updatePersonal";
                                             JSONObject jsonObject = new JSONObject();
                                             jsonObject.put("transactor_id", current_transId);
                                             jsonObject.put("name", name.getText().toString());
                                             jsonObject.put("sex", gender);
-                                            jsonObject.put("age", selectOld);
+                                            jsonObject.put("id_type",selectZhengjian);
+                                            jsonObject.put("age", 2021-Integer.parseInt(zhengjianedit.getText().toString().substring(6,10)));
                                             jsonObject.put("id_number", zhengjianedit.getText().toString());
                                             jsonObject.put("mobile", phone.getText().toString());
                                             jsonObject.put("job", selectJob);
-                                            jsonObject.put("birth_date", borndate.getText().toString());
+                                            jsonObject.put("birth_date", stringBuffer.toString());
                                             jsonObject.put("address", homePlace.getText().toString());
                                             jsonObject.put("address_detail", homePlacedetail.getText().toString());
+                                            jsonObject.put("job_address", finalUnit1);
                                             URL httpUrl = new URL(postUrl);
                                             HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
                                             PrintWriter out = null;
@@ -494,12 +613,15 @@ public class Jibenzhuangkuang extends AppCompatActivity {
                                             JSONObject jsonObj1 = new JSONObject(sb.toString());
                                             int isUpadteSeccess = jsonObj1.getInt("code");
                                             if (isUpadteSeccess == 0) {
+                                                editor.putBoolean(current_transId+"hasJibenzhuangkuang",true);
+                                                editor.commit();
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
                                                         Toast.makeText(Jibenzhuangkuang.this, "提交成功", Toast.LENGTH_SHORT).show();
                                                     }
                                                 });
+
                                             }
                                         } catch (MalformedURLException e) {
                                             e.printStackTrace();
@@ -510,14 +632,13 @@ public class Jibenzhuangkuang extends AppCompatActivity {
                                         }
                                     }
                                 }).start();
+                                onBackPressed();
                             }
-
-                            //onBackPressed();
                         } else {
                             Toast.makeText(Jibenzhuangkuang.this, "请输入正确的手机号！", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(Jibenzhuangkuang.this, "请输入正确的身份证号！", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Jibenzhuangkuang.this, "请输入正确的证件号码！", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(Jibenzhuangkuang.this, "请填写完整信息后再提交！", Toast.LENGTH_SHORT).show();
@@ -526,15 +647,22 @@ public class Jibenzhuangkuang extends AppCompatActivity {
         });
 
     }
+    //判断身份证
+    public boolean personIdValidation(String text) {
+        String regx = "[0-9]{17}x";
+        String reg1 = "[0-9]{15}";
+        String regex = "[0-9]{18}";
+        return text.matches(regx) || text.matches(reg1) || text.matches(regex);
+    }
 
     private void showPickerView() {    // 弹出选择器（省市区三级联动）
         OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
-                selecePlace.setText(options1Items.get(options1).getPickerViewText() + "  "
-                        + options2Items.get(options1).get(options2) + "  "
-                        + options3Items.get(options1).get(options2).get(options3));
+                selecePlace.setText(options1Items.get(options1).getPickerViewText()+" "
+                        + options2Items.get(options1).get(options2)+" "
+                        + options3Items.get(options1).get(options2).get(options3)+" ");
 
             }
         })
@@ -621,26 +749,30 @@ public class Jibenzhuangkuang extends AppCompatActivity {
 //    }
 
     public void dataCommit(){
-        SharedPreferences preferences = getSharedPreferences("user_jibenzhuangkuang", Activity.MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(current_transId+"baogao", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
-        editor.putString("jibenzhuangkuang_name",name.getText().toString());
+        editor.putString("name",name.getText().toString());
 
         if (radioButton1.isChecked() == true){
-            editor.putBoolean("jibenzhuangkuang_sexMan",true);
-            editor.putBoolean("jibenzhuangkuang_sexWoMan",false);
+            editor.putString("gender","男");
         }else {
-            editor.putBoolean("jibenzhuangkuang_sexWoman",true);
-            editor.putBoolean("jibenzhuangkuang_sexMan",false);
+            editor.putString("gender","女");
         }
-        editor.putInt("jibenzhuangkuang_old",selectOld);
-        editor.putInt("jibenzhuangkuang_zhengjian",selectZhengjian);
-        editor.putInt("jibenzhuangkuang_job",selectJob);
-        editor.putString("jibenzhuangkuang_zhengjianhaoma",zhengjianedit.getText().toString());
-        editor.putString("jibenzhuangkuang_phone",phone.getText().toString());
-        editor.putString("jibenzhuangkuang_borndate",borndate.getText().toString());
-        editor.putString("jibenzhuangkuang_homeplace",homePlace.getText().toString());
-        editor.putString("jibenzhuangkuang_homeplaceDetail",homePlacedetail.getText().toString());
+        editor.putInt("age",2021-Integer.parseInt(zhengjianedit.getText().toString().substring(6,10)));
+        editor.putString("job",str_job);
+        editor.putString("idCard",zhengjianedit.getText().toString());
+        editor.putString("phone",phone.getText().toString());
+        //editor.putString("jibenzhuangkuang_borndate",borndate.getText().toString());
+        editor.putString("homeplace",homePlace.getText().toString());
+        editor.putString("homeplaceDetail",homePlacedetail.getText().toString());
+        editor.putString("job_address",unit_baogao);
+        editor.commit();
+
+        preferences = getSharedPreferences("daiban",Activity.MODE_PRIVATE);
+        editor = preferences.edit();
+        editor.putString(current_transId+"address",homePlace.getText().toString());
+        editor.putString(current_transId+"address_detail",homePlacedetail.getText().toString());
         editor.commit();
 
     }
@@ -659,4 +791,40 @@ public class Jibenzhuangkuang extends AppCompatActivity {
             return isMatch;
         }
     }
+
+    /**
+     * 判断年龄
+     * @param idNumber
+     * @return
+     */
+    public  Integer CalcAgeByIdNumber(String idNumber){
+        int age;//会员年龄
+        String fyear,year,fyue,yue;
+        Date date = new Date();// 得到当前的系统时间
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
+        if(idNumber.length()==18) {//用户身份证为18位时
+            fyear = format.format(date).substring(0,4);// 当前年份
+            fyue = format.format(date).substring(5, 7);// 月份
+            year = idNumber.substring(6).substring(0, 4);// 得到年份
+            yue = idNumber.substring(10).substring(0, 2);// 得到月份
+            if (Integer.parseInt(yue) <= Integer.parseInt(fyue)) { // 当前月份大于用户出身的月份表示已过生
+                age = Integer.parseInt(fyear) - Integer.parseInt(year) + 1;
+            } else {// 当前用户还没过生
+                age = Integer.parseInt(fyear) - Integer.parseInt(year);
+            }
+        }else {
+            fyear = format.format(date).substring(0,4);;// 当前年份
+            fyue = format.format(date).substring(5, 7);// 月份
+            year = "19" + idNumber.substring(6, 8);
+            yue = idNumber.substring(8, 10);// 月份
+            if (Integer.parseInt(yue) <= Integer.parseInt(fyue)) { // 当前月份大于用户出身的月份表示已过生
+                age = Integer.parseInt(fyear) - Integer.parseInt(year) + 1;
+            } else {// 当前用户还没过生
+                age = Integer.parseInt(fyear) - Integer.parseInt(year);
+            }
+        }
+        return age;
+
+    }
+
 }

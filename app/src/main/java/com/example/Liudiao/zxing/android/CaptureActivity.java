@@ -4,7 +4,6 @@ package com.example.Liudiao.zxing.android;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -39,11 +38,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.Liudiao.Main;
-import com.example.Liudiao.MainActivity;
 import com.example.Liudiao.R;
-import com.example.Liudiao.login.BitmapUtil;
-import com.example.Liudiao.login.Constant;
-import com.example.Liudiao.login.QRLogin;
 import com.example.Liudiao.zxing.camera.CameraManager;
 import com.example.Liudiao.zxing.view.ViewfinderView;
 import com.google.zxing.BarcodeFormat;
@@ -69,7 +64,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
-import java.util.Hashtable;
 import java.util.Map;
 
 /**
@@ -88,6 +82,7 @@ public final class CaptureActivity extends Activity implements
     private RelativeLayout xiangce;
 
     private String last_user_phone;
+    private int last_user_id;
 
     // 相机控制
     private CameraManager cameraManager;
@@ -140,6 +135,7 @@ public final class CaptureActivity extends Activity implements
         sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();//获取编辑器
         last_user_phone = sharedPreferences.getString("user_phone","");
+        last_user_id = sharedPreferences.getInt("user_id",0);
 
         xiangce.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -338,9 +334,8 @@ public final class CaptureActivity extends Activity implements
                     }
 
                     image = loadResBitmap(imagepath, 5);
-                    //Toast.makeText(CaptureActivity.this,recogQRcode(image),Toast.LENGTH_SHORT).show();
                     String user_phone = recogQRcode(image).toString();
-                    Login(user_phone);
+                    Login1(user_phone);
                 }
             }
         }
@@ -566,7 +561,7 @@ public final class CaptureActivity extends Activity implements
                 try{
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("mobile",phone);
-                    String url = "http://175.23.169.100:9000/user/login/phone";
+                    String url = "http://175.23.169.100:9030/user/login/phone";
                     URL httpUrl = new URL(url);
                     HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
                     PrintWriter out = null;
@@ -626,6 +621,105 @@ public final class CaptureActivity extends Activity implements
                             @Override
                             public void run() {
                                 Toast.makeText(CaptureActivity.this,"登录失败！",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+//                        uid = sharedPreferences.getInt(""+phone.getText().toString(),0);
+//                        editor.putInt("user_id",uid);
+//                        editor.putString("user_phone",phone.getText().toString());
+//                        editor.putBoolean("is_first_login",false);
+//                        editor.putBoolean("is_login",true);
+//                        editor.commit();//提交修改
+                    }
+
+
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    public void Login1(final String id){
+        //进行网络检查
+        if (isConnect(this) == false) {
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("网络错误")
+                    .setMessage("网络连接失败，请开启GPRS或者WIFI连接")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            android.os.Process.killProcess(android.os.Process.myPid());
+                            System.exit(0);
+                        }
+                    }).show();
+        }
+        new Thread(){
+            @Override
+            public void run() {
+                try{
+
+                    String url = "http://175.23.169.100:9030/user/get?user_id="+id;
+                    URL httpUrl = new URL(url);
+                    HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
+
+                    conn.setRequestMethod("GET");
+                    conn.setReadTimeout(5000);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuffer sb = new StringBuffer();
+                    String str;
+                    while ((str = reader.readLine()) != null) {
+                        sb.append(str);
+                    }
+                    JSONObject jsonObj1 = new JSONObject(sb.toString());
+                    Message message = new Message();
+                    int code = jsonObj1.getInt("code");
+                    String phone = jsonObj1.getString("user_phone");
+                    if (code == 0){
+                        uid = jsonObj1.getInt("user_id");
+                        editor.putInt("user_id",uid);
+                        if (!(jsonObj1.getString("user_name")+"").equals("") && !(jsonObj1.getString("user_name")+"").equals("null") ){
+                            editor.putString("user_name",jsonObj1.getString("user_name"));
+                        }
+                        if (!(jsonObj1.getString("user_phone")+"").equals("") && !(jsonObj1.getString("user_phone")+"").equals("null") ){
+                            editor.putString("user_phone",jsonObj1.getString("user_phone"));
+                        }
+                        editor.putString("user_phone",phone);
+                        editor.putBoolean("is_first_login",false);
+                        editor.putBoolean("is_login",true);
+                        editor.commit();//提交修改
+
+                        if (uid != last_user_id){
+                            sharedPreferences = getSharedPreferences("daiban",Activity.MODE_PRIVATE);
+                            editor = sharedPreferences.edit();
+                            editor.putInt("current_banliId",0);
+                            editor.putString("current_banliName","未绑定");
+                            editor.commit();
+                        }
+
+
+                        Intent intent = new Intent(CaptureActivity.this, Main.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("from_where", 1);
+                        startActivity(intent);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(CaptureActivity.this,"登录成功！",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        finish();
+                    }
+                    else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(CaptureActivity.this,"用户不存在！",Toast.LENGTH_SHORT).show();
                             }
                         });
 //                        uid = sharedPreferences.getInt(""+phone.getText().toString(),0);

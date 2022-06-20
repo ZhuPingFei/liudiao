@@ -3,57 +3,109 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.Liudiao">
 
+    <uses-permission android:name="wei.permission.READ_CONTENTPROVIDER" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="Manifest.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <uses-permission android:name="android.permission.READ_SMS"/>
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.BROADCAST_SMS"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.SEND_SMS"/>
+
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!--允许访问网络，必选权限-->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--允许获取粗略位置，若用GPS实现定位小蓝点功能则必选-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!--允许获取设备和运营商信息，用于问题排查和网络定位，若无gps但仍需实现定位小蓝点功能则此权限必选-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <!--允许获取网络状态，用于网络定位，若无gps但仍需实现定位小蓝点功能则此权限必选-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!--允许获取wifi网络信息，用于网络定位，若无gps但仍需实现定位小蓝点功能则此权限必选-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <!--允许获取wifi状态改变，用于网络定位，若无gps但仍需实现定位小蓝点功能则此权限必选-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <!--允许写入扩展存储，用于数据缓存，若无此权限则写到私有目录-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!--允许写设备缓存，用于问题排查-->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!--允许读设备等信息，用于问题排查-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!--用于申请调用A-GPS模块-->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"></uses-permission>
+    <!--如果设置了target >= 28 如果需要启动后台定位则必须声明这个权限-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <!--如果您的应用需要后台定位权限，且有可能运行在Android Q设备上,并且设置了target>28，必须增加这个权限声明-->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+
 
     <application
         android:name=".LiudiaoApplication"
         android:allowBackup="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/logo1"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="cf45543ac4b20e1318272e8ec8cd6217">
+        </meta-data>
+        <service android:name="com.amap.api.location.APSService"></service>
         <!-- 通过AndroidManifest配置AppKey和AppSecret，如果你选择通过代码配置，则不需要配置以下meta-data -->
         <meta-data android:name="Mob-AppKey" android:value="3592cec9d4378"/>
         <meta-data android:name="Mob-AppSecret" android:value="3fbeea03daf56cfaa5f3137ef20803b3"/>
 
-        <activity
-            android:theme="@style/BaseThemes"
-            android:name="com.example.Liudiao.MainActivity"
-            android:label="@string/app_name">
-
-        </activity>
+        <activity android:name=".ui.notifications.Daiban"
+            android:theme="@style/BaseThemes"/>
+        <activity android:name=".login.ZhanghaoLogin"
+            android:theme="@style/BaseThemes"/>
+        <activity android:name=".login.QRLogin"
+            android:theme="@style/BaseThemes"/>
+        <activity android:name=".MainActivity"
+            android:theme="@style/BaseThemes"/>
         <activity android:name="com.example.Liudiao.Main"
             />
-        <activity android:name="com.example.Liudiao.ui.home.Family"
-            android:theme="@style/BaseThemes" />
-        <activity android:name="com.example.Liudiao.ui.notifications.Erweima"
+        <activity android:name=".ui.home.Mijie"
             android:theme="@style/BaseThemes"/>
-        <activity android:name="com.example.Liudiao.ui.notifications.Daiban"
+        <activity android:name=".ui.xingcheng.HuodongMap"
+            android:theme="@style/BaseThemes"/>
+        <activity android:name=".ui.xingcheng.XingchengWeixian"
+            android:theme="@style/BaseThemes"/>
+        <activity android:name=".ui.home.AddMijie"
+            android:theme="@style/BaseThemes"/>
+        <activity android:name=".ui.home.MijieAlter"
+            android:theme="@style/BaseThemes"/>
+        <activity android:name=".ui.home.AddFamily"
+            android:theme="@style/BaseThemes"/>
+        <activity android:name=".ui.home.FamilyAlter"
+            android:theme="@style/BaseThemes"/>
+        <activity android:name="com.example.Liudiao.ui.notifications.Erweima"
             android:theme="@style/BaseThemes"/>
         <activity android:name="com.example.Liudiao.ui.home.Jibenzhuangkuang"
             android:theme="@style/BaseThemes" />
         <activity android:name="com.example.Liudiao.ui.home.Jezhong"
             android:theme="@style/BaseThemes" />
         <activity android:name="com.example.Liudiao.ui.home.Jingwai"
+            android:theme="@style/BaseThemes" />
+        <activity android:name=".ui.notifications.Motification"
+            android:theme="@style/BaseThemes" />
+        <activity android:name=".ui.notifications.Bindphone"
             android:theme="@style/BaseThemes" />
         <activity android:name="com.example.Liudiao.ui.home.Jiankang"
             android:theme="@style/BaseThemes" />
@@ -67,8 +119,15 @@
             android:theme="@style/BaseThemes" />
         <activity android:name=".ui.xingcheng.XingchengHistory"
             android:theme="@style/BaseThemes" />
-        <activity android:name=".ZhanghaoLogin"
+        <activity android:name=".ui.huodong.HuodongHistory"
+            android:theme="@style/BaseThemes"/>
+        <activity android:name=".ui.huodong.HuodongAlter"
+            android:theme="@style/BaseThemes"/>
+
+        <activity android:name=".ui.home.Baogao"
             android:theme="@style/BaseThemes" />
+        <activity android:name=".ui.home.Baogaonew"
+            android:theme="@style/BaseThemes"/>
 
         <activity android:name="com.example.Liudiao.Welcome">
             <intent-filter>
@@ -77,7 +136,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".login.QRLogin"
+        <activity android:name=".Xieyi"
             android:theme="@style/BaseThemes"/>
         <activity android:name=".ui.home.Familynew"
             android:theme="@style/BaseThemes"/>
@@ -96,6 +155,19 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"
             />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.Liudiao.provider"
+            android:exported="false"
+            android:readPermission="wei.permission.READ_CONTENTPROVIDER"
+            android:writePermission="wei.permission.WRITE_CONTENTPROVIDER"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+
+                android:resource="@xml/provider_paths"/>
+        </provider>
 
 
     </application>

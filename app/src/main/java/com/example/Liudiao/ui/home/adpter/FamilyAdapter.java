@@ -1,46 +1,39 @@
 package com.example.Liudiao.ui.home.adpter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.Liudiao.Main;
 import com.example.Liudiao.R;
-import com.example.Liudiao.ui.home.Family;
-import com.example.Liudiao.ui.notifications.adapter.DaibanAdapter;
-import com.mob.tools.gui.PullToRequestBaseAdapter;
+import com.example.Liudiao.ui.home.FamilyAlter;
+import com.example.Liudiao.ui.home.MijieAlter;
 
-import java.util.ArrayList;
+import org.w3c.dom.Text;
+
 import java.util.List;
 import java.util.Map;
-
-import static com.example.Liudiao.ui.notifications.Daiban.TAG;
 
 public class FamilyAdapter extends BaseAdapter {
 
 
-
     View.OnClickListener onClickListener;
     private LayoutInflater mInflater;
-    private List<Map<String,String>> mDatas;
+    private List<Map<String, String>> mDatas;
     private Context mContext;
     private ListView listView;
 
 
-    public FamilyAdapter(Context context, List<Map<String,String>> mDatas, ListView listView) {
+    public FamilyAdapter(Context context, List<Map<String, String>> mDatas, ListView listView) {
         this.mDatas = mDatas;
         this.mInflater = LayoutInflater.from(context);
         this.mContext = context;
@@ -50,6 +43,7 @@ public class FamilyAdapter extends BaseAdapter {
 
     private SharedPreferences preferences;
     SharedPreferences.Editor editor;
+
     @Override
     public int getCount() {
         if (mDatas == null) {
@@ -73,7 +67,7 @@ public class FamilyAdapter extends BaseAdapter {
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         //preferences  = mContext.getSharedPreferences("daiban", Activity.MODE_PRIVATE);
         //editor = preferences.edit();
@@ -82,47 +76,83 @@ public class FamilyAdapter extends BaseAdapter {
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.family_list2, null);
                 holder = new FamilyAdapter.ViewHolder();
-                holder.name = (TextView) convertView.findViewById(R.id.member_name2);
-                holder.relation = (TextView) convertView.findViewById(R.id.member_relation2);
-                holder.phone = (TextView) convertView.findViewById(R.id.member_phone2);
+                holder.member = (RelativeLayout) convertView.findViewById(R.id.member);
+                holder.name = (TextView) convertView.findViewById(R.id.name);
                 convertView.setTag(holder);
-            }
-            else {
+            } else {
                 holder = (FamilyAdapter.ViewHolder) convertView.getTag();
             }
-            holder.name.setText("姓名：   "+mDatas.get(position).get("name").toString());
-            int type = Integer.parseInt(mDatas.get(position).get("relation").toString());
-            if (type ==0){
-                holder.relation.setText("与本人关系：    父亲");
-            }else if (type == 1){
-                holder.relation.setText("与本人关系：    母亲");
-            }else if (type == 2){
-                holder.relation.setText("与本人关系：    兄弟");
-            }else if (type == 3){
-                holder.relation.setText("与本人关系：    姐妹");
-            }else if (type == 4){
-                holder.relation.setText("与本人关系：    儿子");
-            }else {
-                holder.relation.setText("与本人关系：    女儿");
+
+            holder.name.setText(mDatas.get(position).get("name").toString());
+            //4.9
+            int iscase = Integer.parseInt(mDatas.get(position).get("isCase"));
+            if (iscase == 1){
+                holder.name.setText(mDatas.get(position).get("name")+"(已确诊)");
+                holder.name.setTextColor(Color.rgb(255,0,0));
+            }
+            if (iscase == 0){
+                holder.name.setTextColor(Color.rgb(0,0,0));
             }
 
-            holder.phone.setText("手机号码：    "+mDatas.get(position).get("mobile").toString());
-            //holder.name.setText(mDatas.get(position).get("name").toString());
+            final String cardID;
+            if ((mDatas.get(position).get("card_id") + "").equals("null") || (mDatas.get(position).get("card_id") + "").equals("")) {
+                cardID = "";
+            } else {
+                cardID = mDatas.get(position).get("card_id") + "";
+            }
 
-        }catch (Exception e){
+            final String address;
+            final String address_detail;
+
+            if ((mDatas.get(position).get("address") + "").equals("null") || (mDatas.get(position).get("address") + "").equals("")) {
+                address = "";
+            } else {
+                address = mDatas.get(position).get("address") + "";
+            }
+            if ((mDatas.get(position).get("address_detail") + "").equals("null") || (mDatas.get(position).get("address_detail") + "").equals("")) {
+                address_detail = "";
+            } else {
+                address_detail = mDatas.get(position).get("address_detail") + "";
+            }
+
+            holder.member.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int id = Integer.parseInt(mDatas.get(position).get("id").toString());
+                    Intent intent = new Intent(mContext, FamilyAlter.class);
+                    intent.putExtra("id", id);
+                    intent.putExtra("name", mDatas.get(position).get("name").toString());
+                    intent.putExtra("relation",Integer.parseInt(mDatas.get(position).get("relation").toString()));
+                    intent.putExtra("contact_type", mDatas.get(position).get("contact_type").toString());
+                    intent.putExtra("mobile", mDatas.get(position).get("mobile").toString());
+                    intent.putExtra("card_id", cardID);
+                    intent.putExtra("address", address);
+                    intent.putExtra("address_detail", address_detail);
+                    mContext.startActivity(intent);
+//                if (Activity.class.isInstance(mContext)) {
+//                    // 转化为activity，然后finish就行了
+//                    Activity activity = (Activity) mContext;
+//                    activity.finish();
+//                }
+                }
+            });
+
+            holder.member.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    return false;
+                }
+            });
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return convertView;
     }
 
     class ViewHolder {
+        RelativeLayout member;
         TextView name;
-        TextView relation;
-        TextView phone;
-    }
 
-    public void dialog(){
-        View view = LayoutInflater.from(mContext).inflate(R.layout.family_list,null);
     }
 
 }

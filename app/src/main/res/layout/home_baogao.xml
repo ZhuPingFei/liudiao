@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="#f0f0f0"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#10BD10">
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/r_back"
+            android:id="@+id/back"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="流调报告"
+            android:textColor="#ffffff"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/okey"
+            android:layout_marginRight="10dp"
+            android:textSize="20sp"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/white"
+            android:layout_centerVertical="true"
+            android:text="完成"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:background="@android:color/white"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:id="@+id/baogao_list"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:textSize="17sp"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:text="新冠病毒核酸检测阳性人员\n流调报告"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/titou"
+                android:text="疾病预防控制中心："
+                android:textSize="15sp"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/text1"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:text="    一、基本情况"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/text2"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/text_yimiao"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:text="    二、发病情况及临床表现"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/text3"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:text="    三、流行病学调查情况"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/text_xingcheng"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/text_huodong"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <ListView
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:id="@+id/xingcheng_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </ListView>
+<!--            <LinearLayout-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:descendantFocusability="blocksDescendants">-->
+<!--                -->
+<!--            </LinearLayout>-->
+
+            <TextView
+                android:text="    四、密切接触者情况"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/text_mijiejiaren"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/text_mijie"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <ListView
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:id="@+id/mijie_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </ListView>
+            <ListView
+                android:visibility="gone"
+                android:id="@+id/family_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </ListView>
+<!--            <LinearLayout-->
+<!--                android:orientation="vertical"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:descendantFocusability="blocksDescendants">-->
+<!--                -->
+<!--            </LinearLayout>-->
+
+            <TextView
+                android:text="    五、实验室检测情况"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/text4"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:text="    六、已经采取的防控措施"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/text5"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+<!--            <Button-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="登陆"-->
+<!--                android:layout_marginRight="45dp"-->
+<!--                android:layout_marginLeft="45dp"-->
+<!--                android:id="@+id/login"-->
+<!--                android:onClick="finish_login"-->
+<!--                android:background="@drawable/login_bt_shape2"-->
+<!--                android:textSize="20dp"-->
+<!--                android:textColor="#ffffff"-->
+<!--                android:layout_alignParentLeft="true"-->
+<!--                android:layout_alignParentStart="true"-->
+<!--                android:layout_marginTop="80dp" />-->
+
+
+            <TextView
+                android:id="@+id/open"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#f0f0f0"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="打开报告"
+                android:textColor="@android:color/black"
+                android:textSize="17sp" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/white" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

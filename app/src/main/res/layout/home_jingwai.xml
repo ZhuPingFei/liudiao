@@ -8,16 +8,14 @@
     <RelativeLayout
         android:clipToPadding="true"
         android:fitsSystemWindows="true"
-        android:id="@+id/My_collection_buju1"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="#10BD10">
 
         <ImageView
             android:id="@+id/back"
-            android:layout_width="15dp"
-            android:layout_height="17dp"
-            android:layout_alignParentBottom="true"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
@@ -25,7 +23,6 @@
 
         <TextView
             android:layout_centerVertical="true"
-            android:id="@+id/My_collection"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:gravity="center"
@@ -83,7 +80,7 @@
         <TextView
             android:id="@+id/jingwai_guoji_text"
             android:textSize="17sp"
-            android:text="国  籍"
+            android:text="国家或地区"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -91,6 +88,7 @@
             android:textAlignment="center"
             android:spinnerMode="dropdown"
             android:padding="0dp"
+            android:gravity="center"
             android:layout_centerVertical="true"
             android:id="@+id/jingwai_nation_spinner"
             android:layout_toRightOf="@+id/jingwai_guoji_text"
@@ -118,6 +116,8 @@
             android:layout_height="wrap_content"/>
 
         <EditText
+            android:maxLength="9"
+            android:digits="DSPGEW0123456789"
             android:gravity="center"
             android:id="@+id/jingwai_huzhao_edit"
             android:layout_toRightOf="@+id/jingwai_huzhao_text"
@@ -126,7 +126,7 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:background="@android:color/white"
         android:layout_marginTop="1dp"
         android:layout_marginLeft="10dp"
@@ -145,15 +145,15 @@
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:gravity="right"
             android:id="@+id/select_rujingDate"
             android:layout_alignParentRight="true"
-            android:text="选择日期"
             android:textSize="17sp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <RelativeLayout
         android:background="@android:color/white"

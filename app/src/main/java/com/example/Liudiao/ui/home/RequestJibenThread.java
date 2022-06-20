@@ -57,16 +57,17 @@ public class RequestJibenThread extends Thread {
             int info_num = object1.getInt("info_num");
             if (info_num != 0){
                 JSONArray info = object1.getJSONArray("info");
-                final String card_id = info.getJSONObject(0).getString("card_id");
+                final String card_id = info.getJSONObject(0).getString("id_number");
                 final String name = info.getJSONObject(0).getString("name");
-                final int gender = info.getJSONObject(0).getInt("gender");
+                final int gender = info.getJSONObject(0).getInt("sex");
                 final int age = info.getJSONObject(0).getInt("age");
                 final int type = info.getJSONObject(0).getInt("type");
-                final String tel = info.getJSONObject(0).getString("tel");
+                final String tel = info.getJSONObject(0).getString("mobile");
                 final int job = info.getJSONObject(0).getInt("job");
                 final String birthDate = info.getJSONObject(0).getString("birth_date");
                 final String address = info.getJSONObject(0).getString("address");
                 final String address_detail = info.getJSONObject(0).getString("address_detail");
+                final String job_address = info.getJSONObject(0).getString("job_address");
 
                 handler.post(new Runnable() {
                     @Override
@@ -82,6 +83,7 @@ public class RequestJibenThread extends Thread {
                         b.putString("address",address);
                         b.putString("address_detail",address_detail);
                         b.putString("birth_date",birthDate);
+                        b.putString("job_address",job_address);
                         Message msg = new Message();
                         msg.setData(b);
                         handler.sendMessage(msg);

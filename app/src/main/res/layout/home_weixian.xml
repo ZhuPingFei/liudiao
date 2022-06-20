@@ -8,7 +8,6 @@
     <RelativeLayout
         android:clipToPadding="true"
         android:fitsSystemWindows="true"
-        android:id="@+id/My_collection_buju1"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="#10BD10">
@@ -19,13 +18,11 @@
             android:id="@+id/back"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
             />
 
         <TextView
             android:layout_centerVertical="true"
-            android:id="@+id/My_collection"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:gravity="center"
@@ -54,7 +51,6 @@
         android:id="@+id/biaoti"
         android:text="请填写危险因素与暴露史信息"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
         android:textSize="20dp"
         android:textColor="@android:color/black"
         android:layout_width="match_parent"
@@ -65,6 +61,8 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -82,7 +80,7 @@
                 <TextView
                     android:id="@+id/weixian_text1"
                     android:textSize="17sp"
-                    android:text="1.是否为以下特定职业人群"
+                    android:text="是否为以下特定职业人群"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -151,6 +149,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="隔离场所管理和服务人员" />
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="其他" />
                 </RadioGroup>
 
                 <TextView
@@ -199,6 +203,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="实验室检测人员" />
+                    <RadioButton
+                        android:textSize="17sp"
+                        android:id="@+id/weixian_rediobutton_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="其他" />
 
                 </RadioGroup>
 
@@ -229,6 +239,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:background="@android:color/white"
                 android:layout_marginTop="1dp"
                 android:layout_marginLeft="10dp"
@@ -279,6 +290,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/yunzhou"
                 android:layout_below="@+id/weixian_text2"
                 android:background="@android:color/white"
@@ -308,6 +320,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:background="@android:color/white"
                 android:layout_marginTop="1dp"
                 android:layout_marginLeft="10dp"
@@ -364,6 +377,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:background="@android:color/white"
                 android:layout_marginTop="1dp"
                 android:layout_marginLeft="10dp"
@@ -863,8 +877,4 @@
 
         </LinearLayout>
     </ScrollView>
-
-
-
-
 </LinearLayout>

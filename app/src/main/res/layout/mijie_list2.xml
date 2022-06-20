@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/member_name2"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/member_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/mijie_member" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:id="@+id/user_mijie"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/member_image"
+            android:background="@android:color/transparent"
+            android:text="二维码"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:textSize="17sp" />
+        <TextView
+            android:textColor="@color/gray"
+            android:id="@+id/user_mijie_phone"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/user_mijie"
+            android:text="(18843100664)"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:background="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+</LinearLayout>

@@ -1,6 +1,8 @@
 package com.example.Liudiao.ui.xingcheng;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -17,39 +20,44 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.Liudiao.R;
+import com.example.Liudiao.ui.home.AddMijie;
+import com.example.Liudiao.ui.home.Mijie;
 import com.example.Liudiao.ui.xingcheng.Adapter.XingchengAdapter;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class XingchengHistory extends AppCompatActivity implements View.OnClickListener{
+public class XingchengHistory extends Activity implements View.OnClickListener{
 
     private ImageView r_back;
-    private TextView okey;
 
-    int xingcheng_num;
     private int current_transId;
 
-    private TextView add;
-    private TextView delete;
+    private ImageView add;
 
-    private int i=-1;
-    private LinearLayout my_layout;
-    private TextView textView1;
-    private ArrayList<TextView> textTexts;
 
     private ListView listView;
     private XingchengAdapter xingchengAdapter;
 
-    int xingchengTimes;
     SharedPreferences preferences ;
     SharedPreferences.Editor editor ;//获取编辑器
 
@@ -59,7 +67,6 @@ public class XingchengHistory extends AppCompatActivity implements View.OnClickL
         @Override
         public void handleMessage(Message msg) {
             parse(msg.obj.toString());
-
         }
     };
     @Override
@@ -68,33 +75,15 @@ public class XingchengHistory extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.xingcheng_history);
         listView = (ListView) findViewById(R.id.xingcheng_list);
 
-
         preferences = getSharedPreferences("daiban", Activity.MODE_PRIVATE);
         editor = preferences.edit();
         current_transId = preferences.getInt("current_banliId",0);
 
-        String url = "http://175.23.169.100:9000/case-travel-trajectory/get";
+        String url = "http://175.23.169.100:9030/case-travel-trajectory/get";
         RequestXingchengHisThread rdt = new RequestXingchengHisThread(url,current_transId,handler);
         rdt.start();
 
-        textTexts = new ArrayList<>();
-
-        preferences = getSharedPreferences("user_xingcheng", Activity.MODE_PRIVATE);
-        editor = preferences.edit();
-
-        int getXingchengTimes = preferences.getInt("xingcheng_times",0);
-        xingchengTimes = getXingchengTimes;
-
-        String xinxi = preferences.getString("xingcheng","");
-        xingcheng_num = preferences.getInt("xingcheng_num",0);
-//        if (xingcheng_num != 0){
-//            String[] spilt = xinxi.split("%");
-//            for (int j = 0;j<xingcheng_num;j++){
-//                addView(spilt[j+1]);
-//            }
-//        }
-        //initView();
-
+        add = (ImageView) findViewById(R.id.add);
         r_back = (ImageView) findViewById(R.id.back);
         r_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,101 +91,96 @@ public class XingchengHistory extends AppCompatActivity implements View.OnClickL
                 onBackPressed();
             }
         });
-        okey = (TextView) findViewById(R.id.okay);
-        okey.setOnClickListener(new View.OnClickListener() {
+        add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //dataCommit();
-                int nums = 0;
-                StringBuffer str = new StringBuffer();
-                for (TextView view : textTexts){
-                    nums++;
-                    str.append("%"+view.getText().toString());
-                }
-                editor.putString("xingcheng",str.toString());
-                editor.putInt("xingcheng_num",nums);
-                editor.commit();
-                onBackPressed();
+                Intent intent = new Intent(XingchengHistory.this, Xingcheng.class);
+                startActivity(intent);
+
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(XingchengHistory.this);
+                builder.setMessage("确定删除该条旅程信息？");
+                builder.setTitle("系统提示");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        final int id = Integer.parseInt(mList.get(position).get("traj_id").toString());
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    String postUrl = "http://175.23.169.100:9030/case-travel-trajectory/delete";
+                                    JSONObject jsonObject = new JSONObject();
+                                    jsonObject.put("traj_id",id);
+
+                                    URL httpUrl = new URL(postUrl);
+                                    HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
+                                    PrintWriter out = null;
+                                    conn.setRequestMethod("POST");
+                                    conn.setReadTimeout(5000);
+                                    conn.setRequestProperty("Content-type", "application/json");
+                                    conn.setDoInput(true);
+                                    conn.setDoOutput(true);
+                                    out = new PrintWriter(conn.getOutputStream());
+                                    out.print(jsonObject);
+                                    out.flush();
+                                    InputStream is = conn.getInputStream();
+                                    BufferedReader reader = new BufferedReader(new InputStreamReader(is,"utf-8"));
+                                    StringBuffer sb = new StringBuffer();
+                                    String str;
+                                    while ((str = reader.readLine()) != null) {
+                                        sb.append(str);
+                                    }
+                                    JSONObject jsonObj1 = new JSONObject(sb.toString());
+                                    int code = jsonObj1.getInt("code");
+                                    if (code == 0){
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mList.remove(position);
+                                                xingchengAdapter.notifyDataSetChanged();
+                                                listView.invalidate();
+                                                Toast.makeText(XingchengHistory.this, "删除成功！", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                    } else {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(XingchengHistory.this, "删除失败！", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                return false;
             }
         });
     }
 
-//    private void initView() {
-//        add.setOnClickListener(this);
-//        delete.setOnClickListener(this);
-//    }
 
-//    public void addView(String s) {
-//        my_layout = findViewById(R.id.history_list);
-//        textView1 = new TextView(this);
-//        i++;
-//        textView1.setWidth(300);
-//        textView1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-//                LinearLayout.LayoutParams.WRAP_CONTENT));
-//
-//        textView1.setPadding(50, 30, 50, 30);
-//        textView1.setText(s);
-//        textView1.setTextSize(17);
-//        textView1.setBackgroundColor(Color.WHITE);
-//        textView1.setTop(10);
-//        //textView1.setEllipsize(TextUtils.TruncateAt.valueOf("END"));//动隐藏尾部溢出数据，一般用于文字内容过长一行无法全部显示时
-//        textView1.setMovementMethod(LinkMovementMethod.getInstance());//设置textview滚动事件的
-//        textTexts.add(i,textView1);
-//
-//        my_layout.addView(textView1);
-//    }
-
-//    public void addView1() {
-//        String s = getDate();
-//        my_layout = findViewById(R.id.history_list);
-//        textView1 = new TextView(this);
-//        i++;
-//        textView1.setWidth(300);
-//        textView1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-//                LinearLayout.LayoutParams.WRAP_CONTENT));
-//
-//        textView1.setPadding(50, 30, 50, 30);
-//        textView1.setText(s);
-//        textView1.setTextSize(17);
-//        textView1.setBackgroundColor(Color.WHITE);
-//        textView1.setTop(10);
-//        //textView1.setEllipsize(TextUtils.TruncateAt.valueOf("END"));//动隐藏尾部溢出数据，一般用于文字内容过长一行无法全部显示时
-//        textView1.setMovementMethod(LinkMovementMethod.getInstance());//设置textview滚动事件的
-//        textTexts.add(i,textView1);
-//
-//        my_layout.addView(textView1);
-//    }
-//    public void deleteView() {
-//        TextView textView = textTexts.get(i);
-//        my_layout.removeView(textView);
-//        textTexts.remove(i);
-//        i--;
-//        xingcheng_num--;
-//    }
-
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()){
-//            case R.id.weiluru:
-//                if (xingchengTimes == 1){
-//                    addView1();
-//                    xingchengTimes--;
-//                    editor.putInt("xingcheng_times",0);
-//                    editor.commit();
-//                }else {
-//                    Toast.makeText(XingchengHistory.this,"当前没有需要添加的行程",Toast.LENGTH_SHORT).show();
-//                }
-//
-//                break;
-//            case R.id.delete:
-//                if (i>-1){
-//                    deleteView();
-//                }else {
-//                    Toast.makeText(this,"当前没有行程", Toast.LENGTH_SHORT).show();
-//                }
-//                break;
-//        }
-//    }
 
     public String getDate(){
         StringBuffer xingcheng = new StringBuffer();
@@ -213,14 +197,28 @@ public class XingchengHistory extends AppCompatActivity implements View.OnClickL
         String getEnddate = preferences.getString("xingcheng_endDate","");
         String getEndTime = preferences.getString("xingcheng_endTime","");
 
-        if (getTrasffer == 0){
+        if (getTrasffer == 1){
             trasffer = "飞机";
-        }else if (getTrasffer == 1){
-            trasffer = "轮船";
-        }else if (getTrasffer == 1){
+        }else if (getTrasffer == 2){
             trasffer = "火车";
-        }else {
+        }else if (getTrasffer == 3){
             trasffer = "客车";
+        }else if (getTrasffer == 4){
+            trasffer = "轮船";
+        }else if (getTrasffer == 5){
+            trasffer = "出租车";
+        }else if (getTrasffer == 6){
+            trasffer = "私家车";
+        }else if (getTrasffer == 7){
+            trasffer = "公交车";
+        }else if (getTrasffer == 8){
+            trasffer = "市内轨道交通";
+        }else if (getTrasffer == 9){
+            trasffer = "骑行";
+        }else if (getTrasffer == 10){
+            trasffer = "步行";
+        }else {
+            trasffer = "（未知）";
         }
 
 
@@ -239,6 +237,7 @@ public class XingchengHistory extends AppCompatActivity implements View.OnClickL
             String jGroup1 = jsonObject1.get("trajs").toString();
             mList = new Gson().fromJson(jGroup1, new TypeToken<List<Map<String, String>>>() {
             }.getType());
+            datecommit();
 
             xingchengAdapter = new XingchengAdapter(XingchengHistory.this, mList, listView);
             listView.setAdapter(xingchengAdapter);
@@ -251,5 +250,66 @@ public class XingchengHistory extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
 
+    }
+
+    public void datecommit(){
+        StringBuffer xingcheng = new StringBuffer("");
+        for (int i = 0;i<mList.size();i++){
+            Map<String, String> map = mList.get(i);
+            StringBuffer strTime = new StringBuffer();
+            strTime.append(map.get("start_date"));
+            strTime.append(" "+map.get("start_time")+" - ");
+            strTime.append(map.get("end_date"));
+            strTime.append(" "+map.get("end_time")+" - ");
+
+            StringBuffer strPlace = new StringBuffer();
+            strPlace.append(map.get("start"));
+            strPlace.append(" "+map.get("start_detail")+" - ");
+            strPlace.append(map.get("end"));
+            strPlace.append(" "+map.get("end_detail"));
+
+            String tra = null;
+            if (map.get("traffic").toString().equals("1")){
+                tra ="飞机";
+            }else if (map.get("traffic").toString().equals("2")){
+                tra = "火车";
+            }else if (map.get("traffic").toString().equals("3")){
+                tra = "客车";
+            }else if (map.get("traffic").toString().equals("4")){
+                tra = "轮船";
+            }else if (map.get("traffic").toString().equals("5")){
+                tra = "出租车";
+            }else if (map.get("traffic").toString().equals("6")){
+                tra = "私家车";
+            }else if (map.get("traffic").toString().equals("7")){
+                tra = "公交车";
+            }else if (map.get("traffic").toString().equals("8")){
+                tra = "市内轨道交通";
+            }else if (map.get("traffic").toString().equals("9")){
+                tra = "骑行";
+            }else if (map.get("traffic").toString().equals("10")){
+                tra = "步行";
+            }else {
+                tra = "（未知）";
+            }
+            xingcheng.append("    该病例曾于 "+strTime.toString()+","+"乘坐"+tra+" "+map.get("tra_detail").toString()+","
+                    +"从"+map.get("start").toString()+map.get("start_detail").toString()
+                    +"到"+map.get("end").toString()+map.get("end_detail").toString()+"。");
+            if(map.get("peers").toString().length()!=0 && !map.get("peers").toString().equals("无")){
+                xingcheng.append("路上与 "+map.get("peers").toString()+"同行。\n");
+            }else {
+                xingcheng.append("\n");
+            }
+        }
+        preferences = getSharedPreferences(current_transId+"baogao",Activity.MODE_PRIVATE);
+        editor = preferences.edit();
+        editor.putString("xingcheng",xingcheng.toString());
+        editor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onCreate(null);
     }
 }

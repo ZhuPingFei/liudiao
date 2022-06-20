@@ -55,56 +55,40 @@ public class RequestWeixianThread extends Thread{
             int code = object1.getInt("code");
             if (code == 0){
 
-                final int job = object1.getInt("job");
-                final int job_detail = object1.getInt("job_detail");
-                final String other_job = object1.getString("other_job");
+                final String job = object1.getString("job")+"";
+                final String job_detail = object1.getString("job_detail")+"";
+                final String other_job = object1.getString("other_job")+"";
 
-                final int maternity = object1.getInt("maternity");
-                final int ges_week = object1.getInt("ges_week");
+                final String radiobutton1 = object1.getString("radiobutton1")+"";
+                final String address = object1.getString("address")+"";
 
-                final int smoke = object1.getInt("smoke");
+                final String radiobutton2 = object1.getString("radiobutton2")+"";
+                final String nation = object1.getString("nation")+"";
 
-                final String dis_his = object1.getString("dis_his");
-                final String other_dis = object1.getString("other_dis");
-
-                final int radiobutton1 = object1.getInt("radiobutton1");
-                final String address = object1.getString("address");
-
-                final int radiobutton2 = object1.getInt("radiobutton2");
-                final int nation = object1.getInt("nation");
-
-                final int radiobutton3 = object1.getInt("radiobutton3");
-                final int radiobutton4 = object1.getInt("radiobutton4");
-                final int radiobutton5 = object1.getInt("radiobutton5");
-                final int radiobutton6 = object1.getInt("radiobutton6");
+                final String radiobutton3 = object1.getString("radiobutton3")+"";
+                final String radiobutton4 = object1.getString("radiobutton4")+"";
+                final String radiobutton5 = object1.getString("radiobutton5")+"";
+                final String radiobutton6 = object1.getString("radiobutton6")+"";
 
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
                         Bundle b = new Bundle();
                         b.putInt("code",0);
-                        b.putInt("job",job);
-                        b.putInt("job_detail",job_detail);
+                        b.putString("job",job);
+                        b.putString("job_detail",job_detail);
                         b.putString("other_job",other_job);
 
-                        b.putInt("maternity",maternity);
-                        b.putInt("ges_week",ges_week);
-
-                        b.putInt("smoke",smoke);
-
-                        b.putString("dis_his",dis_his);
-                        b.putString("other_dis",other_dis);
-
-                        b.putInt("radiobutton1",radiobutton1);
+                        b.putString("radiobutton1",radiobutton1);
                         b.putString("address",address);
 
-                        b.putInt("radiobutton2",radiobutton2);
-                        b.putInt("nation",nation);
+                        b.putString("radiobutton2",radiobutton2);
+                        b.putString("nation",nation);
 
-                        b.putInt("radiobutton3",radiobutton3);
-                        b.putInt("radiobutton4",radiobutton4);
-                        b.putInt("radiobutton5",radiobutton5);
-                        b.putInt("radiobutton6",radiobutton6);
+                        b.putString("radiobutton3",radiobutton3);
+                        b.putString("radiobutton4",radiobutton4);
+                        b.putString("radiobutton5",radiobutton5);
+                        b.putString("radiobutton6",radiobutton6);
 
                         Message msg = new Message();
                         msg.setData(b);

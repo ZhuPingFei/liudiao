@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -25,8 +24,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.Liudiao.R;
-import com.example.Liudiao.login.QRLogin;
-import com.example.Liudiao.zxing.encode.CodeCreator;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -54,6 +51,7 @@ public class Erweima extends AppCompatActivity {
     private SharedPreferences preferences;
     SharedPreferences.Editor editor;
     private String user_phone;
+    private int user_id;
     private boolean hasQR ;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,8 +60,9 @@ public class Erweima extends AppCompatActivity {
 
         preferences = getSharedPreferences("user", Activity.MODE_PRIVATE);
         editor = preferences.edit();
-        user_phone = preferences.getString("user_phone","");
+        //user_phone = preferences.getString("user_phone","");
         hasQR = preferences.getBoolean(user_phone+"hasQR",false);
+        user_id = preferences.getInt("user_id",0);
 
 
         image = (ImageView) findViewById(R.id.image);
@@ -79,7 +78,7 @@ public class Erweima extends AppCompatActivity {
         });
 
         if (hasQR == true){
-            Bitmap qrcodeBitmap = createQRCode(user_phone, 800,800);
+            Bitmap qrcodeBitmap = createQRCode(String.valueOf(user_id), 800,800);
             image.setImageBitmap(qrcodeBitmap);
             shengcheng.setVisibility(View.GONE);
             save.setVisibility(View.VISIBLE);
@@ -88,7 +87,7 @@ public class Erweima extends AppCompatActivity {
         shengcheng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bitmap qrcodeBitmap = createQRCode(user_phone, 800,800);
+                Bitmap qrcodeBitmap = createQRCode(String.valueOf(user_id), 800,800);
                 image.setImageBitmap(qrcodeBitmap);
                 //Bitmap bitmap = createQRCode(String.valueOf(current_transId),image.getHeight(),image.getWidth());
 

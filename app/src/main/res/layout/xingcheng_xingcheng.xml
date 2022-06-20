@@ -8,7 +8,6 @@
     <RelativeLayout
         android:clipToPadding="true"
         android:fitsSystemWindows="true"
-        android:id="@+id/My_collection_buju1"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="#10BD10">
@@ -19,17 +18,15 @@
             android:id="@+id/back"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
             />
 
         <TextView
             android:layout_centerVertical="true"
-            android:id="@+id/My_collection"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:gravity="center"
-            android:text="行程录入"
+            android:text="旅程录入"
             android:textColor="#ffffff"
 
             android:layout_centerHorizontal="true"
@@ -50,21 +47,10 @@
     </RelativeLayout>
 
     <TextView
-        android:gravity="center"
-        android:id="@+id/biaoti"
-        android:text="请填写个人行程信息"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:textSize="20dp"
-        android:textColor="@android:color/black"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <TextView
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
-        android:text="        请详细填写个人行程信息，包括行程起点、行程终点、精确时间、交通工具等信息。本功能支持多次提交多段行程，并支持场景文字描述。"
+        android:text="        请详细填写个人外地旅程信息，包括旅程起点、旅程终点、精确时间、交通工具等信息。本功能支持多次提交多段旅程，并支持文本描述。"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
@@ -73,6 +59,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -86,7 +74,7 @@
                     android:layout_marginRight="10dp"
                     android:padding="10dp"
                     android:id="@+id/xingcheng_qidianText"
-                    android:text="行程起点"
+                    android:text="出发地区"
                     android:textColor="@android:color/black"
                     android:textSize="17sp"
                     android:layout_width="match_parent"
@@ -98,7 +86,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:id="@+id/xingcheng_qidian_select_place"
-                android:text="选择地址"
                 android:textSize="17sp"
                 android:gravity="right"
                 android:layout_width="match_parent"
@@ -111,7 +98,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:padding="10dp"
-                android:text="具体地点"
+                android:text="出发地址"
                 android:textSize="17sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -138,7 +125,7 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/t1"
-                    android:text="起点日期"
+                    android:text="出发日期"
                     android:textSize="17sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -268,7 +255,7 @@
                 android:layout_marginRight="10dp"
                 android:padding="10dp"
                 android:id="@+id/xingcheng_endText"
-                android:text="行程终点"
+                android:text="到达地区"
                 android:textColor="@android:color/black"
                 android:textSize="17sp"
                 android:layout_width="match_parent"
@@ -280,7 +267,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:id="@+id/xingcheng_end_select_place"
-                android:text="选择地址"
                 android:textSize="17sp"
                 android:gravity="right"
                 android:layout_width="match_parent"
@@ -293,7 +279,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:padding="10dp"
-                android:text="具体地点"
+                android:text="到达地址"
                 android:textSize="17sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -319,7 +305,7 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/t3"
-                    android:text="终点日期"
+                    android:text="到达日期"
                     android:textSize="17sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -368,7 +354,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:padding="10dp"
-                android:text="行程文本描述"
+                android:text="旅程描述"
                 android:textSize="17sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

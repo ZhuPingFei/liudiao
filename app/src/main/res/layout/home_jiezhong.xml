@@ -9,7 +9,6 @@
     <RelativeLayout
         android:clipToPadding="true"
         android:fitsSystemWindows="true"
-        android:id="@+id/My_collection_buju1"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="#10BD10">
@@ -20,13 +19,11 @@
             android:id="@+id/back"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
             />
 
         <TextView
             android:layout_centerVertical="true"
-            android:id="@+id/My_collection"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:gravity="center"
@@ -65,42 +62,53 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
-        android:text="        请选择三次接种时间和疫苗生产单位，若未接种三次，可不填。"
+        android:text="        请选择三次接种时间和疫苗生产单位，若未接种满三次，对应次可不填。"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
         />
 
-    <RelativeLayout
+    <LinearLayout
         android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:padding="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:padding="10dp"
-        android:orientation="horizontal"
+        android:id="@+id/jezhong1"
+        android:layout_below="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <TextView
-            android:layout_centerVertical="true"
-            android:id="@+id/jingwai_date_text"
+            android:id="@+id/text_sex"
+            android:text="是否已完成第一针接种？"
             android:textSize="17sp"
-            android:text="第一针接种日期"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/select_jiezhongDate1"
-            android:layout_alignParentRight="true"
-            android:text="选择日期"
-            android:textSize="17sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
 
-    </RelativeLayout>
+        <RadioGroup
+            android:id="@+id/jezhong_radiogroup"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:gravity="center_vertical|right"
+            android:orientation="horizontal"
+            >
 
-    <RelativeLayout
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+        </RadioGroup>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/first_date"
         android:background="@android:color/white"
         android:layout_marginTop="1dp"
         android:layout_marginLeft="10dp"
@@ -108,7 +116,40 @@
         android:padding="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:textSize="17sp"
+            android:text="接种日期"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:gravity="right"
+            android:id="@+id/select_jiezhongDate1"
+            android:layout_alignParentRight="true"
+            android:textSize="17sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/first_unit"
+        android:background="@android:color/white"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        >
 
         <TextView
             android:id="@+id/jiezhong_text1"
@@ -131,35 +172,45 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/jezhong2"
         android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:padding="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:padding="10dp"
-        android:orientation="horizontal"
+        android:layout_below="@+id/name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        >
         <TextView
-            android:layout_centerVertical="true"
+            android:text="是否已完成第二针接种？"
             android:textSize="17sp"
-            android:text="第二针接种日期"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/select_jiezhongDate2"
-            android:layout_alignParentRight="true"
-            android:text="选择日期"
-            android:textSize="17sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
 
-    </RelativeLayout>
+        <RadioGroup
+            android:id="@+id/jezhong_radiogroup2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:gravity="center_vertical|right"
+            android:orientation="horizontal"
+            >
+            <Switch
+                android:id="@+id/switch2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
 
-    <RelativeLayout
+        </RadioGroup>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/second_date"
         android:background="@android:color/white"
         android:layout_marginTop="1dp"
         android:layout_marginLeft="10dp"
@@ -167,7 +218,39 @@
         android:padding="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:textSize="17sp"
+            android:text="接种日期"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:gravity="right"
+            android:id="@+id/select_jiezhongDate2"
+            android:layout_alignParentRight="true"
+            android:textSize="17sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/second_unit"
+        android:background="@android:color/white"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/jiezhong_text2"
@@ -190,35 +273,44 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/jezhong3"
         android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:padding="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:padding="10dp"
-        android:orientation="horizontal"
+        android:layout_below="@+id/name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:visibility="gone">
         <TextView
-            android:layout_centerVertical="true"
+            android:text="是否已完成第三针接种？"
             android:textSize="17sp"
-            android:text="第三针接种日期"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/select_jiezhongDate3"
-            android:layout_alignParentRight="true"
-            android:text="选择日期"
-            android:textSize="17sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
 
-    </RelativeLayout>
+        <RadioGroup
+            android:id="@+id/jezhong_radiogroup3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:gravity="center_vertical|right"
+            android:orientation="horizontal"
+            >
+            <Switch
+                android:id="@+id/switch3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+        </RadioGroup>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/third_date"
         android:background="@android:color/white"
         android:layout_marginTop="1dp"
         android:layout_marginLeft="10dp"
@@ -226,7 +318,40 @@
         android:padding="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:textSize="17sp"
+            android:text="接种日期"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:gravity="right"
+            android:id="@+id/select_jiezhongDate3"
+            android:layout_alignParentRight="true"
+            android:textSize="17sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/third_unit"
+        android:background="@android:color/white"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        >
 
     <TextView
         android:id="@+id/jiezhong_text3"

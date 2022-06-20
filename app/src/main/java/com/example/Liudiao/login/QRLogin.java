@@ -15,6 +15,8 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,13 +25,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.example.Liudiao.Main;
-import com.example.Liudiao.MainActivity;
 import com.example.Liudiao.R;
-import com.example.Liudiao.ZhanghaoLogin;
-import com.example.Liudiao.ui.notifications.Erweima;
+import com.example.Liudiao.Xieyi;
 import com.example.Liudiao.zxing.android.CaptureActivity;
 
 import org.json.JSONException;
@@ -50,12 +49,16 @@ public class QRLogin extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private int uid = 0;
-
+    private int authority = 1;
     private Button login;
     private TextView login1;
     private TextView login2;
 
+    private CheckBox sure;
+    private TextView xieyi;
+
     private String last_user_phone;
+    private int last_user_id;
 
     private static final int REQUEST_CODE_SCAN = 0x0000;
     private static final String DECODED_CONTENT_KEY = "codedContent";
@@ -69,17 +72,21 @@ public class QRLogin extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();//获取编辑器
         last_user_phone = sharedPreferences.getString("user_phone","");
+        last_user_id = sharedPreferences.getInt("user_id",0);
 
         login = (Button) findViewById(R.id.qr_login);
         login1 = (TextView) findViewById(R.id.login1_btn);
         login2 = (TextView) findViewById(R.id.login2_btn);
+        sure = (CheckBox) findViewById(R.id.xieyi);
+        xieyi = (TextView) findViewById(R.id.xieyi_text);
 
         login1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QRLogin.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                Toast.makeText(QRLogin.this,"此功能暂不开放",Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(QRLogin.this, MainActivity.class);
+//                startActivity(intent);
+//                finish();
             }
         });
         login2.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +98,14 @@ public class QRLogin extends AppCompatActivity {
 
             }
         });
+        xieyi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(QRLogin.this, Xieyi.class);
+                startActivity(intent);
+            }
+        });
+
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +115,11 @@ public class QRLogin extends AppCompatActivity {
 // 申请一个（或多个）权限，并提供用于回调返回的获取码（用户定义）
                     ActivityCompat.requestPermissions(QRLogin.this, new String[]{Manifest.permission.CAMERA}, 1);
                 } else {
-                    goScan();
+                    if (sure.isChecked()){
+                        goScan();
+                    }else {
+                        Toast.makeText(QRLogin.this,"请您阅读并同意《流调APP用户隐私权政策》",Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
@@ -132,12 +151,12 @@ public class QRLogin extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
             if (data != null) {
                 //返回的文本内容
-                String content = data.getStringExtra(DECODED_CONTENT_KEY);
+                String content = String.valueOf(data.getStringExtra(DECODED_CONTENT_KEY));
                 //返回的BitMap图像
                 Bitmap bitmap = data.getParcelableExtra(DECODED_BITMAP_KEY);
                 //Toast.makeText(QRLogin.this,content,Toast.LENGTH_SHORT).show();
                 //tv_scanResult.setText("你扫描到的内容是：" + content);
-                Login(content);
+                Login1(Integer.parseInt(content));
             }
         }
     }
@@ -184,7 +203,7 @@ public class QRLogin extends AppCompatActivity {
                 try{
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("mobile",phone);
-                    String url = "http://175.23.169.100:9000/user/login/phone";
+                    String url = "http://175.23.169.100:9030/user/login/phone";
                     URL httpUrl = new URL(url);
                     HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
                     PrintWriter out = null;
@@ -212,11 +231,13 @@ public class QRLogin extends AppCompatActivity {
                     int code = jsonObj1.getInt("code");
                     if (code == 0){
                         uid = jsonObj1.getInt("user_id");
+                        authority = jsonObj1.getInt("authority");
                         editor.putInt("user_id",uid);
                         // editor.putInt(""+phone.getText().toString(),uid);
                         editor.putString("user_phone",phone);
                         editor.putBoolean("is_first_login",false);
                         editor.putBoolean("is_login",true);
+                        editor.putInt("authority",authority);
                         editor.commit();//提交修改
 
                         if (!phone.equals(last_user_phone)){
@@ -224,6 +245,7 @@ public class QRLogin extends AppCompatActivity {
                             editor = sharedPreferences.edit();
                             editor.putInt("current_banliId",0);
                             editor.putString("current_banliName","未绑定");
+                            editor.putInt("authority",authority);
                             editor.commit();
                         }
 
@@ -257,6 +279,97 @@ public class QRLogin extends AppCompatActivity {
                     }
 
 
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+    public void Login1(final int id){
+        //进行网络检查
+        if (isConnect(this) == false) {
+            new AlertDialog.Builder(this)
+                    .setTitle("网络错误")
+                    .setMessage("网络连接失败，请开启GPRS或者WIFI连接")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            android.os.Process.killProcess(android.os.Process.myPid());
+                            System.exit(0);
+                        }
+                    }).show();
+        }
+        new Thread(){
+            @Override
+            public void run() {
+                try{
+
+                    String url = "http://175.23.169.100:9030/user/get?user_id="+id;
+                    URL httpUrl = new URL(url);
+                    HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
+
+                    conn.setRequestMethod("GET");
+                    conn.setReadTimeout(5000);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuffer sb = new StringBuffer();
+                    String str;
+                    while ((str = reader.readLine()) != null) {
+                        sb.append(str);
+                    }
+                    JSONObject jsonObj1 = new JSONObject(sb.toString());
+                    Message message = new Message();
+                    int code = jsonObj1.getInt("code");
+                    if (code == 0){
+                        uid = jsonObj1.getInt("user_id");
+                        authority = jsonObj1.getInt("authority");
+                        editor.putInt("user_id",uid);
+                        if (!(jsonObj1.getString("user_name")+"").equals("") && !(jsonObj1.getString("user_name")+"").equals("null") ){
+                            editor.putString("user_name",jsonObj1.getString("user_name"));
+                        }
+                        if (!(jsonObj1.getString("user_phone")+"").equals("") && !(jsonObj1.getString("user_phone")+"").equals("null") ){
+                            editor.putString("user_phone",jsonObj1.getString("user_phone"));
+                        }
+                        editor.putBoolean("is_first_login",false);
+                        editor.putBoolean("is_login",true);
+                        editor.putInt("authority",authority);
+                        editor.commit();//提交修改
+
+                        if (uid != last_user_id){
+                            sharedPreferences = getSharedPreferences("daiban",Activity.MODE_PRIVATE);
+                            editor = sharedPreferences.edit();
+                            editor.putInt("current_banliId",0);
+                            editor.putString("current_banliName","未绑定");
+                            editor.putInt("authority",authority);
+                            editor.commit();
+                        }
+
+
+                        Intent intent = new Intent(QRLogin.this, Main.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("from_where", 1);
+                        startActivity(intent);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(QRLogin.this,"登录成功！",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        finish();
+                    }
+                    else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(QRLogin.this,"用户不存在！",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
 
                 } catch (MalformedURLException e) {
                     e.printStackTrace();

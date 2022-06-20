@@ -41,6 +41,32 @@
             android:layout_alignParentStart="true"
             android:layout_marginTop="30dp" />
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:layout_marginLeft="45dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:id="@+id/xieyi"
+                android:text="您已阅读并同意"
+                android:textColor="@color/gray"
+                android:textSize="12sp"
+                style="@style/Widget.AppCompat.CompoundButton.RadioButton"/>
+
+            <TextView
+                android:id="@+id/xieyi_text"
+                android:layout_gravity="center_vertical"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:text="《流调APP用户隐私权政策》"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
 
 
 
@@ -65,7 +91,6 @@
 
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/login2_btn"
             android:background="@android:color/white"
             android:textSize="15sp"
@@ -76,12 +101,4 @@
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
-
-
-
-
-
-
-
-
 </LinearLayout>

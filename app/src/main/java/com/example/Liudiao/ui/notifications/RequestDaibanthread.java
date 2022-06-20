@@ -2,6 +2,7 @@ package com.example.Liudiao.ui.notifications;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.channels.ClosedChannelException;
 
 public class RequestDaibanthread extends Thread{
     StringBuffer data = new StringBuffer();
@@ -34,6 +36,8 @@ public class RequestDaibanthread extends Thread{
         try {
 
             url = url + "?user_id=" + user_id;
+
+
 
             URL httpUrl = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();

@@ -35,6 +35,7 @@ import com.example.Liudiao.ui.ArraJsonBean;
 import com.example.Liudiao.ui.GetJsonDataUtil;
 import com.example.Liudiao.ui.home.Jingwai;
 import com.example.Liudiao.ui.home.RequestJiankangThread;
+import com.example.Liudiao.ui.huodong.Huodong;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -50,8 +51,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class XingchengAlter extends AppCompatActivity {
+    private int isempty=1;//1空2不空
+    private double oldstart;
+    private double oldend;
+
 
     private SharedPreferences preferences;
     SharedPreferences.Editor editor;
@@ -94,9 +100,13 @@ public class XingchengAlter extends AppCompatActivity {
     private ArrayList<String> trasfferLeixing = new ArrayList<String>();
     private EditText trasfferDetail;
     private EditText tongxing;
+    private EditText tra_detail;
 
     private EditText edit;
     StringBuffer xingcheng ;
+
+    List<YiyouhuodongA> huodongyiyou1 = new ArrayList<>();
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -121,9 +131,15 @@ public class XingchengAlter extends AppCompatActivity {
         xingcheng = new StringBuffer();
 
         trasfferLeixing.add("飞机");
-        trasfferLeixing.add("轮船");
         trasfferLeixing.add("火车");
         trasfferLeixing.add("客车");
+        trasfferLeixing.add("轮船");
+        trasfferLeixing.add("出租车");
+        trasfferLeixing.add("私家车");
+        trasfferLeixing.add("公交车");
+        trasfferLeixing.add("市内轨道交通");
+        trasfferLeixing.add("骑行");
+        trasfferLeixing.add("步行");
 
         preferences = getSharedPreferences("daiban",Activity.MODE_PRIVATE);
         editor = preferences.edit();
@@ -156,14 +172,33 @@ public class XingchengAlter extends AppCompatActivity {
         endDetailplace.setText(end_detail);
         endDate.setText(end_date);
         endTime.setText(end_time);
-        trasffer.setSelection(traffic);
+        trasffer.setSelection(traffic-1);
         trasfferDetail.setText(tra_detail);
         tongxing.setText(peers);
+
+
+
+
+
+        double ysd = Double.valueOf(start_date.split("-")[0]);
+        double msd = Double.valueOf(start_date.split("-")[1]);
+        double dsd = Double.valueOf(start_date.split("-")[2]);
+        double hst = Double.valueOf(start_time.split(":")[0]);
+        double mist = Double.valueOf(start_time.split(":")[1]);
+
+        double yed = Double.valueOf(end_date.split("-")[0]);
+        double med = Double.valueOf(end_date.split("-")[1]);
+        double ded = Double.valueOf(end_date.split("-")[2]);
+        double het = Double.valueOf(end_time.split(":")[0]);
+        double miet = Double.valueOf(end_time.split(":")[1]);
+        oldstart = (((ysd*100+msd)*100+dsd)*100+hst)*100+mist;
+        oldend = (((yed*100+med)*100+ded)*100+het)*100+miet;
+
 
         trasffer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                trasfferPosition = position;
+                trasfferPosition = position+1;
             }
 
             @Override
@@ -196,59 +231,206 @@ public class XingchengAlter extends AppCompatActivity {
             }
         });
         okey = (TextView) findViewById(R.id.okay);
+
+
+
+        //从接口拿数据
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    String url = "http://175.23.169.100:9030/case-travel-trajectory/get?transactor_id=" + current_transId;
+                    URL httpUrl = new URL(url);
+                    HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
+
+                    conn.setRequestMethod("GET");
+                    conn.setReadTimeout(5000);
+                    BufferedReader reader2 = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuffer sb = new StringBuffer();
+                    String str1;
+                    while ((str1 = reader2.readLine()) != null) {
+                        sb.append(str1);
+                    }
+                    JSONObject object1 = new JSONObject(sb.toString());
+                    int code = object1.getInt("code");
+                    int acti_num = 0;
+                    if (code == 0) {
+                        JSONArray json1 = object1.getJSONArray("trajs");
+
+                        acti_num = json1.length();
+                        if (acti_num != 0) {
+                            isempty = 2;
+                            for (int i = 0; i < acti_num; i++) {
+                                String sd = json1.getJSONObject(i).getString("start_date");
+                                String st = json1.getJSONObject(i).getString("start_time");
+                                String ed = json1.getJSONObject(i).getString("end_date");
+                                String et = json1.getJSONObject(i).getString("end_time");
+
+                                double yearsd = Double.valueOf(sd.split("-")[0]);
+                                double monthsd = Double.valueOf(sd.split("-")[1]);
+                                double daysd = Double.valueOf(sd.split("-")[2]);
+                                double hourst = Double.valueOf(st.split(":")[0]);
+                                double minst = Double.valueOf(st.split(":")[1]);
+
+                                double yeared = Double.valueOf(ed.split("-")[0]);
+                                double monthed = Double.valueOf(ed.split("-")[1]);
+                                double dayed = Double.valueOf(ed.split("-")[2]);
+                                double houret = Double.valueOf(et.split(":")[0]);
+                                double minet = Double.valueOf(et.split(":")[1]);
+
+                                double starttime;
+                                double endtime;
+                                starttime = (((yearsd*100+monthsd)*100+daysd)*100+hourst)*100+minst;
+                                endtime = (((yeared*100+monthed)*100+dayed)*100+houret)*100+minet;
+                                YiyouhuodongA b = new YiyouhuodongA(starttime,endtime);
+                                if(Math.abs(starttime - oldstart) < 0.00001 && Math.abs(endtime - oldend) < 0.00001 ){
+
+                                }else {
+                                    huodongyiyou1.add(b);
+                                }
+
+                            }
+                        }else {
+                            isempty=1;
+                        }
+                    }
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
         okey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final StringBuffer stringBuffer1 = new StringBuffer(startDate.getText().toString());
+                if (startDate.getText().toString().length()==8){
+                    stringBuffer1.insert(5,"0");
+                    stringBuffer1.insert(8,"0");
+                }else if (startDate.getText().toString().length()==9){
+                    String[] split = startDate.getText().toString().split("-");
+                    if (split[1].length() == 2){
+                        stringBuffer1.insert(8,"0");
+                    }else {
+                        stringBuffer1.insert(5,"0");
+                    }
+                }
+                final StringBuffer stringBuffer2 = new StringBuffer(endDate.getText().toString());
+                if (endDate.getText().toString().length()==8){
+                    stringBuffer2.insert(5,"0");
+                    stringBuffer2.insert(8,"0");
+                }else if (endDate.getText().toString().length()==9){
+                    String[] split = endDate.getText().toString().split("-");
+                    if (split[1].length() == 2){
+                        stringBuffer2.insert(8,"0");
+                    }else {
+                        stringBuffer2.insert(5,"0");
+                    }
+                }
+                final StringBuffer stringBuffer = new StringBuffer(startTime.getText().toString());
+                if (startTime.getText().toString().length()==3){
+                    stringBuffer.insert(0,"0");
+                    stringBuffer.insert(3,"0");
+                }else if (startTime.getText().toString().length()==4){
+                    String[] split = startTime.getText().toString().split(":");
+                    if (split[1].length() == 1){
+                        stringBuffer.insert(3,"0");
+                    }else {
+                        stringBuffer.insert(0,"0");
+                    }
+                }
+
+                final StringBuffer stringBuffer3 = new StringBuffer(endTime.getText().toString());
+                if (endTime.getText().toString().length()==3){
+                    stringBuffer3.insert(0,"0");
+                    stringBuffer3.insert(3,"0");
+                }else if (endTime.getText().toString().length()==4){
+                    String[] split = endTime.getText().toString().split(":");
+                    if (split[1].length() == 1){
+                        stringBuffer3.insert(3,"0");
+                    }else {
+                        stringBuffer3.insert(0,"0");
+                    }
+                }
+
+
+
+                //闭环逻辑，判断是否能交
+                //先把写入的时间化成double。
+                double substarty = Double.valueOf(stringBuffer1.toString().split("-")[0]);
+                double substartmon = Double.valueOf(stringBuffer1.toString().split("-")[1]);
+                double substartd = Double.valueOf(stringBuffer1.toString().split("-")[2]);
+                double substarth = Double.valueOf(stringBuffer.toString().split(":")[0]);
+                double substartmin = Double.valueOf(stringBuffer.toString().split(":")[1]);
+                double subendy = Double.valueOf(stringBuffer2.toString().split("-")[0]);
+                double subendmon = Double.valueOf(stringBuffer2.toString().split("-")[1]);
+                double subendd = Double.valueOf(stringBuffer2.toString().split("-")[2]);
+                double subendh = Double.valueOf(stringBuffer3.toString().split(":")[0]);
+                double subendmin = Double.valueOf(stringBuffer3.toString().split(":")[1]);
+
+
+
+                double substart = (((substarty*100+substartmon)*100+substartd)*100+substarth)*100+substartmin;
+                double subend = (((subendy*100+subendmon)*100+subendd)*100+subendh)*100+subendmin;
+
+                int cansub = 1;//1能交2不能交3日期本身前后有问题
+                if(huodongyiyou1.size()>0){
+                    isempty=2;
+                }
+
+
+                if(isempty != 1){
+                    for (int i = 0; i < huodongyiyou1.size(); i++) {
+                        if(huodongyiyou1.get(i).addok(substart,subend)==false){
+                            cansub = 2;
+                        }
+                    }
+                }
+                if(substart>subend){
+                    cansub = 3;
+                }
+
+
+
+
+
+
+
+
+
                 if (!startPlace.getText().toString().equals("") && !startDetailplace.getText().toString().equals("")
                         && !startDate.getText().toString().equals("") && !startTime.getText().toString().equals("")
                         && !trasfferDetail.getText().toString().equals("") && !tongxing.getText().toString().equals("")
                         && !endPlace.getText().toString().equals("") && !endDetailplace.getText().toString().equals("")
                         && !endDate.getText().toString().equals("") && !endTime.getText().toString().equals("")) {
+                    if (cansub == 2) {
+                        Toast.makeText(XingchengAlter.this, "提交行程起止时间与已有活动起止时间存在冲突，请修改时间", Toast.LENGTH_LONG).show();
+                    } else if (cansub == 3) {
+                        Toast.makeText(XingchengAlter.this, "起始时间在结束时间之后，请修改时间", Toast.LENGTH_LONG).show();
+                    } else {
 
-                    final StringBuffer stringBuffer1 = new StringBuffer(startDate.getText().toString());
-                    if (startDate.getText().toString().length()==8){
-                        stringBuffer1.insert(5,"0");
-                        stringBuffer1.insert(8,"0");
-                    }else if (startDate.getText().toString().length()==9){
-                        String[] split = startDate.getText().toString().split("-");
-                        if (split[1].length() == 2){
-                            stringBuffer1.insert(8,"0");
-                        }else {
-                            stringBuffer1.insert(5,"0");
-                        }
-                    }
-                    final StringBuffer stringBuffer2 = new StringBuffer(endDate.getText().toString());
-                    if (endDate.getText().toString().length()==8){
-                        stringBuffer2.insert(5,"0");
-                        stringBuffer2.insert(8,"0");
-                    }else if (endDate.getText().toString().length()==9){
-                        String[] split = endDate.getText().toString().split("-");
-                        if (split[1].length() == 2){
-                            stringBuffer2.insert(8,"0");
-                        }else {
-                            stringBuffer2.insert(5,"0");
-                        }
-                    }
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                String postUrl = "http://175.23.169.100:9000/case-travel-trajectory/set";
+                                String postUrl = "http://175.23.169.100:9030/case-travel-trajectory/set";
                                 JSONObject jsonObject = new JSONObject();
-                                jsonObject.put("traj_id",traj_id);
-                                jsonObject.put("transactor_id",current_transId);
-                                jsonObject.put("start",startPlace.getText().toString());
-                                jsonObject.put("start_detail",startDetailplace.getText().toString());
-                                jsonObject.put("start_date",stringBuffer1.toString());
-                                jsonObject.put("start_time",startTime.getText().toString());
-                                jsonObject.put("traffic",trasfferPosition);
-                                jsonObject.put("tra_detail",trasfferDetail.getText().toString());
-                                jsonObject.put("peers",tongxing.getText().toString());
-                                jsonObject.put("end",endPlace.getText().toString());
-                                jsonObject.put("end_detail",endDetailplace.getText().toString());
-                                jsonObject.put("end_date",stringBuffer2.toString());
-                                jsonObject.put("end_time",endTime.getText().toString());
-                                jsonObject.put("journey_det","");
+                                jsonObject.put("traj_id", traj_id);
+                                jsonObject.put("transactor_id", current_transId);
+                                jsonObject.put("start", startPlace.getText().toString());
+                                jsonObject.put("start_detail", startDetailplace.getText().toString());
+                                jsonObject.put("start_date", stringBuffer1.toString());
+                                jsonObject.put("start_time", stringBuffer.toString());
+                                jsonObject.put("traffic", trasfferPosition);
+                                jsonObject.put("tra_detail", trasfferDetail.getText().toString());
+                                jsonObject.put("peers", tongxing.getText().toString());
+                                jsonObject.put("end", endPlace.getText().toString());
+                                jsonObject.put("end_detail", endDetailplace.getText().toString());
+                                jsonObject.put("end_date", stringBuffer2.toString());
+                                jsonObject.put("end_time", stringBuffer3.toString());
 
                                 URL httpUrl = new URL(postUrl);
                                 HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
@@ -262,7 +444,7 @@ public class XingchengAlter extends AppCompatActivity {
                                 out.print(jsonObject);
                                 out.flush();
                                 InputStream is = conn.getInputStream();
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(is,"utf-8"));
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "utf-8"));
                                 StringBuffer sb = new StringBuffer();
                                 String str;
                                 while ((str = reader.readLine()) != null) {
@@ -270,13 +452,13 @@ public class XingchengAlter extends AppCompatActivity {
                                 }
                                 JSONObject jsonObj1 = new JSONObject(sb.toString());
                                 int isUpadteSeccess = jsonObj1.getInt("code");
-                                if (isUpadteSeccess == 0){
+                                if (isUpadteSeccess == 0) {
                                     Looper.prepare();
-                                    Toast.makeText(XingchengAlter.this,"修改成功",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(XingchengAlter.this, "修改成功", Toast.LENGTH_SHORT).show();
                                     Looper.loop();
 
                                 }
-                            }catch (MalformedURLException e) {
+                            } catch (MalformedURLException e) {
                                 e.printStackTrace();
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -285,10 +467,8 @@ public class XingchengAlter extends AppCompatActivity {
                             }
                         }
                     }).start();
-                    Intent intent = new Intent(XingchengAlter.this,XingchengHistory.class);
-                    startActivity(intent);
-                    finish();
-                    //onBackPressed();
+                    onBackPressed();
+                }
                 }else {
                     Toast.makeText(XingchengAlter.this,"请填写全部信息！",Toast.LENGTH_SHORT).show();
                 }
@@ -308,10 +488,127 @@ public class XingchengAlter extends AppCompatActivity {
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(XingchengAlter.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(XingchengAlter.this, android.app.AlertDialog.THEME_HOLO_LIGHT,new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         startDate.setText(year + "-" + (month+1) + "-" + dayOfMonth);
+
+                        final StringBuffer stringBuffer1 = new StringBuffer(startDate.getText().toString());
+                        if (startDate.getText().toString().length()==8){
+                            stringBuffer1.insert(5,"0");
+                            stringBuffer1.insert(8,"0");
+                        }else if (startDate.getText().toString().length()==9){
+                            String[] split = startDate.getText().toString().split("-");
+                            if (split[1].length() == 2){
+                                stringBuffer1.insert(8,"0");
+                            }else {
+                                stringBuffer1.insert(5,"0");
+                            }
+                        }
+                        final StringBuffer stringBuffer2 = new StringBuffer(endDate.getText().toString());
+                        if (endDate.getText().toString().length()==8){
+                            stringBuffer2.insert(5,"0");
+                            stringBuffer2.insert(8,"0");
+                        }else if (endDate.getText().toString().length()==9){
+                            String[] split = endDate.getText().toString().split("-");
+                            if (split[1].length() == 2){
+                                stringBuffer2.insert(8,"0");
+                            }else {
+                                stringBuffer2.insert(5,"0");
+                            }
+                        }
+                        final StringBuffer stringBuffer = new StringBuffer(startTime.getText().toString());
+                        if (startTime.getText().toString().length()==3){
+                            stringBuffer.insert(0,"0");
+                            stringBuffer.insert(3,"0");
+                        }else if (startTime.getText().toString().length()==4){
+                            String[] split = startTime.getText().toString().split(":");
+                            if (split[1].length() == 1){
+                                stringBuffer.insert(3,"0");
+                            }else {
+                                stringBuffer.insert(0,"0");
+                            }
+                        }
+
+                        final StringBuffer stringBuffer3 = new StringBuffer(endTime.getText().toString());
+                        if (endTime.getText().toString().length()==3){
+                            stringBuffer3.insert(0,"0");
+                            stringBuffer3.insert(3,"0");
+                        }else if (endTime.getText().toString().length()==4){
+                            String[] split = endTime.getText().toString().split(":");
+                            if (split[1].length() == 1){
+                                stringBuffer3.insert(3,"0");
+                            }else {
+                                stringBuffer3.insert(0,"0");
+                            }
+                        }
+
+
+                        if (!startPlace.getText().toString().equals("") && !startDetailplace.getText().toString().equals("")
+                                && !startDate.getText().toString().equals("") && !startTime.getText().toString().equals("")
+                                && !trasfferDetail.getText().toString().equals("") && !tongxing.getText().toString().equals("")
+                                && !endPlace.getText().toString().equals("") && !endDetailplace.getText().toString().equals("")
+                                && !endDate.getText().toString().equals("") && !endTime.getText().toString().equals("")) {
+                        //闭环逻辑，判断是否能交
+                        //先把写入的时间化成double。
+                        double substarty = Double.valueOf(stringBuffer1.toString().split("-")[0]);
+                        double substartmon = Double.valueOf(stringBuffer1.toString().split("-")[1]);
+                        double substartd = Double.valueOf(stringBuffer1.toString().split("-")[2]);
+                        double substarth = Double.valueOf(stringBuffer.toString().split(":")[0]);
+                        double substartmin = Double.valueOf(stringBuffer.toString().split(":")[1]);
+                        double subendy = Double.valueOf(stringBuffer2.toString().split("-")[0]);
+                        double subendmon = Double.valueOf(stringBuffer2.toString().split("-")[1]);
+                        double subendd = Double.valueOf(stringBuffer2.toString().split("-")[2]);
+                        double subendh = Double.valueOf(stringBuffer3.toString().split(":")[0]);
+                        double subendmin = Double.valueOf(stringBuffer3.toString().split(":")[1]);
+
+
+
+                        double substart = (((substarty*100+substartmon)*100+substartd)*100+substarth)*100+substartmin;
+                        double subend = (((subendy*100+subendmon)*100+subendd)*100+subendh)*100+subendmin;
+
+                        int cansub = 1;//1能交2不能交3日期本身前后有问题
+                        if(huodongyiyou1.size()>0){
+                            isempty=2;
+                        }
+
+
+                        if(isempty != 1){
+                            for (int i = 0; i < huodongyiyou1.size(); i++) {
+                                if(huodongyiyou1.get(i).addok(substart,subend)==false){
+                                    cansub = 2;
+                                }
+                            }
+                        }
+                        if(substart>subend){
+                            cansub = 3;
+                        }
+
+
+
+
+
+
+
+
+
+
+                            if (cansub == 1){
+                                startDate.setTextColor(-1979711488);
+                                startTime.setTextColor(-1979711488);
+                                endDate.setTextColor(-1979711488);
+                                endTime.setTextColor(-1979711488);
+                            }else if (cansub == 2){
+                                Toast.makeText(XingchengAlter.this, "提交活动起止时间与已有活动起止时间存在冲突，请修改时间", Toast.LENGTH_SHORT).show();
+                                startDate.setTextColor(Color.rgb(255, 0, 0));
+                                startTime.setTextColor(Color.rgb(255, 0, 0));
+                            }else if (cansub == 3){
+                                Toast.makeText(XingchengAlter.this, "起始时间在结束时间之后，请修改时间", Toast.LENGTH_SHORT).show();
+                                startDate.setTextColor(Color.rgb(255, 0, 0));
+                                startTime.setTextColor(Color.rgb(255, 0, 0));
+                            }
+
+                        }
                     }
                 },year, calendar.get(Calendar.MONTH), day);
                 datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
@@ -322,10 +619,128 @@ public class XingchengAlter extends AppCompatActivity {
         startTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new TimePickerDialog(XingchengAlter.this, new TimePickerDialog.OnTimeSetListener() {
+                new TimePickerDialog(XingchengAlter.this,  android.app.AlertDialog.THEME_HOLO_LIGHT,new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         startTime.setText(hourOfDay + ":" + minute);
+
+                        final StringBuffer stringBuffer1 = new StringBuffer(startDate.getText().toString());
+                        if (startDate.getText().toString().length()==8){
+                            stringBuffer1.insert(5,"0");
+                            stringBuffer1.insert(8,"0");
+                        }else if (startDate.getText().toString().length()==9){
+                            String[] split = startDate.getText().toString().split("-");
+                            if (split[1].length() == 2){
+                                stringBuffer1.insert(8,"0");
+                            }else {
+                                stringBuffer1.insert(5,"0");
+                            }
+                        }
+                        final StringBuffer stringBuffer2 = new StringBuffer(endDate.getText().toString());
+                        if (endDate.getText().toString().length()==8){
+                            stringBuffer2.insert(5,"0");
+                            stringBuffer2.insert(8,"0");
+                        }else if (endDate.getText().toString().length()==9){
+                            String[] split = endDate.getText().toString().split("-");
+                            if (split[1].length() == 2){
+                                stringBuffer2.insert(8,"0");
+                            }else {
+                                stringBuffer2.insert(5,"0");
+                            }
+                        }
+                        final StringBuffer stringBuffer = new StringBuffer(startTime.getText().toString());
+                        if (startTime.getText().toString().length()==3){
+                            stringBuffer.insert(0,"0");
+                            stringBuffer.insert(3,"0");
+                        }else if (startTime.getText().toString().length()==4){
+                            String[] split = startTime.getText().toString().split(":");
+                            if (split[1].length() == 1){
+                                stringBuffer.insert(3,"0");
+                            }else {
+                                stringBuffer.insert(0,"0");
+                            }
+                        }
+
+                        final StringBuffer stringBuffer3 = new StringBuffer(endTime.getText().toString());
+                        if (endTime.getText().toString().length()==3){
+                            stringBuffer3.insert(0,"0");
+                            stringBuffer3.insert(3,"0");
+                        }else if (endTime.getText().toString().length()==4){
+                            String[] split = endTime.getText().toString().split(":");
+                            if (split[1].length() == 1){
+                                stringBuffer3.insert(3,"0");
+                            }else {
+                                stringBuffer3.insert(0,"0");
+                            }
+                        }
+
+
+                        if (!startPlace.getText().toString().equals("") && !startDetailplace.getText().toString().equals("")
+                                && !startDate.getText().toString().equals("") && !startTime.getText().toString().equals("")
+                                && !trasfferDetail.getText().toString().equals("") && !tongxing.getText().toString().equals("")
+                                && !endPlace.getText().toString().equals("") && !endDetailplace.getText().toString().equals("")
+                                && !endDate.getText().toString().equals("") && !endTime.getText().toString().equals("")) {
+                        //闭环逻辑，判断是否能交
+                        //先把写入的时间化成double。
+                        double substarty = Double.valueOf(stringBuffer1.toString().split("-")[0]);
+                        double substartmon = Double.valueOf(stringBuffer1.toString().split("-")[1]);
+                        double substartd = Double.valueOf(stringBuffer1.toString().split("-")[2]);
+                        double substarth = Double.valueOf(stringBuffer.toString().split(":")[0]);
+                        double substartmin = Double.valueOf(stringBuffer.toString().split(":")[1]);
+                        double subendy = Double.valueOf(stringBuffer2.toString().split("-")[0]);
+                        double subendmon = Double.valueOf(stringBuffer2.toString().split("-")[1]);
+                        double subendd = Double.valueOf(stringBuffer2.toString().split("-")[2]);
+                        double subendh = Double.valueOf(stringBuffer3.toString().split(":")[0]);
+                        double subendmin = Double.valueOf(stringBuffer3.toString().split(":")[1]);
+
+
+
+                        double substart = (((substarty*100+substartmon)*100+substartd)*100+substarth)*100+substartmin;
+                        double subend = (((subendy*100+subendmon)*100+subendd)*100+subendh)*100+subendmin;
+
+                        int cansub = 1;//1能交2不能交3日期本身前后有问题
+                        if(huodongyiyou1.size()>0){
+                            isempty=2;
+                        }
+
+
+                        if(isempty != 1){
+                            for (int i = 0; i < huodongyiyou1.size(); i++) {
+                                if(huodongyiyou1.get(i).addok(substart,subend)==false){
+                                    cansub = 2;
+                                }
+                            }
+                        }
+                        if(substart>subend){
+                            cansub = 3;
+                        }
+
+
+
+
+
+
+
+
+
+
+                            if (cansub == 1){
+                                startDate.setTextColor(-1979711488);
+                                startTime.setTextColor(-1979711488);
+                                endDate.setTextColor(-1979711488);
+                                endTime.setTextColor(-1979711488);
+                            }else if (cansub == 2){
+                                Toast.makeText(XingchengAlter.this, "提交活动起止时间与已有活动起止时间存在冲突，请修改时间", Toast.LENGTH_SHORT).show();
+                                startDate.setTextColor(Color.rgb(255, 0, 0));
+                                startTime.setTextColor(Color.rgb(255, 0, 0));
+                            }else if (cansub == 3){
+                                Toast.makeText(XingchengAlter.this, "起始时间在结束时间之后，请修改时间", Toast.LENGTH_SHORT).show();
+                                startDate.setTextColor(Color.rgb(255, 0, 0));
+                                startTime.setTextColor(Color.rgb(255, 0, 0));
+                            }
+
+                        }
+
                     }
                 }, hour, min, true).show();
             }
@@ -335,10 +750,128 @@ public class XingchengAlter extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(XingchengAlter.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(XingchengAlter.this, android.app.AlertDialog.THEME_HOLO_LIGHT,new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         endDate.setText(year + "-" + (month+1) + "-" + dayOfMonth);
+
+                        final StringBuffer stringBuffer1 = new StringBuffer(startDate.getText().toString());
+                        if (startDate.getText().toString().length()==8){
+                            stringBuffer1.insert(5,"0");
+                            stringBuffer1.insert(8,"0");
+                        }else if (startDate.getText().toString().length()==9){
+                            String[] split = startDate.getText().toString().split("-");
+                            if (split[1].length() == 2){
+                                stringBuffer1.insert(8,"0");
+                            }else {
+                                stringBuffer1.insert(5,"0");
+                            }
+                        }
+                        final StringBuffer stringBuffer2 = new StringBuffer(endDate.getText().toString());
+                        if (endDate.getText().toString().length()==8){
+                            stringBuffer2.insert(5,"0");
+                            stringBuffer2.insert(8,"0");
+                        }else if (endDate.getText().toString().length()==9){
+                            String[] split = endDate.getText().toString().split("-");
+                            if (split[1].length() == 2){
+                                stringBuffer2.insert(8,"0");
+                            }else {
+                                stringBuffer2.insert(5,"0");
+                            }
+                        }
+                        final StringBuffer stringBuffer = new StringBuffer(startTime.getText().toString());
+                        if (startTime.getText().toString().length()==3){
+                            stringBuffer.insert(0,"0");
+                            stringBuffer.insert(3,"0");
+                        }else if (startTime.getText().toString().length()==4){
+                            String[] split = startTime.getText().toString().split(":");
+                            if (split[1].length() == 1){
+                                stringBuffer.insert(3,"0");
+                            }else {
+                                stringBuffer.insert(0,"0");
+                            }
+                        }
+
+                        final StringBuffer stringBuffer3 = new StringBuffer(endTime.getText().toString());
+                        if (endTime.getText().toString().length()==3){
+                            stringBuffer3.insert(0,"0");
+                            stringBuffer3.insert(3,"0");
+                        }else if (endTime.getText().toString().length()==4){
+                            String[] split = endTime.getText().toString().split(":");
+                            if (split[1].length() == 1){
+                                stringBuffer3.insert(3,"0");
+                            }else {
+                                stringBuffer3.insert(0,"0");
+                            }
+                        }
+
+
+                        if (!startPlace.getText().toString().equals("") && !startDetailplace.getText().toString().equals("")
+                                && !startDate.getText().toString().equals("") && !startTime.getText().toString().equals("")
+                                && !trasfferDetail.getText().toString().equals("") && !tongxing.getText().toString().equals("")
+                                && !endPlace.getText().toString().equals("") && !endDetailplace.getText().toString().equals("")
+                                && !endDate.getText().toString().equals("") && !endTime.getText().toString().equals("")) {
+                        //闭环逻辑，判断是否能交
+                        //先把写入的时间化成double。
+                        double substarty = Double.valueOf(stringBuffer1.toString().split("-")[0]);
+                        double substartmon = Double.valueOf(stringBuffer1.toString().split("-")[1]);
+                        double substartd = Double.valueOf(stringBuffer1.toString().split("-")[2]);
+                        double substarth = Double.valueOf(stringBuffer.toString().split(":")[0]);
+                        double substartmin = Double.valueOf(stringBuffer.toString().split(":")[1]);
+                        double subendy = Double.valueOf(stringBuffer2.toString().split("-")[0]);
+                        double subendmon = Double.valueOf(stringBuffer2.toString().split("-")[1]);
+                        double subendd = Double.valueOf(stringBuffer2.toString().split("-")[2]);
+                        double subendh = Double.valueOf(stringBuffer3.toString().split(":")[0]);
+                        double subendmin = Double.valueOf(stringBuffer3.toString().split(":")[1]);
+
+
+
+                        double substart = (((substarty*100+substartmon)*100+substartd)*100+substarth)*100+substartmin;
+                        double subend = (((subendy*100+subendmon)*100+subendd)*100+subendh)*100+subendmin;
+
+                        int cansub = 1;//1能交2不能交3日期本身前后有问题
+                        if(huodongyiyou1.size()>0){
+                            isempty=2;
+                        }
+
+
+                        if(isempty != 1){
+                            for (int i = 0; i < huodongyiyou1.size(); i++) {
+                                if(huodongyiyou1.get(i).addok(substart,subend)==false){
+                                    cansub = 2;
+                                }
+                            }
+                        }
+                        if(substart>subend){
+                            cansub = 3;
+                        }
+
+
+
+
+
+
+
+
+
+
+                            if (cansub == 1){
+                                startDate.setTextColor(-1979711488);
+                                startTime.setTextColor(-1979711488);
+                                endDate.setTextColor(-1979711488);
+                                endTime.setTextColor(-1979711488);
+                            }else if (cansub == 2){
+                                Toast.makeText(XingchengAlter.this, "提交活动起止时间与已有活动起止时间存在冲突，请修改时间", Toast.LENGTH_SHORT).show();
+                                endDate.setTextColor(Color.rgb(255, 0, 0));
+                                endTime.setTextColor(Color.rgb(255, 0, 0));
+                            }else if (cansub == 3){
+                                Toast.makeText(XingchengAlter.this, "起始时间在结束时间之后，请修改时间", Toast.LENGTH_SHORT).show();
+                                endDate.setTextColor(Color.rgb(255, 0, 0));
+                                endTime.setTextColor(Color.rgb(255, 0, 0));
+                            }
+
+                        }
+
                     }
                 },year, calendar.get(Calendar.MONTH), day);
                 datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
@@ -349,10 +882,129 @@ public class XingchengAlter extends AppCompatActivity {
         endTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new TimePickerDialog(XingchengAlter.this, new TimePickerDialog.OnTimeSetListener() {
+                new TimePickerDialog(XingchengAlter.this,  android.app.AlertDialog.THEME_HOLO_LIGHT,new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         endTime.setText(hourOfDay + ":" + minute);
+
+                        final StringBuffer stringBuffer1 = new StringBuffer(startDate.getText().toString());
+                        if (startDate.getText().toString().length()==8){
+                            stringBuffer1.insert(5,"0");
+                            stringBuffer1.insert(8,"0");
+                        }else if (startDate.getText().toString().length()==9){
+                            String[] split = startDate.getText().toString().split("-");
+                            if (split[1].length() == 2){
+                                stringBuffer1.insert(8,"0");
+                            }else {
+                                stringBuffer1.insert(5,"0");
+                            }
+                        }
+                        final StringBuffer stringBuffer2 = new StringBuffer(endDate.getText().toString());
+                        if (endDate.getText().toString().length()==8){
+                            stringBuffer2.insert(5,"0");
+                            stringBuffer2.insert(8,"0");
+                        }else if (endDate.getText().toString().length()==9){
+                            String[] split = endDate.getText().toString().split("-");
+                            if (split[1].length() == 2){
+                                stringBuffer2.insert(8,"0");
+                            }else {
+                                stringBuffer2.insert(5,"0");
+                            }
+                        }
+                        final StringBuffer stringBuffer = new StringBuffer(startTime.getText().toString());
+                        if (startTime.getText().toString().length()==3){
+                            stringBuffer.insert(0,"0");
+                            stringBuffer.insert(3,"0");
+                        }else if (startTime.getText().toString().length()==4){
+                            String[] split = startTime.getText().toString().split(":");
+                            if (split[1].length() == 1){
+                                stringBuffer.insert(3,"0");
+                            }else {
+                                stringBuffer.insert(0,"0");
+                            }
+                        }
+
+                        final StringBuffer stringBuffer3 = new StringBuffer(endTime.getText().toString());
+                        if (endTime.getText().toString().length()==3){
+                            stringBuffer3.insert(0,"0");
+                            stringBuffer3.insert(3,"0");
+                        }else if (endTime.getText().toString().length()==4){
+                            String[] split = endTime.getText().toString().split(":");
+                            if (split[1].length() == 1){
+                                stringBuffer3.insert(3,"0");
+                            }else {
+                                stringBuffer3.insert(0,"0");
+                            }
+                        }
+
+                        if (!startPlace.getText().toString().equals("") && !startDetailplace.getText().toString().equals("")
+                                && !startDate.getText().toString().equals("") && !startTime.getText().toString().equals("")
+                                && !trasfferDetail.getText().toString().equals("") && !tongxing.getText().toString().equals("")
+                                && !endPlace.getText().toString().equals("") && !endDetailplace.getText().toString().equals("")
+                                && !endDate.getText().toString().equals("") && !endTime.getText().toString().equals("")) {
+
+                        //闭环逻辑，判断是否能交
+                        //先把写入的时间化成double。
+                        double substarty = Double.valueOf(stringBuffer1.toString().split("-")[0]);
+                        double substartmon = Double.valueOf(stringBuffer1.toString().split("-")[1]);
+                        double substartd = Double.valueOf(stringBuffer1.toString().split("-")[2]);
+                        double substarth = Double.valueOf(stringBuffer.toString().split(":")[0]);
+                        double substartmin = Double.valueOf(stringBuffer.toString().split(":")[1]);
+                        double subendy = Double.valueOf(stringBuffer2.toString().split("-")[0]);
+                        double subendmon = Double.valueOf(stringBuffer2.toString().split("-")[1]);
+                        double subendd = Double.valueOf(stringBuffer2.toString().split("-")[2]);
+                        double subendh = Double.valueOf(stringBuffer3.toString().split(":")[0]);
+                        double subendmin = Double.valueOf(stringBuffer3.toString().split(":")[1]);
+
+
+
+                        double substart = (((substarty*100+substartmon)*100+substartd)*100+substarth)*100+substartmin;
+                        double subend = (((subendy*100+subendmon)*100+subendd)*100+subendh)*100+subendmin;
+
+                        int cansub = 1;//1能交2不能交3日期本身前后有问题
+                        if(huodongyiyou1.size()>0){
+                            isempty=2;
+                        }
+
+
+                        if(isempty != 1){
+                            for (int i = 0; i < huodongyiyou1.size(); i++) {
+                                if(huodongyiyou1.get(i).addok(substart,subend)==false){
+                                    cansub = 2;
+                                }
+                            }
+                        }
+                        if(substart>subend){
+                            cansub = 3;
+                        }
+
+
+
+
+
+
+
+
+
+
+                            if (cansub == 1){
+                                startDate.setTextColor(-1979711488);
+                                startTime.setTextColor(-1979711488);
+                                endDate.setTextColor(-1979711488);
+                                endTime.setTextColor(-1979711488);
+                            }else if (cansub == 2){
+                                Toast.makeText(XingchengAlter.this, "提交活动起止时间与已有活动起止时间存在冲突，请修改时间", Toast.LENGTH_SHORT).show();
+                                endDate.setTextColor(Color.rgb(255, 0, 0));
+                                endTime.setTextColor(Color.rgb(255, 0, 0));
+                            }else if (cansub == 3){
+                                Toast.makeText(XingchengAlter.this, "起始时间在结束时间之后，请修改时间", Toast.LENGTH_SHORT).show();
+                                endDate.setTextColor(Color.rgb(255, 0, 0));
+                                endTime.setTextColor(Color.rgb(255, 0, 0));
+                            }
+
+                        }
+
+
                     }
                 }, hour, min, true).show();
             }
@@ -364,9 +1016,9 @@ public class XingchengAlter extends AppCompatActivity {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
-                startPlace.setText(options1Items.get(options1).getPickerViewText() + "  "
-                        + options2Items.get(options1).get(options2) + "  "
-                        + options3Items.get(options1).get(options2).get(options3));
+                startPlace.setText(options1Items.get(options1).getPickerViewText()+" "
+                        + options2Items.get(options1).get(options2)+" "
+                        + options3Items.get(options1).get(options2).get(options3)+" ");
 
             }
         })
@@ -385,9 +1037,9 @@ public class XingchengAlter extends AppCompatActivity {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
-                endPlace.setText(options1Items.get(options1).getPickerViewText() + "  "
-                        + options2Items.get(options1).get(options2) + "  "
-                        + options3Items.get(options1).get(options2).get(options3));
+                endPlace.setText(options1Items.get(options1).getPickerViewText()+" "
+                        + options2Items.get(options1).get(options2)+" "
+                        + options3Items.get(options1).get(options2).get(options3)+" ");
 
             }
         })
@@ -467,4 +1119,24 @@ public class XingchengAlter extends AppCompatActivity {
     }
 
 
+}
+class YiyouhuodongA{
+    private double hdstart;
+    private double hdend;
+    YiyouhuodongA(double a,double b){
+        hdstart = a;
+        hdend = b;
+    }
+    public boolean addok(double addstart,double addend){
+        if(addstart<hdend && addstart>hdstart){
+            return false;
+        }
+        if(addend<hdend && addend>hdstart){
+            return false;
+        }
+        if(addstart<hdstart && addend>hdend){
+            return false;
+        }
+        return true;
+    }
 }

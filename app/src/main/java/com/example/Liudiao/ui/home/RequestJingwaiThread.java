@@ -62,7 +62,7 @@ public class RequestJingwaiThread extends Thread {
 
                 final int traffic = object1.getInt("traffic");
                 final String pass_id = object1.getString("pass_id");
-                final String tra_detai = object1.getString("tra_detai");
+                final String tra_detail = object1.getString("tra_detail");
 
 
                 handler.post(new Runnable() {
@@ -75,7 +75,7 @@ public class RequestJingwaiThread extends Thread {
                         b.putString("date",date);
                         b.putInt("traffic",traffic);
                         b.putString("pass_id",pass_id);
-                        b.putString("tra_detai",tra_detai);
+                        b.putString("tra_detail",tra_detail);
 
                         Message msg = new Message();
                         msg.setData(b);

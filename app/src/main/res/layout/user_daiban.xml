@@ -9,7 +9,6 @@
     <RelativeLayout
         android:clipToPadding="true"
         android:fitsSystemWindows="true"
-        android:id="@+id/My_collection_buju1"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="#10BD10">
@@ -20,13 +19,11 @@
             android:id="@+id/back"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
             />
 
         <TextView
             android:layout_centerVertical="true"
-            android:id="@+id/My_collection"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:gravity="center"
@@ -34,6 +31,16 @@
             android:textColor="#ffffff"
             android:layout_centerHorizontal="true"
             android:textSize="20sp" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_add_black_24dp"
+            android:id="@+id/add"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dp"/>
 
     </RelativeLayout>
 
@@ -51,18 +58,11 @@
         android:textSize="20sp"
         />
 
+
     <TextView
-        android:gravity="center"
-        android:id="@+id/add_daiban"
-        android:text="添加办理人"
-        android:layout_centerHorizontal="true"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp"
-        android:textSize="20sp"
-        android:textColor="@android:color/black"
+        android:text="（点击切换当前办理人，长按修改信息）"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,8 +74,4 @@
             android:layout_height="wrap_content">
         </ListView>
     </LinearLayout>
-
-
-
-
 </LinearLayout>

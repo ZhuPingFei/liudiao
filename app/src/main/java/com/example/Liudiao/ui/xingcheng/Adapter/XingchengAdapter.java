@@ -1,5 +1,6 @@
 package com.example.Liudiao.ui.xingcheng.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -73,41 +74,69 @@ public class XingchengAdapter extends BaseAdapter {
                 holder.time = (TextView) convertView.findViewById(R.id.time);
                 holder.placeChange = (TextView) convertView.findViewById(R.id.placeChange);
                 holder.traffic = (TextView) convertView.findViewById(R.id.traffic);
-                holder.tongxing = (TextView) convertView.findViewById(R.id.tongxing);
+                //holder.tongxing = (TextView) convertView.findViewById(R.id.tongxing);
                 convertView.setTag(holder);
             }
             else {
                 holder = (XingchengAdapter.ViewHolder) convertView.getTag();
             }
-            int trans_id = Integer.parseInt(mDatas.get(position).get("traj_id"));
+            String str1 ;
+            String str2 ;
+            String[] split_start = mDatas.get(position).get("start").toString().split(" ");
+            String[] split_end = mDatas.get(position).get("end").toString().split(" ");
+            if (!split_start[0].equals(split_start[1])){
+                str1 = split_start[0]+split_start[1];
+            }else {
+                str1 = split_start[0];
+            }
+            if (!split_end[0].equals(split_end[1])){
+                str2 = split_end[0]+split_end[1];
+            }else {
+                str2 = split_end[0];
+            }
 
-            StringBuffer strTime = new StringBuffer();
-            strTime.append(mDatas.get(position).get("start_date").toString());
-            strTime.append(" "+mDatas.get(position).get("start_time").toString()+" - ");
-            strTime.append(mDatas.get(position).get("end_date").toString());
-            strTime.append(" "+mDatas.get(position).get("end_time").toString());
-            holder.time.setText("时间： "+strTime.toString());
+//            StringBuffer strTime = new StringBuffer();
+//            strTime.append(mDatas.get(position).get("start_date").toString());
+//            strTime.append(" "+mDatas.get(position).get("start_time").toString()+" - ");
+//            strTime.append(mDatas.get(position).get("end_date").toString());
+//            strTime.append(" "+mDatas.get(position).get("end_time").toString());
 
-            StringBuffer strPlace = new StringBuffer();
-            strPlace.append(mDatas.get(position).get("start").toString());
-            strPlace.append(" "+mDatas.get(position).get("start_detail").toString()+" - ");
-            strPlace.append(mDatas.get(position).get("end").toString());
-            strPlace.append(" "+mDatas.get(position).get("end_detail").toString());
-            holder.placeChange.setText("位置： "+strPlace);
+            String str1_time = mDatas.get(position).get("start_date");
+            String str2_time = mDatas.get(position).get("end_date");
+            if (str1_time.equals(str2_time)){
+                holder.time.setText("时间： "+str1_time+" "+mDatas.get(position).get("start_time").toString()+"-"+mDatas.get(position).get("end_time").toString());
+            }else {
+                holder.time.setText("时间： "+str1_time+" — "+str2_time);
+            }
+            holder.placeChange.setText("位置： "+str1+" — "+str2);
 
             String tra = null;
-            if (mDatas.get(position).get("traffic").toString().equals("0")){
+            if (mDatas.get(position).get("traffic").toString().equals("1")){
                 tra ="飞机";
-            }else if (mDatas.get(position).get("traffic").toString().equals("1")){
-                tra = "轮船";
             }else if (mDatas.get(position).get("traffic").toString().equals("2")){
                 tra = "火车";
-            }else {
+            }else if (mDatas.get(position).get("traffic").toString().equals("3")){
                 tra = "客车";
+            }else if (mDatas.get(position).get("traffic").toString().equals("4")){
+                tra = "轮船";
+            }else if (mDatas.get(position).get("traffic").toString().equals("5")){
+                tra = "出租车";
+            }else if (mDatas.get(position).get("traffic").toString().equals("6")){
+                tra = "私家车";
+            }else if (mDatas.get(position).get("traffic").toString().equals("7")){
+                tra = "公交车";
+            }else if (mDatas.get(position).get("traffic").toString().equals("8")){
+                tra = "市内轨道交通";
+            }else if (mDatas.get(position).get("traffic").toString().equals("9")){
+                tra = "骑行";
+            }else if (mDatas.get(position).get("traffic").toString().equals("10")){
+                tra = "步行";
+            }else {
+                tra = "（未知）";
             }
             holder.traffic.setText("交通方式： "+tra+" "+mDatas.get(position).get("tra_detail").toString());
 
-            holder.tongxing.setText("同行人员及身份： "+mDatas.get(position).get("peers").toString());
+            //holder.tongxing.setText("同行人员及身份： "+mDatas.get(position).get("peers").toString());
             holder.aItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -118,7 +147,7 @@ public class XingchengAdapter extends BaseAdapter {
                     intent.putExtra("start_time",mDatas.get(position).get("start_time").toString());
                     intent.putExtra("start",mDatas.get(position).get("start").toString());
                     intent.putExtra("start_detail",mDatas.get(position).get("start_detail").toString());
-                    intent.putExtra("traffic",mDatas.get(position).get("traffic").toString());
+                    intent.putExtra("traffic",Integer.parseInt(mDatas.get(position).get("traffic").toString()));
                     intent.putExtra("tra_detail",mDatas.get(position).get("tra_detail").toString());
                     intent.putExtra("peers",mDatas.get(position).get("peers").toString());
                     intent.putExtra("end",mDatas.get(position).get("end").toString());
@@ -126,6 +155,18 @@ public class XingchengAdapter extends BaseAdapter {
                     intent.putExtra("end_date",mDatas.get(position).get("end_date").toString());
                     intent.putExtra("end_time",mDatas.get(position).get("end_time").toString());
                     mContext.startActivity(intent);
+//                    if (Activity.class.isInstance(mContext)) {
+//                        // 转化为activity，然后finish就行了
+//                        Activity activity = (Activity) mContext;
+////                        activity.finish();
+//                    }
+                }
+            });
+
+            holder.aItem.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    return false;
                 }
             });
 
@@ -141,7 +182,6 @@ public class XingchengAdapter extends BaseAdapter {
         TextView time;
         TextView placeChange;
         TextView traffic;
-        TextView tongxing;
     }
 
 //    public void dialog(){

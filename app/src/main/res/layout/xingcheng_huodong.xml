@@ -8,7 +8,6 @@
     <RelativeLayout
         android:clipToPadding="true"
         android:fitsSystemWindows="true"
-        android:id="@+id/My_collection_buju1"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="#10BD10">
@@ -19,17 +18,15 @@
             android:id="@+id/back"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
             />
 
         <TextView
             android:layout_centerVertical="true"
-            android:id="@+id/My_collection"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:gravity="center"
-            android:text="活动录入"
+            android:text="行程录入"
             android:textColor="#ffffff"
 
             android:layout_centerHorizontal="true"
@@ -50,21 +47,10 @@
     </RelativeLayout>
 
     <TextView
-        android:gravity="center"
-        android:id="@+id/biaoti"
-        android:text="请填写参与活动信息"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:textSize="20dp"
-        android:textColor="@android:color/black"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <TextView
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
-        android:text="        请详细填写疫情管控期间个人参与活动信息，包括活动举办地点、活动起止时间等信息。本功能支持多次提交多次活动，并支持活动现场文字描述。"
+        android:text="        请详细填写疫情管控期间个人本地行程信息，包括行程地区、地址、时间等信息。本功能支持多次提交，并支持文字描述。"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
@@ -73,6 +59,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -86,7 +74,7 @@
                 android:layout_marginRight="10dp"
                 android:padding="10dp"
                 android:id="@+id/xingcheng_qidianText"
-                android:text="活动地点"
+                android:text="行程地区"
                 android:textColor="@android:color/black"
                 android:textSize="17sp"
                 android:layout_width="match_parent"
@@ -98,7 +86,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:id="@+id/xingcheng_qidian_select_place"
-                android:text="选择地址"
                 android:textSize="17sp"
                 android:gravity="right"
                 android:layout_width="match_parent"
@@ -111,7 +98,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:padding="10dp"
-                android:text="具体地点"
+                android:text="行程地址"
                 android:textSize="17sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -136,20 +123,22 @@
                 android:layout_below="@+id/phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/t1"
-                    android:text="活动日期"
-                    android:textSize="17sp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text="行程开始日期"
+                    android:textSize="17sp" />
+
                 <TextView
                     android:id="@+id/huodong_date"
-                    android:layout_toRightOf="@+id/t1"
-                    android:textSize="17sp"
-                    android:gravity="right"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
+                    android:layout_toRightOf="@+id/t1"
+                    android:drawableRight="@drawable/ic_navigate_next_black_24dp"
+                    android:gravity="right"
+                    android:textSize="17sp" />
 
             </RelativeLayout>
 
@@ -163,17 +152,47 @@
                 android:layout_below="@+id/phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/t2"
-                    android:text="开始时间"
-                    android:textSize="17sp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text="开始时间"
+                    android:textSize="17sp" />
+
                 <TextView
-                    android:layout_toRightOf="@+id/t2"
-                    android:gravity="right"
                     android:id="@+id/huodong_startTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/t2"
+                    android:drawableRight="@drawable/ic_navigate_next_black_24dp"
+                    android:gravity="right"
+                    android:textSize="17sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:padding="10dp"
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/xingcheng_endDate"
+                android:layout_below="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/t_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="行程结束日期"
+                    android:textSize="17sp" />
+                <TextView
+                    android:id="@+id/end_date"
+                    android:layout_toRightOf="@+id/t_end"
                     android:textSize="17sp"
+                    android:gravity="right"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/ic_navigate_next_black_24dp"/>
@@ -208,6 +227,7 @@
             </RelativeLayout>
 
             <TextView
+                android:visibility="gone"
                 android:background="@android:color/white"
                 android:layout_marginTop="1dp"
                 android:layout_marginLeft="10dp"
@@ -218,6 +238,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <EditText
+                android:visibility="gone"
                 android:background="@android:color/white"
                 android:padding="10dp"
                 android:layout_marginLeft="10dp"
@@ -235,7 +256,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:padding="10dp"
-                android:text="活动现场情况描述"
+                android:text="情况描述（交通方式）"
                 android:textSize="17sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

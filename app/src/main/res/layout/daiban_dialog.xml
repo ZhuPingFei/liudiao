@@ -11,22 +11,22 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="姓名："
-            android:id="@+id/name_text"
-            android:textSize="17sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:textSize="17sp" />
 
         <EditText
 
-            android:inputType="textPersonName"
-            android:gravity="center"
-            android:layout_toRightOf="@+id/name_text"
             android:id="@+id/name_edit"
-            android:textSize="17sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/name_text"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:textSize="17sp" />
 
 
     </RelativeLayout>
@@ -36,19 +36,22 @@
         android:layout_marginRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
+            android:id="@+id/type_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="办理模式："
-            android:id="@+id/type_text"
             android:textSize="17sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:visibility="gone"/>
 
         <Spinner
             android:layout_alignParentRight="true"
             android:id="@+id/type_spinner"
             android:layout_width="140dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
     </RelativeLayout>
 
 
@@ -80,7 +83,32 @@
 
 
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/relation_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="关系："
+            android:textSize="17sp" />
+
+        <EditText
+
+            android:id="@+id/relation_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/relation_text"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:textSize="17sp" />
+
+
+    </RelativeLayout>
 
 
 </LinearLayout>

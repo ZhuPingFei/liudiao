@@ -9,7 +9,6 @@
     <RelativeLayout
         android:clipToPadding="true"
         android:fitsSystemWindows="true"
-        android:id="@+id/My_collection_buju1"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="#10BD10">
@@ -20,13 +19,11 @@
             android:id="@+id/back"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
             />
 
         <TextView
             android:layout_centerVertical="true"
-            android:id="@+id/My_collection"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:gravity="center"
@@ -55,7 +52,6 @@
         android:id="@+id/biaoti"
         android:text="请填写个人信息"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
         android:textSize="20dp"
         android:textColor="@android:color/black"
         android:layout_width="match_parent"
@@ -148,6 +144,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:background="@android:color/white"
                 android:padding="10dp"
                 android:layout_marginTop="1dp"
@@ -195,7 +192,7 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/text_zhengjianleixing"
-                    android:text="4.证件类型"
+                    android:text="3.证件类型"
                     android:textSize="17sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -234,7 +231,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <EditText
-                    android:digits="1234567890Xx"
+                    android:digits="1234567890XxDEPSGW"
                     android:maxLength="18"
                     android:inputType="number"
                     android:enabled="true"
@@ -258,7 +255,7 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/text_phone"
-                    android:text="5.联系电话"
+                    android:text="4.联系电话"
                     android:textSize="17sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -288,7 +285,7 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/text_job"
-                    android:text="6.职业"
+                    android:text="5.职业"
                     android:textSize="17sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -314,6 +311,28 @@
 
             <LinearLayout
                 android:background="@android:color/white"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_below="@+id/zhengjianleixing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="工作单位"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <EditText
+                    android:id="@+id/edittext_workunit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="true"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:background="@android:color/white"
                 android:padding="10dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginLeft="10dp"
@@ -324,7 +343,7 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/text_born"
-                    android:text="7.出生日期"
+                    android:text="6.出生日期"
                     android:textSize="17sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -356,7 +375,7 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/text_homeplace"
-                    android:text="8.家庭住址"
+                    android:text="7.现住址"
                     android:textSize="17sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -376,7 +395,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:id="@+id/select_place"
-                android:text="选择家庭住址"
+                android:text="选择所在区域"
                 android:textSize="17sp"
                 android:gravity="right"
                 android:layout_width="match_parent"

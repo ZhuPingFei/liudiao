@@ -21,14 +21,15 @@
             <ImageView
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/xingcheng_image"
-                android:layout_width="85dp"
-                android:layout_height="85dp" />
+                android:layout_width="75dp"
+                android:layout_height="75dp" />
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_gravity="center_horizontal"
-                android:text="行程录入"
-                android:layout_marginTop="7dp"
-                android:textSize="16sp"
+                android:text="外地旅行史"
+                android:layout_marginTop="5dp"
+                android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -44,14 +45,15 @@
             <ImageView
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/huodong_image"
-                android:layout_width="85dp"
-                android:layout_height="85dp" />
+                android:layout_width="75dp"
+                android:layout_height="75dp" />
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_gravity="center_horizontal"
-                android:text="活动录入"
-                android:layout_marginTop="7dp"
-                android:textSize="16sp"
+                android:text="本地行程"
+                android:layout_marginTop="5dp"
+                android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -67,15 +69,15 @@
             <ImageView
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/fengxian_image"
-                android:layout_width="85dp"
-                android:layout_height="85dp" />
+                android:layout_width="75dp"
+                android:layout_height="75dp" />
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_gravity="center_horizontal"
                 android:text="风险区域"
-                android:textColor="@android:color/darker_gray"
-                android:layout_marginTop="7dp"
-                android:textSize="16sp"
+                android:layout_marginTop="5dp"
+                android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -90,65 +92,18 @@
             <ImageView
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/guiji_image"
-                android:layout_width="85dp"
-                android:layout_height="85dp" />
+                android:layout_width="75dp"
+                android:layout_height="75dp" />
 
             <TextView
                 android:layout_gravity="center_horizontal"
                 android:text="轨迹查看"
-                android:textColor="@android:color/darker_gray"
-                android:layout_marginTop="7dp"
-                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/list2"
-        android:layout_below="@id/list1"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:id="@+id/xingcheng_gongneng5"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/xingcheng_image"
-                android:layout_width="85dp"
-                android:layout_height="85dp" />
-
-            <TextView
-                android:layout_gravity="center_horizontal"
-                android:text="历史行程"
-                android:layout_marginTop="7dp"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"/>
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"/>
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"/>
-
-
     </LinearLayout>
 
 

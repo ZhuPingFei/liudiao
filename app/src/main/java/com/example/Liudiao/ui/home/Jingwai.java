@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -274,14 +276,14 @@ public class Jingwai extends AppCompatActivity {
 
             int code = bd.getInt("code");
 
-            if (code == 0){
+            if (code == 0) {
                 int nation1 = bd.getInt("nation");
                 String port = bd.getString("port");
                 String date = bd.getString("date");
 
                 int traffic = bd.getInt("traffic");
                 String pass_id = bd.getString("pass_id");
-                String tra_detai = bd.getString("tra_detai");
+                String tra_detail = bd.getString("tra_detail");
 
                 nation = (Spinner) findViewById(R.id.jingwai_nation_spinner);
                 trasffer = (Spinner) findViewById(R.id.jingwai_trasffer_spinner);
@@ -291,17 +293,36 @@ public class Jingwai extends AppCompatActivity {
                 trasfferDetail = (EditText) findViewById(R.id.jingwai_trasffer_edit);
                 rujingDate = (TextView) findViewById(R.id.select_rujingDate);
 
-                nation.setSelection(nation1);
-                huzhao.setText(pass_id);
-                String s = date.substring(0,10);
-                rujingDate.setText(s);
-                kouan.setText(port);
-                trasffer.setSelection(traffic);
-                trasfferDetail.setText(tra_detai);
+                if (!port.equals("") && !port.equals("null")) {
+                    kouan.setText(port);
+                } else {
+                    kouan.setText("");
+                }
 
+                if (!date.equals("") && !date.equals("null")) {
+                    rujingDate.setText(date);
+                } else {
+                    rujingDate.setText("");
+                }
+
+                if (!pass_id.equals("") && !pass_id.equals("null")) {
+                    huzhao.setText(pass_id);
+                } else {
+                    huzhao.setText("");
+                }
+
+                if (!tra_detail.equals("") && !tra_detail.equals("null")) {
+                    trasfferDetail.setText(tra_detail);
+                } else {
+                    trasfferDetail.setText("");
+                }
+                nation.setSelection(nation1);
+                trasffer.setSelection(traffic);
             }
         }
     };
+
+    private final static String TAG="CURRENT";
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -313,6 +334,7 @@ public class Jingwai extends AppCompatActivity {
         editor = preferences.edit();
         current_transId = preferences.getInt("current_banliId",0);
         isMe = preferences.getBoolean("isMe",false);
+        Log.d(TAG, "current_id  "+current_transId);
 
 
 //        preferences = getSharedPreferences("user_jingwai", Activity.MODE_PRIVATE);
@@ -329,7 +351,7 @@ public class Jingwai extends AppCompatActivity {
         trasfferLeixing.add("火车");
         trasfferLeixing.add("客车");
 
-        String url = "http://175.23.169.100:9000/case-overseas-input/get";
+        String url = "http://175.23.169.100:9030/case-overseas-input/get";
         RequestJingwaiThread rdt = new RequestJingwaiThread(url,current_transId,handler);
         rdt.start();
 
@@ -397,7 +419,7 @@ public class Jingwai extends AppCompatActivity {
         selectRujingdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(Jingwai.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(Jingwai.this, android.app.AlertDialog.THEME_HOLO_LIGHT,new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         selectRujingdate.setText(year + "-" + (month+1) + "-" + dayOfMonth);
@@ -417,9 +439,14 @@ public class Jingwai extends AppCompatActivity {
             }
         });
         okey = (TextView) findViewById(R.id.okey);
-        okey.setOnClickListener(new View.OnClickListener() {
+        okey.setOnClickListener(    new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String passport = huzhao.getText().toString();
+                if (passport.equals("")){
+                    passport = null;
+                }
+
                 final StringBuffer stringBuffer = new StringBuffer(rujingDate.getText().toString());
                 if (rujingDate.getText().toString().length()==8){
                     stringBuffer.insert(5,"0");
@@ -432,9 +459,28 @@ public class Jingwai extends AppCompatActivity {
                         stringBuffer.insert(5,"0");
                     }
                 }
+                String date = stringBuffer.toString();
+                if (date.equals("")) {
+                    date = null;
+                }
+
+                String kouan1 = kouan.getText().toString();
+                if (kouan1.equals("")){
+                    kouan1 = null;
+                }
+
+                String detail = trasfferDetail.getText().toString();
+                if (detail.equals("")){
+                    detail = null;
+                }
+
                 //dataCommit();
                 //onBackPressed();
                 if (!isMe) {
+                    final String finalPassport = passport;
+                    final String finalDate = date;
+                    final String finalKouan = kouan1;
+                    final String finalDetail = detail;
                     builder = new AlertDialog.Builder(Jingwai.this).setTitle("重要提醒")
                             .setMessage("当前为代办模式，是否确认提交？")
                             .setPositiveButton("提交", new DialogInterface.OnClickListener() {
@@ -445,15 +491,15 @@ public class Jingwai extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             try {
-                                                String postUrl = "http://175.23.169.100:9000/case-overseas-input/set";
+                                                String postUrl = "http://175.23.169.100:9030/case-overseas-input/set";
                                                 JSONObject jsonObject = new JSONObject();
                                                 jsonObject.put("transactor_id",current_transId);
                                                 jsonObject.put("nation",nationPosition);
-                                                jsonObject.put("pass_id",huzhao.getText().toString());
-                                                jsonObject.put("date",rujingDate.getText().toString());
-                                                jsonObject.put("port",kouan.getText().toString());
+                                                jsonObject.put("pass_id", finalPassport);
+                                                jsonObject.put("date", finalDate);
+                                                jsonObject.put("port", finalKouan);
                                                 jsonObject.put("traffic",trasfferPosition);
-                                                jsonObject.put("tra_detail",trasfferDetail.getText().toString());
+                                                jsonObject.put("tra_detail", finalDetail);
 
                                                 URL httpUrl = new URL(postUrl);
                                                 HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
@@ -502,19 +548,23 @@ public class Jingwai extends AppCompatActivity {
                             });
                     builder.create().show();
                 }else {
+                    final String finalPassport1 = passport;
+                    final String finalDate1 = date;
+                    final String finalKouan1 = kouan1;
+                    final String finalDetail1 = detail;
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                String postUrl = "http://175.23.169.100:9000/case-overseas-input/set";
+                                String postUrl = "http://175.23.169.100:9030/case-overseas-input/set";
                                 JSONObject jsonObject = new JSONObject();
                                 jsonObject.put("transactor_id",current_transId);
                                 jsonObject.put("nation",nationPosition);
-                                jsonObject.put("pass_id",huzhao.getText().toString());
-                                jsonObject.put("date",rujingDate.getText().toString());
-                                jsonObject.put("port",kouan.getText().toString());
+                                jsonObject.put("pass_id", finalPassport1);
+                                jsonObject.put("date", finalDate1);
+                                jsonObject.put("port", finalKouan1);
                                 jsonObject.put("traffic",trasfferPosition);
-                                jsonObject.put("tra_detail",trasfferDetail.getText().toString());
+                                jsonObject.put("tra_detail", finalDetail1);
 
                                 URL httpUrl = new URL(postUrl);
                                 HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
@@ -537,6 +587,8 @@ public class Jingwai extends AppCompatActivity {
                                 JSONObject jsonObj1 = new JSONObject(sb.toString());
                                 int isUpadteSeccess = jsonObj1.getInt("code");
                                 if (isUpadteSeccess == 0){
+                                    editor.putBoolean(current_transId+"hasJingwai",true);
+                                    editor.commit();
                                     Looper.prepare();
                                     Toast.makeText(Jingwai.this,"提交成功",Toast.LENGTH_SHORT).show();
                                     Looper.loop();
@@ -550,7 +602,7 @@ public class Jingwai extends AppCompatActivity {
                             }
                         }
                     }).start();
-                    //onBackPressed();
+                    onBackPressed();
                 }
 
             }
